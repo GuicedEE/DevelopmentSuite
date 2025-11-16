@@ -1,0 +1,183 @@
+[submodule "GuicedEE/bom"]
+	path = GuicedEE/bom
+	url = https://github.com/GuicedEE/BOM.git
+[submodule "GuicedEE/parent"]
+	path = GuicedEE/parent
+	url = https://github.com/GuicedEE/Parent.git
+[submodule "GuicedEE/client"]
+	path = GuicedEE/client
+	url = https://github.com/GuicedEE/Client.git
+[submodule "GuicedEE/services"]
+	path = GuicedEE/services
+	url = https://github.com/GuicedEE/Services.git
+[submodule "GuicedEE/representations"]
+	path = GuicedEE/representations
+	url = https://github.com/GuicedEE/Representations.git
+[submodule "GuicedEE/vertx"]
+	path = GuicedEE/vertx
+	url = https://github.com/GuicedEE/Guiced-Vert.x.git
+[submodule "GuicedEE/inject"]
+	path = GuicedEE/inject
+	url = https://github.com/GuicedEE/GuicedInjection.git
+[submodule "GuicedEE/persistence"]
+	path = GuicedEE/persistence
+	url = https://github.com/GuicedEE/GuicedVertxPersistence.git
+[submodule "GuicedEE/web"]
+	path = GuicedEE/web
+	url = https://github.com/GuicedEE/GuicedVertxWeb.git
+[submodule "GuicedEE/websockets"]
+	path = GuicedEE/websockets
+	url = https://github.com/GuicedEE/GuicedVertxSockets.git
+[submodule "GuicedEE/rest"]
+	path = GuicedEE/rest
+	url = https://github.com/GuicedEE/RestServices.git
+[submodule "GuicedEE/rabbitmq"]
+	path = GuicedEE/rabbitmq
+	url = https://github.com/GuicedEE/GuicedRabbit.git
+[submodule "GuicedEE/cdi"]
+	path = GuicedEE/cdi
+	url = https://github.com/GuicedEE/GuicedCDI.git
+[submodule "GuicedEE/config"]
+	path = GuicedEE/config
+	url = https://github.com/GuicedEE/microprofile-config.git
+[submodule "GuicedEE/openapi"]
+	path = GuicedEE/openapi
+	url = https://github.com/GuicedEE/OpenAPI.git
+[submodule "GuicedEE/swagger-ui"]
+	path = GuicedEE/swagger-ui
+	url = https://github.com/GuicedEE/SwaggerUI.git
+[submodule "GuicedEE/cerial"]
+	path = GuicedEE/cerial
+	url = https://github.com/GedMarc/GuicedCerial.git
+[submodule "GuicedEE/telemetry"]
+	path = GuicedEE/telemetry
+	url = https://github.com/GuicedEE/GuicedTelemetry.git
+[submodule "GuicedEE/webservices"]
+	path = GuicedEE/webservices
+	url = https://github.com/GedMarc/Guiced-WebServices.git
+[submodule "EntityAssist"]
+	path = EntityAssist
+	url = https://github.com/Entity-Assist/EntityAssistReactive.git
+[submodule "JWebMP/bom"]
+	path = JWebMP/bom
+	url = https://github.com/JWebMP/BOM.git
+[submodule "JWebMP/parent"]
+	path = JWebMP/parent
+	url = https://github.com/JWebMP/Parent.git
+[submodule "JWebMP/client"]
+	path = JWebMP/client
+	url = https://github.com/JWebMP/Client.git
+[submodule "JWebMP/core"]
+	path = JWebMP/core
+	url = https://github.com/JWebMP/Core.git
+[submodule "JWebMP/testlib"]
+	path = JWebMP/testlib
+	url = https://github.com/JWebMP/Test-Library.git
+[submodule "JWebMP/rabbitcomms"]
+	path = JWebMP/rabbitcomms
+	url = https://github.com/JWebMP/RabbitMQ-Comms.git
+[submodule "JWebMP/plugins/tsclient"]
+	path = JWebMP/plugins/tsclient
+	url = https://github.com/JWebMP/TypescriptClient.git
+[submodule "JWebMP/plugins/angular"]
+	path = JWebMP/plugins/angular
+	url = https://github.com/JWebMP/Angular.git
+[submodule "JWebMP/plugins/fontawesome"]
+	path = JWebMP/plugins/fontawesome
+	url = https://github.com/JWebMP/FontAwesome.git
+[submodule "JWebMP/plugins/fontawesome-pro"]
+	path = JWebMP/plugins/fontawesome-pro
+	url = https://github.com/JWebMP/FontAwesomePro.git
+[submodule "JWebMP/plugins/easing"]
+	path = JWebMP/plugins/easing
+	url = https://github.com/JWebMP/EasingEffects.git
+[submodule "JWebMP/plugins/chartjs"]
+	path = JWebMP/plugins/chartjs
+	url = https://github.com/JWebMP/ChartJS.git
+[submodule "JWebMP/plugins/fullcalendar"]
+	path = JWebMP/plugins/fullcalendar
+	url = https://github.com/JWebMP/FullCalendar.git
+[submodule "JWebMP/plugins/fullcalendar-pro"]
+	path = JWebMP/plugins/fullcalendar-pro
+	url = https://github.com/JWebMP/FullCalendarPro.git
+[submodule "JWebMP/plugins/webawesome"]
+	path = JWebMP/plugins/webawesome
+	url = https://github.com/JWebMP/WebAwesome.git
+[submodule "JWebMP/plugins/webawesome-pro"]
+	path = JWebMP/plugins/webawesome-pro
+	url = https://github.com/JWebMP/WebAwesomePro.git
+[submodule "ActivityMaster/bom"]
+	path = ActivityMaster/bom
+	url = https://github.com/Activity-Master/BOM.git
+[submodule "ActivityMaster/client"]
+	path = ActivityMaster/client
+	url = https://github.com/Activity-Master/Client.git
+[submodule "ActivityMaster/core"]
+	path = ActivityMaster/core
+	url = https://github.com/Activity-Master/Core.git
+[submodule "ActivityMaster/cerial"]
+	path = ActivityMaster/cerial
+	url = https://github.com/Activity-Master/CerialMaster.git
+[submodule "ActivityMaster/cerial-client"]
+	path = ActivityMaster/cerial-client
+	url = https://github.com/Activity-Master/CerialMasterClient.git
+[submodule "ActivityMaster/profiles"]
+	path = ActivityMaster/profiles
+	url = https://github.com/Activity-Master/ProfileMaster.git
+[submodule "ActivityMaster/conversations"]
+	path = ActivityMaster/conversations
+	url = https://github.com/Activity-Master/ConversationMaster.git
+[submodule "ActivityMaster/documents"]
+	path = ActivityMaster/documents
+	url = https://github.com/Activity-Master/DocumentMaster.git
+[submodule "ActivityMaster/files"]
+	path = ActivityMaster/files
+	url = https://github.com/Activity-Master/FileMaster.git
+[submodule "ActivityMaster/forums"]
+	path = ActivityMaster/forums
+	url = https://github.com/Activity-Master/ForumMaster.git
+[submodule "ActivityMaster/geography"]
+	path = ActivityMaster/geography
+	url = https://github.com/Activity-Master/GeographyMaster.git
+[submodule "ActivityMaster/images"]
+	path = ActivityMaster/images
+	url = https://github.com/Activity-Master/ImageMaster.git
+[submodule "ActivityMaster/mail"]
+	path = ActivityMaster/mail
+	url = https://github.com/Activity-Master/MailMaster.git
+[submodule "ActivityMaster/notifications"]
+	path = ActivityMaster/notifications
+	url = https://github.com/Activity-Master/NotificationsMaster.git
+[submodule "ActivityMaster/payments"]
+	path = ActivityMaster/payments
+	url = https://github.com/Activity-Master/PaymentsMaster.git
+[submodule "ActivityMaster/realtor"]
+	path = ActivityMaster/realtor
+	url = https://github.com/Activity-Master/RealtorMaster.git
+[submodule "ActivityMaster/user-sessions"]
+	path = ActivityMaster/user-sessions
+	url = https://github.com/Activity-Master/SessionMaster.git
+[submodule "ActivityMaster/tasks"]
+	path = ActivityMaster/tasks
+	url = https://github.com/Activity-Master/Task-Master.git
+[submodule "ActivityMaster/todo"]
+	path = ActivityMaster/todo
+	url = https://github.com/Activity-Master/ToDoMaster.git
+[submodule "ActivityMaster/wallet"]
+	path = ActivityMaster/wallet
+	url = https://github.com/Activity-Master/WalletMaster.git
+[submodule "JWebMP/vertx"]
+	path = JWebMP/vertx
+	url = https://github.com/JWebMP/VertX.git
+[submodule "JWebMP/plugins/aggrid"]
+	path = JWebMP/plugins/aggrid
+	url = https://github.com/JWebMP/AgGrid.git
+[submodule "JWebMP/plugins/aggrid-enterprise"]
+	path = JWebMP/plugins/aggrid-enterprise
+	url = https://github.com/JWebMP/AgGridEnterprise
+[submodule "JWebMP/plugins/agcharts"]
+	path = JWebMP/plugins/agcharts
+	url = https://github.com/JWebMP/AgCharts.git
+[submodule "JWebMP/plugins/agcharts-enterprise"]
+	path = JWebMP/plugins/agcharts-enterprise
+	url = https://github.com/JWebMP/AgCharts-Enterprise.git
