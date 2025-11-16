@@ -1,0 +1,1761 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      centralRelease:
+        type: boolean
+        description: Run a release to Maven Central (requires secrets)
+        default: false
+  push:
+
+jobs:
+  # 1) Services (each module as an individual job, chained by needs in declared order)
+  Services_Apache_Commons_commons_beanutils:
+    name: BeanUtils
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Apache/Commons/commons-beanutils'
+      name: 'Services - Apache Commons BeanUtils'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Apache_Commons_commons_collections:
+    needs: [Services_Apache_Commons_commons_beanutils]
+    name: Collections
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Apache/Commons/commons-collections'
+      name: 'Services - Apache Commons Collections'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Apache_Commons_commons_csv:
+    needs: [Services_Apache_Commons_commons_collections]
+    name: CSV
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Apache/Commons/commons-csv'
+      name: 'Services - Apache Commons CSV'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Apache_Commons_commons_fileupload:
+    needs: [Services_Apache_Commons_commons_csv]
+    name: FileUpload
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Apache/Commons/commons-fileupload'
+      name: 'Services - Apache Commons FileUpload'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Apache_Commons_commons_math:
+    needs: [Services_Apache_Commons_commons_fileupload]
+    name: Math
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Apache/Commons/commons-math'
+      name: 'Services - Apache Commons Math'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Apache_CXF_apache_cxf:
+    needs: [Services_Apache_Commons_commons_math]
+    name: CXF Core
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Apache/CXF/apache-cxf'
+      name: 'Services - Apache CXF Core'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Apache_CXF_apache_cxf_rest:
+    needs: [Services_Apache_CXF_apache_cxf]
+    name: CXF REST
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Apache/CXF/apache-cxf-rest'
+      name: 'Services - Apache CXF REST'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Apache_CXF_apache_cxf_rest_openapi:
+    needs: [Services_Apache_CXF_apache_cxf_rest]
+    name: CXF REST OpenAPI
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Apache/CXF/apache-cxf-rest-openapi'
+      name: 'Services - Apache CXF REST OpenAPI'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Apache_CXF_apache_cxf_rt_security:
+    needs: [Services_Apache_CXF_apache_cxf_rest_openapi]
+    name: CXF Security
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Apache/CXF/apache-cxf-rt-security'
+      name: 'Services - Apache CXF RT Security'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Apache_CXF_apache_cxf_rt_transports_http:
+    needs: [Services_Apache_CXF_apache_cxf_rt_security]
+    name: CXF HTTP
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Apache/CXF/apache-cxf-rt-transports-http'
+      name: 'Services - Apache CXF RT Transports HTTP'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Apache_POI_apache_poi:
+    needs: [Services_Apache_CXF_apache_cxf_rt_transports_http]
+    name: POI
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Apache/POI/apache-poi'
+      name: 'Services - Apache POI'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Apache_POI_apache_poi_ooxml:
+    needs: [Services_Apache_POI_apache_poi]
+    name: POI OOXML
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Apache/POI/apache-poi-ooxml'
+      name: 'Services - Apache POI OOXML'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Database_msal4j:
+    needs: [Services_Apache_POI_apache_poi_ooxml]
+    name: MSAL4J
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Database/msal4j'
+      name: 'Services - MSAL4J'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Database_mssql_jdbc:
+    needs: [Services_Database_msal4j]
+    name: MSSQL JDBC
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Database/mssql-jdbc'
+      name: 'Services - MSSQL JDBC'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Database_postgresql:
+    needs: [Services_Database_mssql_jdbc]
+    name: PostgreSQL JDBC
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Database/postgresql'
+      name: 'Services - PostgreSQL JDBC'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Google_aop:
+    needs: [Services_Database_postgresql]
+    name: AOP Alliance
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Google/aop'
+      name: 'Services - Google AOP Alliance'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Google_guice_assistedinject:
+    needs: [Services_Google_guice_core]
+    name: AssistedInject
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Google/guice-assistedinject'
+      name: 'Services - Google Guice AssistedInject'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Google_guice_core:
+    needs: [Services_Google_aop]
+    name: Guice Core
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Google/guice-core'
+      name: 'Services - Google Guice Core'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Google_guice_grapher:
+    needs: [Services_Google_guice_core]
+    name: Guice Grapher
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Google/guice-grapher'
+      name: 'Services - Google Guice Grapher'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Google_guice_jmx:
+    needs: [Services_Google_guice_core]
+    name: Guice JMX
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Google/guice-jmx'
+      name: 'Services - Google Guice JMX'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Google_guice_jndi:
+    needs: [Services_Google_guice_core]
+    name: Guice JNDI
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Google/guice-jndi'
+      name: 'Services - Google Guice JNDI'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Hibernate_hibernate_c3p0:
+    needs: [Services_Google_guice_jndi]
+    name: Hibernate C3P0
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Hibernate/hibernate-c3p0'
+      name: 'Services - Hibernate C3P0'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Hibernate_hibernate_core:
+    needs: [Services_Hibernate_hibernate_c3p0]
+    name: Hibernate Core
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Hibernate/hibernate-core'
+      name: 'Services - Hibernate Core'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Hibernate_hibernate_jcache:
+    needs: [Services_Hibernate_hibernate_core]
+    name: Hibernate JCache
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Hibernate/hibernate-jcache'
+      name: 'Services - Hibernate JCache'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Hibernate_hibernate_validator:
+    needs: [Services_Hibernate_hibernate_jcache]
+    name: Hibernate Validator
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Hibernate/hibernate-validator'
+      name: 'Services - Hibernate Validator'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Hibernate_hibernate_reactive:
+    needs: [Services_Hibernate_hibernate_validator]
+    name: Hibernate Reactive
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Hibernate/hibernate-reactive'
+      name: 'Services - Hibernate Reactive'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Jakarta_jakarta_security_jacc:
+    needs: [Services_Hibernate_hibernate_reactive]
+    name: JACC
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Jakarta/jakarta-security-jacc'
+      name: 'Services - Jakarta Security JACC'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_JCache_cache_annotations_ri_common:
+    needs: [Services_Jakarta_jakarta_security_jacc]
+    name: JCache Annotations Common
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/JCache/cache-annotations-ri-common'
+      name: 'Services - JCache Annotations RI Common'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_JCache_cache_annotations_ri_guice:
+    needs: [Services_JCache_cache_annotations_ri_common]
+    name: JCache Annotations Guice
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/JCache/cache-annotations-ri-guice'
+      name: 'Services - JCache Annotations RI Guice'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_JCache_cache_api:
+    needs: [Services_JCache_cache_annotations_ri_guice]
+    name: JCache API
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/JCache/cache-api'
+      name: 'Services - JCache API'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_JCache_ehcache:
+    needs: [Services_JCache_cache_api]
+    name: Ehcache
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/JCache/ehcache'
+      name: 'Services - Ehcache'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_JCache_hazelcast:
+    needs: [Services_JCache_ehcache]
+    name: Hazelcast
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/JCache/hazelcast'
+      name: 'Services - Hazelcast'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_JCache_hazelcast_hibernate:
+    needs: [Services_JCache_hazelcast]
+    name: Hazelcast Hibernate
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/JCache/hazelcast-hibernate'
+      name: 'Services - Hazelcast Hibernate'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_JNI_jna_platform:
+    needs: [Services_JCache_hazelcast_hibernate]
+    name: JNA Platform
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/JNI/jna-platform'
+      name: 'Services - JNA Platform'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_JNI_nrjavaserial:
+    needs: [Services_JNI_jna_platform]
+    name: NRJavaSerial
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/JNI/nrjavaserial'
+      name: 'Services - nrjavaserial'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Libraries_jandex:
+    needs: [Services_JNI_nrjavaserial]
+    name: Jandex
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Libraries/jandex'
+      name: 'Services - Jandex'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Libraries_cloudevents:
+    needs: [Services_Libraries_jandex]
+    name: CloudEvents
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Libraries/cloudevents'
+      name: 'Services - CloudEvents'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Libraries_javassist:
+    needs: [Services_Libraries_cloudevents]
+    name: Javassist
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Libraries/javassist'
+      name: 'Services - Javassist'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Libraries_json:
+    needs: [Services_Libraries_javassist]
+    name: JSON.org
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Libraries/json'
+      name: 'Services - JSON.org'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Libraries_kafka_client:
+    needs: [Services_Libraries_json]
+    name: Kafka Client
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Libraries/kafka-client'
+      name: 'Services - Kafka Client'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Libraries_mapstruct:
+    needs: [Services_Libraries_kafka_client]
+    name: MapStruct
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Libraries/mapstruct'
+      name: 'Services - MapStruct'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Libraries_openpdf:
+    needs: [Services_Libraries_mapstruct]
+    name: OpenPDF
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Libraries/openpdf'
+      name: 'Services - OpenPDF'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Libraries_rabbitmq_client:
+    needs: [Services_Libraries_openpdf]
+    name: RabbitMQ Client
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Libraries/rabbitmq-client'
+      name: 'Services - RabbitMQ Client'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Libraries_swagger:
+    needs: [Services_Libraries_rabbitmq_client]
+    name: Swagger Libraries
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Libraries/swagger'
+      name: 'Services - Swagger Libraries'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Libraries_uadetector_core:
+    needs: [Services_Libraries_swagger]
+    name: UADetector Core
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Libraries/uadetector-core'
+      name: 'Services - UADetector Core'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Libraries_uadetector_resources:
+    needs: [Services_Libraries_uadetector_core]
+    name: UADetector Resources
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Libraries/uadetector-resources'
+      name: 'Services - UADetector Resources'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Libraries_testcontainers:
+    needs: [Services_Libraries_uadetector_resources]
+    name: Testcontainers
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Libraries/testcontainers'
+      name: 'Services - Testcontainers'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Libraries_scram:
+    needs: [Services_Libraries_testcontainers]
+    name: SCRAM
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Libraries/scram'
+      name: 'Services - SCRAM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_MicroProfile_config_core:
+    needs: [Services_Libraries_scram]
+    name: MP Config Core
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/MicroProfile/config-core'
+      name: 'Services - MicroProfile Config Core'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_MicroProfile_metrics_core:
+    needs: [Services_MicroProfile_config_core]
+    name: MP Metrics Core
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/MicroProfile/metrics-core'
+      name: 'Services - MicroProfile Metrics Core'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Vertx_vertx_rabbitmq:
+    needs: [Services_MicroProfile_metrics_core]
+    name: Vert.x RabbitMQ
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Vert.x/vertx-rabbitmq'
+      name: 'Services - Vert.x RabbitMQ'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  Services_Vertx_vertx_mutiny:
+    needs: [Services_Vertx_vertx_rabbitmq]
+    name: Vert.x Mutiny
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/services/Vert.x/vertx-mutiny'
+      name: 'Services - Vert.x Mutiny'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_bom_Versioner:
+    needs: [Services_Vertx_vertx_mutiny]
+    name: GuicedEE BOM Versioner
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'GuicedEE/bom/Versioner'
+      name: 'GuicedEE BOM Versioner'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_bom_ApacheBOM:
+    needs: [GuicedEE_bom_Versioner]
+    name: GuicedEE Apache BOM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'GuicedEE/bom/ApacheBOM'
+      name: 'GuicedEE Apache BOM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_bom_ApacheCXFBOM:
+    needs: [GuicedEE_bom_ApacheBOM]
+    name: GuicedEE Apache CXF BOM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'GuicedEE/bom/ApacheCXFBOM'
+      name: 'GuicedEE Apache CXF BOM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_bom_FasterXMLBOM:
+    needs: [GuicedEE_bom_ApacheCXFBOM]
+    name: GuicedEE FasterXML BOM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'GuicedEE/bom/FasterXMLBOM'
+      name: 'GuicedEE FasterXML BOM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_bom_GoogleBOM:
+    needs: [GuicedEE_bom_FasterXMLBOM]
+    name: GuicedEE Google BOM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'GuicedEE/bom/GoogleBOM'
+      name: 'GuicedEE Google BOM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_bom_HibernateBOM:
+    needs: [GuicedEE_bom_GoogleBOM]
+    name: GuicedEE Hibernate BOM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'GuicedEE/bom/HibernateBOM'
+      name: 'GuicedEE Hibernate BOM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_bom_JakartaBOM:
+    needs: [GuicedEE_bom_HibernateBOM]
+    name: GuicedEE Jakarta BOM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'GuicedEE/bom/JakartaBOM'
+      name: 'GuicedEE Jakarta BOM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_bom_JBossBOM:
+    needs: [GuicedEE_bom_JakartaBOM]
+    name: GuicedEE JBoss BOM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'GuicedEE/bom/JBossBOM'
+      name: 'GuicedEE JBoss BOM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_bom_StandaloneBOM:
+    needs: [GuicedEE_bom_JBossBOM]
+    name: GuicedEE Standalone BOM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'GuicedEE/bom/StandaloneBOM'
+      name: 'GuicedEE Standalone BOM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_bom_SwaggerBOM:
+    needs: [GuicedEE_bom_StandaloneBOM]
+    name: GuicedEE Swagger BOM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'GuicedEE/bom/SwaggerBOM'
+      name: 'GuicedEE Swagger BOM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_bom_TestLayoutBOM:
+    needs: [GuicedEE_bom_SwaggerBOM]
+    name: GuicedEE Test Layout BOM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'GuicedEE/bom/TestLayoutBOM'
+      name: 'GuicedEE Test Layout BOM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  # GuicedEE BOM (root) must be last after all child BOMs
+  GuicedEE_bom_root:
+    needs: [GuicedEE_bom_TestLayoutBOM]
+    name: GuicedEE BOM (root)
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'GuicedEE/bom'
+      name: 'GuicedEE BOM (root)'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_Parent:
+    needs: [GuicedEE_bom_root]
+    name: GuicedEE Parent POM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'GuicedEE/parent'
+      name: 'GuicedEE Parent POM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  # 3) GuicedEE core modules (each individual job), all gated behind Services and Parent
+  GuicedEE_client:
+    needs: [Services_Vertx_vertx_mutiny, GuicedEE_Parent]
+    name: GuicedEE - client
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/client'
+      name: 'GuicedEE - client'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_inject:
+    needs: [GuicedEE_client]
+    name: GuicedEE - inject
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/inject'
+      name: 'GuicedEE - inject'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_representations_json:
+    needs: [GuicedEE_inject]
+    name: GuicedEE - representations/json
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/representations/json'
+      name: 'GuicedEE - representations/json'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_representations_excel:
+    needs: [GuicedEE_representations_json]
+    name: GuicedEE - representations/excel
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/representations/excel'
+      name: 'GuicedEE - representations/excel'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_representations_xml:
+    needs: [GuicedEE_representations_excel]
+    name: GuicedEE - representations/xml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/representations/xml'
+      name: 'GuicedEE - representations/xml'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_rest:
+    needs: [GuicedEE_representations_xml]
+    name: GuicedEE - rest
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/rest'
+      name: 'GuicedEE - rest'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_websockets:
+    needs: [GuicedEE_rest]
+    name: GuicedEE - websockets
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/websockets'
+      name: 'GuicedEE - websockets'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_persistence:
+    needs: [GuicedEE_websockets]
+    name: GuicedEE - persistence
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/persistence'
+      name: 'GuicedEE - persistence'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_vertx:
+    needs: [GuicedEE_persistence]
+    name: GuicedEE - vertx
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/vertx'
+      name: 'GuicedEE - vertx'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_cerial:
+    needs: [GuicedEE_vertx]
+    name: GuicedEE - cerial
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/cerial'
+      name: 'GuicedEE - cerial'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_config:
+    needs: [GuicedEE_cerial]
+    name: GuicedEE - config
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/config'
+      name: 'GuicedEE - config'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_cdi:
+    needs: [GuicedEE_config]
+    name: GuicedEE - cdi
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/cdi'
+      name: 'GuicedEE - cdi'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_rabbitmq:
+    needs: [GuicedEE_cdi]
+    name: GuicedEE - rabbitmq
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/rabbitmq'
+      name: 'GuicedEE - rabbitmq'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_openapi:
+    needs: [GuicedEE_rabbitmq]
+    name: GuicedEE - openapi
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/openapi'
+      name: 'GuicedEE - openapi'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_swagger_ui:
+    needs: [GuicedEE_openapi]
+    name: GuicedEE - swagger-ui
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/swagger-ui'
+      name: 'GuicedEE - swagger-ui'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  GuicedEE_telemetry:
+    needs: [GuicedEE_swagger_ui]
+    name: GuicedEE - telemetry
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'GuicedEE/telemetry'
+      name: 'GuicedEE - telemetry'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  # 4) JWebMP chain (BOM -> Parent -> each module)
+  JWebMP_bom:
+    needs: [GuicedEE_bom_root]
+    name: JWebMP BOM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'JWebMP/bom'
+      name: 'JWebMP BOM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_parent:
+    needs: [JWebMP_bom]
+    name: JWebMP Parent POM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'JWebMP/parent'
+      name: 'JWebMP Parent POM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_testlib:
+    needs: [JWebMP_parent]
+    name: JWebMP - testlib
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/testlib'
+      name: 'JWebMP - testlib'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_client:
+    needs: [JWebMP_parent, JWebMP_testlib]
+    name: JWebMP - client
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/client'
+      name: 'JWebMP - client'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_core:
+    needs: [JWebMP_client]
+    name: JWebMP - core
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/core'
+      name: 'JWebMP - core'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_vertx:
+    needs: [JWebMP_core]
+    name: JWebMP - vertx
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/vertx'
+      name: 'JWebMP - vertx'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_rabbitcomms:
+    needs: [JWebMP_vertx, JWebMP_plugins_angular]
+    name: JWebMP - rabbitcomms
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/rabbitcomms'
+      name: 'JWebMP - rabbitcomms'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_angular:
+    needs: [JWebMP_plugins_tsclient, JWebMP_vertx]
+    name: JWebMP Plugin - angular
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/angular'
+      name: 'JWebMP Plugin - angular'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_agcharts:
+    needs: [JWebMP_plugins_angular]
+    name: JWebMP Plugin - agcharts
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/agcharts'
+      name: 'JWebMP Plugin - agcharts'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_agcharts_enterprise:
+    needs: [JWebMP_plugins_agcharts]
+    name: JWebMP Plugin - agcharts-enterprise
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/agcharts-enterprise'
+      name: 'JWebMP Plugin - agcharts-enterprise'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_aggrid:
+    needs: [JWebMP_plugins_agcharts_enterprise]
+    name: JWebMP Plugin - aggrid
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/aggrid'
+      name: 'JWebMP Plugin - aggrid'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_aggrid_enterprise:
+    needs: [JWebMP_plugins_aggrid]
+    name: JWebMP Plugin - aggrid-enterprise
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/aggrid-enterprise'
+      name: 'JWebMP Plugin - aggrid-enterprise'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_chartjs:
+    needs: [JWebMP_plugins_aggrid_enterprise]
+    name: JWebMP Plugin - chartjs
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/chartjs'
+      name: 'JWebMP Plugin - chartjs'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_easing:
+    needs: [JWebMP_plugins_chartjs]
+    name: JWebMP Plugin - easing
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/easing'
+      name: 'JWebMP Plugin - easing'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_fontawesome:
+    needs: [JWebMP_plugins_easing]
+    name: JWebMP Plugin - fontawesome
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/fontawesome'
+      name: 'JWebMP Plugin - fontawesome'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_fontawesome_pro:
+    needs: [JWebMP_plugins_fontawesome]
+    name: JWebMP Plugin - fontawesome-pro
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/fontawesome-pro'
+      name: 'JWebMP Plugin - fontawesome-pro'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_fullcalendar:
+    needs: [JWebMP_plugins_fontawesome_pro]
+    name: JWebMP Plugin - fullcalendar
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/fullcalendar'
+      name: 'JWebMP Plugin - fullcalendar'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_fullcalendar_pro:
+    needs: [JWebMP_plugins_fullcalendar]
+    name: JWebMP Plugin - fullcalendar-pro
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/fullcalendar-pro'
+      name: 'JWebMP Plugin - fullcalendar-pro'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_tsclient:
+    needs: [JWebMP_client]
+    name: JWebMP Plugin - tsclient
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/tsclient'
+      name: 'JWebMP Plugin - tsclient'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_webawesome:
+    needs: [JWebMP_plugins_tsclient]
+    name: JWebMP Plugin - webawesome
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/webawesome'
+      name: 'JWebMP Plugin - webawesome'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  JWebMP_plugins_webawesome_pro:
+    needs: [JWebMP_plugins_webawesome]
+    name: JWebMP Plugin - webawesome-pro
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'JWebMP/plugins/webawesome-pro'
+      name: 'JWebMP Plugin - webawesome-pro'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  # 5) EntityAssist (individual module)
+  EntityAssist_Module:
+    needs: [GuicedEE_telemetry]
+    name: EA
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'EntityAssist'
+      name: 'EntityAssist'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  # 6) ActivityMaster (BOM then each module)
+  ActivityMaster_bom:
+    needs: [EntityAssist_Module, GuicedEE_bom_root]
+    name: AM BOM
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    with:
+      baseDir: 'ActivityMaster/bom'
+      name: 'ActivityMaster BOM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  ActivityMaster_cerial:
+    needs: [ActivityMaster_bom]
+    name: AM - cerial
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'ActivityMaster/cerial'
+      name: 'ActivityMaster - cerial'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  ActivityMaster_cerial_client:
+    needs: [ActivityMaster_cerial]
+    name: AM - cerial-client
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'ActivityMaster/cerial-client'
+      name: 'ActivityMaster - cerial-client'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  ActivityMaster_client:
+    needs: [ActivityMaster_cerial_client]
+    name: AM - client
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'ActivityMaster/client'
+      name: 'ActivityMaster - client'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  ActivityMaster_images:
+    needs: [ActivityMaster_client]
+    name: AM - images
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'ActivityMaster/images'
+      name: 'ActivityMaster - images'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  ActivityMaster_user_sessions:
+    needs: [ActivityMaster_images]
+    name: AM - user-sessions
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    with:
+      baseDir: 'ActivityMaster/user-sessions'
+      name: 'ActivityMaster - user-sessions'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets:
+      USERNAME: ${{ secrets.USERNAME }}
+      USER_TOKEN: ${{ secrets.USER_TOKEN }}
+      SONA_USERNAME: ${{ secrets.SONA_USERNAME }}
+      SONA_PASSWORD: ${{ secrets.SONA_PASSWORD }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+

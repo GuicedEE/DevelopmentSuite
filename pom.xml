@@ -29,6 +29,7 @@
                 <module>GuicedEE/bom/JBossBOM</module>
                 <module>GuicedEE/bom/StandaloneBOM</module>
                 <module>GuicedEE/bom/SwaggerBOM</module>
+                <module>GuicedEE/bom/SmallRyeBOM</module>
                 <module>GuicedEE/bom/TestLayoutBOM</module>
                 <module>GuicedEE/parent</module>
                 <module>GuicedEE/client</module>
@@ -115,10 +116,13 @@
         <profile>
             <id>activity-master</id>
             <modules>
+                <module>ActivityMaster/parent</module>
                 <module>ActivityMaster/bom</module>
+                <module>ActivityMaster/core</module>
                 <module>ActivityMaster/cerial</module>
                 <module>ActivityMaster/cerial-client</module>
                 <module>ActivityMaster/client</module>
+                <module>ActivityMaster/profiles</module>
                 <!--<module>ActivityMaster/conversations</module>
                 <module>ActivityMaster/documents</module>
                 <module>ActivityMaster/files</module>
@@ -128,7 +132,6 @@
                 <!--<module>ActivityMaster/mail</module>
                 <module>ActivityMaster/notifications</module>
                 <module>ActivityMaster/payments</module>
-                <module>ActivityMaster/profiles</module>
                 <module>ActivityMaster/realtor</module>
                 <module>ActivityMaster/todo</module>-->
                 <module>ActivityMaster/user-sessions</module>

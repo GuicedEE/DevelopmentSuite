@@ -181,3 +181,6 @@
 [submodule "JWebMP/plugins/agcharts-enterprise"]
 	path = JWebMP/plugins/agcharts-enterprise
 	url = https://github.com/JWebMP/AgCharts-Enterprise.git
+[submodule "ActivityMaster/parent"]
+	path = ActivityMaster/parent
+	url = https://github.com/Activity-Master/Group.git
