@@ -8,16 +8,41 @@
     <file url="file://$PROJECT_DIR$/ActivityMaster/cerial-client/src/jre11/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/cerial-client/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/cerial-client/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/cerial/src/jre11/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/cerial/src/jre11/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/cerial/src/jre11/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/cerial/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/cerial/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/client/src/jre11/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/client/src/jre11/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/client/src/jre11/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/client/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/client/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/core/src/jre11/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/core/src/jre11/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/core/src/jre11/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/core/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/images/src/jre11/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/images/src/jre11/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/images/src/jre11/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/images/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/images/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/parent/src/jre11/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/parent/src/jre11/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/parent/src/jre11/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/parent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/parent/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/profiles/src/jre11/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/profiles/src/jre11/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/profiles/src/jre11/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/profiles/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/profiles/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/src/jre11/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/src/jre11/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/src/jre11/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ActivityMaster/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/user-sessions/src/jre11/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/user-sessions/src/jre11/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ActivityMaster/user-sessions/src/jre11/webapp" charset="UTF-8" />
@@ -42,6 +67,8 @@
     <file url="file://$PROJECT_DIR$/GuicedEE/bom/JBossBOM/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/bom/JakartaBOM/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/bom/JakartaBOM/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/bom/SmallRyeBOM/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/bom/SmallRyeBOM/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/bom/StandaloneBOM/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/bom/StandaloneBOM/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/bom/SwaggerBOM/src/main/java" charset="UTF-8" />
@@ -132,6 +159,11 @@
     <file url="file://$PROJECT_DIR$/GuicedEE/vertx/src/jre11/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/vertx/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/vertx/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/web/src/jre11/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/web/src/jre11/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/web/src/jre11/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/web/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/websockets/src/jre11/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/websockets/src/jre11/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/websockets/src/jre11/webapp" charset="UTF-8" />

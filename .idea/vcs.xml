@@ -15,6 +15,7 @@
     <mapping directory="$PROJECT_DIR$/ActivityMaster/images" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/mail" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/notifications" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ActivityMaster/parent" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/payments" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/profiles" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/realtor" vcs="Git" />

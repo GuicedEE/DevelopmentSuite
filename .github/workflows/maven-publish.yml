@@ -13,6 +13,7 @@ jobs:
   # 1) Services (each module as an individual job, chained by needs in declared order)
   Services_Apache_Commons_commons_beanutils:
     name: BeanUtils
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Apache/Commons/commons-beanutils'
@@ -29,6 +30,7 @@ jobs:
   Services_Apache_Commons_commons_collections:
     needs: [Services_Apache_Commons_commons_beanutils]
     name: Collections
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Apache/Commons/commons-collections'
@@ -45,6 +47,7 @@ jobs:
   Services_Apache_Commons_commons_csv:
     needs: [Services_Apache_Commons_commons_collections]
     name: CSV
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Apache/Commons/commons-csv'
@@ -61,6 +64,7 @@ jobs:
   Services_Apache_Commons_commons_fileupload:
     needs: [Services_Apache_Commons_commons_csv]
     name: FileUpload
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Apache/Commons/commons-fileupload'
@@ -77,6 +81,7 @@ jobs:
   Services_Apache_Commons_commons_math:
     needs: [Services_Apache_Commons_commons_fileupload]
     name: Math
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Apache/Commons/commons-math'
@@ -93,6 +98,7 @@ jobs:
   Services_Apache_CXF_apache_cxf:
     needs: [Services_Apache_Commons_commons_math]
     name: CXF Core
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Apache/CXF/apache-cxf'
@@ -109,6 +115,7 @@ jobs:
   Services_Apache_CXF_apache_cxf_rest:
     needs: [Services_Apache_CXF_apache_cxf]
     name: CXF REST
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Apache/CXF/apache-cxf-rest'
@@ -125,6 +132,7 @@ jobs:
   Services_Apache_CXF_apache_cxf_rest_openapi:
     needs: [Services_Apache_CXF_apache_cxf_rest]
     name: CXF REST OpenAPI
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Apache/CXF/apache-cxf-rest-openapi'
@@ -141,6 +149,7 @@ jobs:
   Services_Apache_CXF_apache_cxf_rt_security:
     needs: [Services_Apache_CXF_apache_cxf_rest_openapi]
     name: CXF Security
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Apache/CXF/apache-cxf-rt-security'
@@ -157,6 +166,7 @@ jobs:
   Services_Apache_CXF_apache_cxf_rt_transports_http:
     needs: [Services_Apache_CXF_apache_cxf_rt_security]
     name: CXF HTTP
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Apache/CXF/apache-cxf-rt-transports-http'
@@ -173,6 +183,7 @@ jobs:
   Services_Apache_POI_apache_poi:
     needs: [Services_Apache_CXF_apache_cxf_rt_transports_http]
     name: POI
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Apache/POI/apache-poi'
@@ -189,6 +200,7 @@ jobs:
   Services_Apache_POI_apache_poi_ooxml:
     needs: [Services_Apache_POI_apache_poi]
     name: POI OOXML
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Apache/POI/apache-poi-ooxml'
@@ -205,6 +217,7 @@ jobs:
   Services_Database_msal4j:
     needs: [Services_Apache_POI_apache_poi_ooxml]
     name: MSAL4J
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Database/msal4j'
@@ -221,6 +234,7 @@ jobs:
   Services_Database_mssql_jdbc:
     needs: [Services_Database_msal4j]
     name: MSSQL JDBC
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Database/mssql-jdbc'
@@ -237,6 +251,7 @@ jobs:
   Services_Database_postgresql:
     needs: [Services_Database_mssql_jdbc]
     name: PostgreSQL JDBC
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Database/postgresql'
@@ -253,6 +268,7 @@ jobs:
   Services_Google_aop:
     needs: [Services_Database_postgresql]
     name: AOP Alliance
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Google/aop'
@@ -269,6 +285,7 @@ jobs:
   Services_Google_guice_assistedinject:
     needs: [Services_Google_guice_core]
     name: AssistedInject
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Google/guice-assistedinject'
@@ -285,6 +302,7 @@ jobs:
   Services_Google_guice_core:
     needs: [Services_Google_aop]
     name: Guice Core
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Google/guice-core'
@@ -301,6 +319,7 @@ jobs:
   Services_Google_guice_grapher:
     needs: [Services_Google_guice_core]
     name: Guice Grapher
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Google/guice-grapher'
@@ -317,6 +336,7 @@ jobs:
   Services_Google_guice_jmx:
     needs: [Services_Google_guice_core]
     name: Guice JMX
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Google/guice-jmx'
@@ -333,6 +353,7 @@ jobs:
   Services_Google_guice_jndi:
     needs: [Services_Google_guice_core]
     name: Guice JNDI
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Google/guice-jndi'
@@ -349,6 +370,7 @@ jobs:
   Services_Hibernate_hibernate_c3p0:
     needs: [Services_Google_guice_jndi]
     name: Hibernate C3P0
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Hibernate/hibernate-c3p0'
@@ -365,6 +387,7 @@ jobs:
   Services_Hibernate_hibernate_core:
     needs: [Services_Hibernate_hibernate_c3p0]
     name: Hibernate Core
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Hibernate/hibernate-core'
@@ -381,6 +404,7 @@ jobs:
   Services_Hibernate_hibernate_jcache:
     needs: [Services_Hibernate_hibernate_core]
     name: Hibernate JCache
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Hibernate/hibernate-jcache'
@@ -397,6 +421,7 @@ jobs:
   Services_Hibernate_hibernate_validator:
     needs: [Services_Hibernate_hibernate_jcache]
     name: Hibernate Validator
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Hibernate/hibernate-validator'
@@ -413,6 +438,7 @@ jobs:
   Services_Hibernate_hibernate_reactive:
     needs: [Services_Hibernate_hibernate_validator]
     name: Hibernate Reactive
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Hibernate/hibernate-reactive'
@@ -429,6 +455,7 @@ jobs:
   Services_Jakarta_jakarta_security_jacc:
     needs: [Services_Hibernate_hibernate_reactive]
     name: JACC
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Jakarta/jakarta-security-jacc'
@@ -445,6 +472,7 @@ jobs:
   Services_JCache_cache_annotations_ri_common:
     needs: [Services_Jakarta_jakarta_security_jacc]
     name: JCache Annotations Common
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/JCache/cache-annotations-ri-common'
@@ -461,6 +489,7 @@ jobs:
   Services_JCache_cache_annotations_ri_guice:
     needs: [Services_JCache_cache_annotations_ri_common]
     name: JCache Annotations Guice
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/JCache/cache-annotations-ri-guice'
@@ -477,6 +506,7 @@ jobs:
   Services_JCache_cache_api:
     needs: [Services_JCache_cache_annotations_ri_guice]
     name: JCache API
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/JCache/cache-api'
@@ -493,6 +523,7 @@ jobs:
   Services_JCache_ehcache:
     needs: [Services_JCache_cache_api]
     name: Ehcache
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/JCache/ehcache'
@@ -509,6 +540,7 @@ jobs:
   Services_JCache_hazelcast:
     needs: [Services_JCache_ehcache]
     name: Hazelcast
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/JCache/hazelcast'
@@ -525,6 +557,7 @@ jobs:
   Services_JCache_hazelcast_hibernate:
     needs: [Services_JCache_hazelcast]
     name: Hazelcast Hibernate
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/JCache/hazelcast-hibernate'
@@ -541,6 +574,7 @@ jobs:
   Services_JNI_jna_platform:
     needs: [Services_JCache_hazelcast_hibernate]
     name: JNA Platform
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/JNI/jna-platform'
@@ -557,6 +591,7 @@ jobs:
   Services_JNI_nrjavaserial:
     needs: [Services_JNI_jna_platform]
     name: NRJavaSerial
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/JNI/nrjavaserial'
@@ -573,6 +608,7 @@ jobs:
   Services_Libraries_jandex:
     needs: [Services_JNI_nrjavaserial]
     name: Jandex
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Libraries/jandex'
@@ -589,6 +625,7 @@ jobs:
   Services_Libraries_cloudevents:
     needs: [Services_Libraries_jandex]
     name: CloudEvents
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Libraries/cloudevents'
@@ -605,6 +642,7 @@ jobs:
   Services_Libraries_javassist:
     needs: [Services_Libraries_cloudevents]
     name: Javassist
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Libraries/javassist'
@@ -621,6 +659,7 @@ jobs:
   Services_Libraries_json:
     needs: [Services_Libraries_javassist]
     name: JSON.org
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Libraries/json'
@@ -637,6 +676,7 @@ jobs:
   Services_Libraries_kafka_client:
     needs: [Services_Libraries_json]
     name: Kafka Client
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Libraries/kafka-client'
@@ -653,6 +693,7 @@ jobs:
   Services_Libraries_mapstruct:
     needs: [Services_Libraries_kafka_client]
     name: MapStruct
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Libraries/mapstruct'
@@ -669,6 +710,7 @@ jobs:
   Services_Libraries_openpdf:
     needs: [Services_Libraries_mapstruct]
     name: OpenPDF
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Libraries/openpdf'
@@ -685,6 +727,7 @@ jobs:
   Services_Libraries_rabbitmq_client:
     needs: [Services_Libraries_openpdf]
     name: RabbitMQ Client
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Libraries/rabbitmq-client'
@@ -701,6 +744,7 @@ jobs:
   Services_Libraries_swagger:
     needs: [Services_Libraries_rabbitmq_client]
     name: Swagger Libraries
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Libraries/swagger'
@@ -717,6 +761,7 @@ jobs:
   Services_Libraries_uadetector_core:
     needs: [Services_Libraries_swagger]
     name: UADetector Core
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Libraries/uadetector-core'
@@ -733,6 +778,7 @@ jobs:
   Services_Libraries_uadetector_resources:
     needs: [Services_Libraries_uadetector_core]
     name: UADetector Resources
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Libraries/uadetector-resources'
@@ -749,6 +795,7 @@ jobs:
   Services_Libraries_testcontainers:
     needs: [Services_Libraries_uadetector_resources]
     name: Testcontainers
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Libraries/testcontainers'
@@ -765,6 +812,7 @@ jobs:
   Services_Libraries_scram:
     needs: [Services_Libraries_testcontainers]
     name: SCRAM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Libraries/scram'
@@ -781,6 +829,7 @@ jobs:
   Services_MicroProfile_config_core:
     needs: [Services_Libraries_scram]
     name: MP Config Core
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/MicroProfile/config-core'
@@ -797,6 +846,7 @@ jobs:
   Services_MicroProfile_metrics_core:
     needs: [Services_MicroProfile_config_core]
     name: MP Metrics Core
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/MicroProfile/metrics-core'
@@ -813,6 +863,7 @@ jobs:
   Services_Vertx_vertx_rabbitmq:
     needs: [Services_MicroProfile_metrics_core]
     name: Vert.x RabbitMQ
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Vert.x/vertx-rabbitmq'
@@ -829,6 +880,7 @@ jobs:
   Services_Vertx_vertx_mutiny:
     needs: [Services_Vertx_vertx_rabbitmq]
     name: Vert.x Mutiny
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/services/Vert.x/vertx-mutiny'
@@ -845,6 +897,7 @@ jobs:
   GuicedEE_bom_Versioner:
     needs: [Services_Vertx_vertx_mutiny]
     name: GuicedEE BOM Versioner
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/bom/Versioner'
@@ -861,6 +914,7 @@ jobs:
   GuicedEE_bom_ApacheBOM:
     needs: [GuicedEE_bom_Versioner]
     name: GuicedEE Apache BOM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/bom/ApacheBOM'
@@ -877,6 +931,7 @@ jobs:
   GuicedEE_bom_ApacheCXFBOM:
     needs: [GuicedEE_bom_ApacheBOM]
     name: GuicedEE Apache CXF BOM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/bom/ApacheCXFBOM'
@@ -893,6 +948,7 @@ jobs:
   GuicedEE_bom_FasterXMLBOM:
     needs: [GuicedEE_bom_ApacheCXFBOM]
     name: GuicedEE FasterXML BOM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/bom/FasterXMLBOM'
@@ -909,6 +965,7 @@ jobs:
   GuicedEE_bom_GoogleBOM:
     needs: [GuicedEE_bom_FasterXMLBOM]
     name: GuicedEE Google BOM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/bom/GoogleBOM'
@@ -925,6 +982,7 @@ jobs:
   GuicedEE_bom_HibernateBOM:
     needs: [GuicedEE_bom_GoogleBOM]
     name: GuicedEE Hibernate BOM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/bom/HibernateBOM'
@@ -941,6 +999,7 @@ jobs:
   GuicedEE_bom_JakartaBOM:
     needs: [GuicedEE_bom_HibernateBOM]
     name: GuicedEE Jakarta BOM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/bom/JakartaBOM'
@@ -957,6 +1016,7 @@ jobs:
   GuicedEE_bom_JBossBOM:
     needs: [GuicedEE_bom_JakartaBOM]
     name: GuicedEE JBoss BOM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/bom/JBossBOM'
@@ -973,6 +1033,7 @@ jobs:
   GuicedEE_bom_StandaloneBOM:
     needs: [GuicedEE_bom_JBossBOM]
     name: GuicedEE Standalone BOM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/bom/StandaloneBOM'
@@ -989,6 +1050,7 @@ jobs:
   GuicedEE_bom_SwaggerBOM:
     needs: [GuicedEE_bom_StandaloneBOM]
     name: GuicedEE Swagger BOM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/bom/SwaggerBOM'
@@ -1005,6 +1067,7 @@ jobs:
   GuicedEE_bom_TestLayoutBOM:
     needs: [GuicedEE_bom_SwaggerBOM]
     name: GuicedEE Test Layout BOM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/bom/TestLayoutBOM'
@@ -1022,6 +1085,7 @@ jobs:
   GuicedEE_bom_root:
     needs: [GuicedEE_bom_TestLayoutBOM]
     name: GuicedEE BOM (root)
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/bom'
@@ -1038,6 +1102,7 @@ jobs:
   GuicedEE_Parent:
     needs: [GuicedEE_bom_root]
     name: GuicedEE Parent POM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/parent'
@@ -1055,6 +1120,7 @@ jobs:
   GuicedEE_client:
     needs: [Services_Vertx_vertx_mutiny, GuicedEE_Parent]
     name: GuicedEE - client
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/client'
@@ -1071,6 +1137,7 @@ jobs:
   GuicedEE_inject:
     needs: [GuicedEE_client]
     name: GuicedEE - inject
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/inject'
@@ -1087,6 +1154,7 @@ jobs:
   GuicedEE_representations_json:
     needs: [GuicedEE_inject]
     name: GuicedEE - representations/json
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/representations/json'
@@ -1103,6 +1171,7 @@ jobs:
   GuicedEE_representations_excel:
     needs: [GuicedEE_representations_json]
     name: GuicedEE - representations/excel
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/representations/excel'
@@ -1119,6 +1188,7 @@ jobs:
   GuicedEE_representations_xml:
     needs: [GuicedEE_representations_excel]
     name: GuicedEE - representations/xml
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/representations/xml'
@@ -1135,6 +1205,7 @@ jobs:
   GuicedEE_rest:
     needs: [GuicedEE_representations_xml]
     name: GuicedEE - rest
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/rest'
@@ -1151,6 +1222,7 @@ jobs:
   GuicedEE_websockets:
     needs: [GuicedEE_rest]
     name: GuicedEE - websockets
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/websockets'
@@ -1167,6 +1239,7 @@ jobs:
   GuicedEE_persistence:
     needs: [GuicedEE_websockets]
     name: GuicedEE - persistence
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/persistence'
@@ -1183,6 +1256,7 @@ jobs:
   GuicedEE_vertx:
     needs: [GuicedEE_persistence]
     name: GuicedEE - vertx
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/vertx'
@@ -1199,6 +1273,7 @@ jobs:
   GuicedEE_cerial:
     needs: [GuicedEE_vertx]
     name: GuicedEE - cerial
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/cerial'
@@ -1215,6 +1290,7 @@ jobs:
   GuicedEE_config:
     needs: [GuicedEE_cerial]
     name: GuicedEE - config
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/config'
@@ -1231,6 +1307,7 @@ jobs:
   GuicedEE_cdi:
     needs: [GuicedEE_config]
     name: GuicedEE - cdi
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/cdi'
@@ -1247,6 +1324,7 @@ jobs:
   GuicedEE_rabbitmq:
     needs: [GuicedEE_cdi]
     name: GuicedEE - rabbitmq
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/rabbitmq'
@@ -1263,6 +1341,7 @@ jobs:
   GuicedEE_openapi:
     needs: [GuicedEE_rabbitmq]
     name: GuicedEE - openapi
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/openapi'
@@ -1279,6 +1358,7 @@ jobs:
   GuicedEE_swagger_ui:
     needs: [GuicedEE_openapi]
     name: GuicedEE - swagger-ui
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/swagger-ui'
@@ -1295,6 +1375,7 @@ jobs:
   GuicedEE_telemetry:
     needs: [GuicedEE_swagger_ui]
     name: GuicedEE - telemetry
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'GuicedEE/telemetry'
@@ -1312,6 +1393,7 @@ jobs:
   JWebMP_bom:
     needs: [GuicedEE_bom_root]
     name: JWebMP BOM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'JWebMP/bom'
@@ -1328,6 +1410,7 @@ jobs:
   JWebMP_parent:
     needs: [JWebMP_bom]
     name: JWebMP Parent POM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'JWebMP/parent'
@@ -1344,6 +1427,7 @@ jobs:
   JWebMP_testlib:
     needs: [JWebMP_parent]
     name: JWebMP - testlib
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/testlib'
@@ -1360,6 +1444,7 @@ jobs:
   JWebMP_client:
     needs: [JWebMP_parent, JWebMP_testlib]
     name: JWebMP - client
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/client'
@@ -1376,6 +1461,7 @@ jobs:
   JWebMP_core:
     needs: [JWebMP_client]
     name: JWebMP - core
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/core'
@@ -1392,6 +1478,7 @@ jobs:
   JWebMP_vertx:
     needs: [JWebMP_core]
     name: JWebMP - vertx
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/vertx'
@@ -1408,6 +1495,7 @@ jobs:
   JWebMP_rabbitcomms:
     needs: [JWebMP_vertx, JWebMP_plugins_angular]
     name: JWebMP - rabbitcomms
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/rabbitcomms'
@@ -1424,6 +1512,7 @@ jobs:
   JWebMP_plugins_angular:
     needs: [JWebMP_plugins_tsclient, JWebMP_vertx]
     name: JWebMP Plugin - angular
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/angular'
@@ -1440,6 +1529,7 @@ jobs:
   JWebMP_plugins_agcharts:
     needs: [JWebMP_plugins_angular]
     name: JWebMP Plugin - agcharts
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/agcharts'
@@ -1456,6 +1546,7 @@ jobs:
   JWebMP_plugins_agcharts_enterprise:
     needs: [JWebMP_plugins_agcharts]
     name: JWebMP Plugin - agcharts-enterprise
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/agcharts-enterprise'
@@ -1472,6 +1563,7 @@ jobs:
   JWebMP_plugins_aggrid:
     needs: [JWebMP_plugins_agcharts_enterprise]
     name: JWebMP Plugin - aggrid
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/aggrid'
@@ -1488,6 +1580,7 @@ jobs:
   JWebMP_plugins_aggrid_enterprise:
     needs: [JWebMP_plugins_aggrid]
     name: JWebMP Plugin - aggrid-enterprise
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/aggrid-enterprise'
@@ -1504,6 +1597,7 @@ jobs:
   JWebMP_plugins_chartjs:
     needs: [JWebMP_plugins_aggrid_enterprise]
     name: JWebMP Plugin - chartjs
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/chartjs'
@@ -1520,6 +1614,7 @@ jobs:
   JWebMP_plugins_easing:
     needs: [JWebMP_plugins_chartjs]
     name: JWebMP Plugin - easing
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/easing'
@@ -1536,6 +1631,7 @@ jobs:
   JWebMP_plugins_fontawesome:
     needs: [JWebMP_plugins_easing]
     name: JWebMP Plugin - fontawesome
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/fontawesome'
@@ -1552,6 +1648,7 @@ jobs:
   JWebMP_plugins_fontawesome_pro:
     needs: [JWebMP_plugins_fontawesome]
     name: JWebMP Plugin - fontawesome-pro
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/fontawesome-pro'
@@ -1568,6 +1665,7 @@ jobs:
   JWebMP_plugins_fullcalendar:
     needs: [JWebMP_plugins_fontawesome_pro]
     name: JWebMP Plugin - fullcalendar
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/fullcalendar'
@@ -1584,6 +1682,7 @@ jobs:
   JWebMP_plugins_fullcalendar_pro:
     needs: [JWebMP_plugins_fullcalendar]
     name: JWebMP Plugin - fullcalendar-pro
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/fullcalendar-pro'
@@ -1600,6 +1699,7 @@ jobs:
   JWebMP_plugins_tsclient:
     needs: [JWebMP_client]
     name: JWebMP Plugin - tsclient
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/tsclient'
@@ -1616,6 +1716,7 @@ jobs:
   JWebMP_plugins_webawesome:
     needs: [JWebMP_plugins_tsclient]
     name: JWebMP Plugin - webawesome
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/webawesome'
@@ -1632,6 +1733,7 @@ jobs:
   JWebMP_plugins_webawesome_pro:
     needs: [JWebMP_plugins_webawesome]
     name: JWebMP Plugin - webawesome-pro
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'JWebMP/plugins/webawesome-pro'
@@ -1649,6 +1751,7 @@ jobs:
   EntityAssist_Module:
     needs: [GuicedEE_telemetry]
     name: EA
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'EntityAssist'
@@ -1666,6 +1769,7 @@ jobs:
   ActivityMaster_bom:
     needs: [EntityAssist_Module, GuicedEE_bom_root]
     name: AM BOM
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'ActivityMaster/bom'
@@ -1682,6 +1786,7 @@ jobs:
   ActivityMaster_cerial:
     needs: [ActivityMaster_bom]
     name: AM - cerial
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'ActivityMaster/cerial'
@@ -1698,6 +1803,7 @@ jobs:
   ActivityMaster_cerial_client:
     needs: [ActivityMaster_cerial]
     name: AM - cerial-client
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'ActivityMaster/cerial-client'
@@ -1714,6 +1820,7 @@ jobs:
   ActivityMaster_client:
     needs: [ActivityMaster_cerial_client]
     name: AM - client
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'ActivityMaster/client'
@@ -1730,6 +1837,7 @@ jobs:
   ActivityMaster_images:
     needs: [ActivityMaster_client]
     name: AM - images
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'ActivityMaster/images'
@@ -1746,6 +1854,7 @@ jobs:
   ActivityMaster_user_sessions:
     needs: [ActivityMaster_images]
     name: AM - user-sessions
+    environment: ${{ github.head_ref || github.ref_name }}
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     with:
       baseDir: 'ActivityMaster/user-sessions'

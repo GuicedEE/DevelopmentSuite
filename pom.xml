@@ -48,6 +48,7 @@
                 <module>GuicedEE/openapi</module>
                 <module>GuicedEE/swagger-ui</module>
                 <module>GuicedEE/telemetry</module>
+                <module>GuicedEE/web</module>
             </modules>
         </profile>
         <profile>
