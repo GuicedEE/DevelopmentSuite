@@ -34,3 +34,4 @@ flatter.pom
 **.iml
 *.rar
 build.ps1
+**/.vscode/

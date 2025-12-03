@@ -101,7 +101,7 @@
                 <module>GuicedEE/services/Libraries/uadetector-core</module>
                 <module>GuicedEE/services/Libraries/uadetector-resources</module>
                 <module>GuicedEE/services/Libraries/testcontainers</module>
-                <module>GuicedEE/services/Libraries/scram</module>
+               <!-- <module>GuicedEE/services/Libraries/scram</module>-->
                 <module>GuicedEE/services/MicroProfile/config-core</module>
                 <module>GuicedEE/services/MicroProfile/metrics-core</module>
                 <module>GuicedEE/services/Vert.x/vertx-rabbitmq</module>

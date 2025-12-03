@@ -24,15 +24,20 @@
     <mapping directory="$PROJECT_DIR$/ActivityMaster/user-sessions" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/wallet" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/EntityAssist" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/EntityAssist/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/bom" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/cdi" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/cerial" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/cerial/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/client" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/client/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/config" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/inject" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/inject/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/openapi" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/parent" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/persistence" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/persistence/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/rabbitmq" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/representations" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/representations/excel" vcs="Git" />
@@ -43,18 +48,28 @@
     <mapping directory="$PROJECT_DIR$/GuicedEE/swagger-ui" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/telemetry" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/vertx" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/vertx/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/web" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/web/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/webservices" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/websockets" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/websockets/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/bom" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/client" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/client/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/core" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/core/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/parent" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/agcharts" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/agcharts-enterprise" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/plugins/agcharts-enterprise/rules" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/plugins/agcharts/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/aggrid" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/aggrid-enterprise" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/plugins/aggrid-enterprise/rules" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/plugins/aggrid/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/angular" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/plugins/angular/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/chartjs" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/easing" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/fontawesome" vcs="Git" />
@@ -62,10 +77,15 @@
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/fullcalendar" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/fullcalendar-pro" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/tsclient" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/plugins/tsclient/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/webawesome" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/webawesome-pro" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/plugins/webawesome-pro/rules" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/plugins/webawesome/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/rabbitcomms" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/testlib" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/testlib/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/vertx" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/vertx/rules" vcs="Git" />
   </component>
 </project>
