@@ -5,9 +5,13 @@
     <mapping directory="$PROJECT_DIR$/ActivityMaster/bom" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/cerial" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/cerial-client" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ActivityMaster/cerial-client/rules" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ActivityMaster/cerial/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/client" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ActivityMaster/client/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/conversations" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/core" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ActivityMaster/core/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/documents" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/files" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/forums" vcs="Git" />
@@ -52,6 +56,8 @@
     <mapping directory="$PROJECT_DIR$/GuicedEE/web" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/web/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/webservices" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/website" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/website/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/websockets" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/websockets/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/bom" vcs="Git" />
@@ -76,6 +82,8 @@
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/fontawesome-pro" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/fullcalendar" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/fullcalendar-pro" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/plugins/fullcalendar-pro/rules" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/plugins/fullcalendar/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/tsclient" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/tsclient/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/webawesome" vcs="Git" />

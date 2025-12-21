@@ -184,3 +184,6 @@
 [submodule "ActivityMaster/parent"]
 	path = ActivityMaster/parent
 	url = https://github.com/Activity-Master/Group.git
+[submodule "GuicedEE/website"]
+	path = GuicedEE/website
+	url = https://github.com/GuicedEE/Website.git

@@ -174,6 +174,11 @@
     <file url="file://$PROJECT_DIR$/GuicedEE/web/src/jre11/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/web/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/web/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/website/src/jre11/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/website/src/jre11/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/website/src/jre11/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/website/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/website/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/websockets/src/jre11/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/websockets/src/jre11/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/websockets/src/jre11/webapp" charset="UTF-8" />
