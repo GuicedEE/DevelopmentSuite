@@ -187,3 +187,12 @@
 [submodule "GuicedEE/website"]
 	path = GuicedEE/website
 	url = https://github.com/GuicedEE/Website.git
+[submodule "GuicedEE/metrics"]
+	path = GuicedEE/metrics
+	url = https://github.com/GuicedEE/Metrics.git
+[submodule "GuicedEE/health"]
+	path = GuicedEE/health
+	url = https://github.com/GuicedEE/Health.git
+[submodule "GuicedEE/fault-tolerance"]
+	path = GuicedEE/fault-tolerance
+	url = https://github.com/GuicedEE/FaultTolerance.git

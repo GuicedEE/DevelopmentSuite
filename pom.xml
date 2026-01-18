@@ -43,6 +43,8 @@
                 <module>GuicedEE/vertx</module>
                 <module>GuicedEE/cerial</module>
                 <module>GuicedEE/config</module>
+                <module>GuicedEE/metrics</module>
+                <module>GuicedEE/health</module>
                 <module>GuicedEE/cdi</module>
                 <module>GuicedEE/rabbitmq</module>
                 <module>GuicedEE/openapi</module>
@@ -104,6 +106,8 @@
                <!-- <module>GuicedEE/services/Libraries/scram</module>-->
                 <module>GuicedEE/services/MicroProfile/config-core</module>
                 <module>GuicedEE/services/MicroProfile/metrics-core</module>
+                <module>GuicedEE/services/MicroProfile/health-core</module>
+                <module>GuicedEE/services/MicroProfile/telemetry-core</module>
                 <module>GuicedEE/services/Vert.x/vertx-rabbitmq</module>
                 <module>GuicedEE/services/Vert.x/vertx-mutiny</module>
             </modules>
