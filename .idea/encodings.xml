@@ -144,6 +144,11 @@
     <file url="file://$PROJECT_DIR$/GuicedEE/rest/src/jre11/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/rest/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/rest/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/services/Google/guice-core/src/jre11/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/services/Google/guice-core/src/jre11/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/services/Google/guice-core/src/jre11/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/services/Google/guice-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/services/Google/guice-core/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/services/JCache/cache-annotations-ri-common/src/jre11/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/services/JCache/cache-annotations-ri-common/src/jre11/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/services/JCache/cache-annotations-ri-common/src/jre11/webapp" charset="UTF-8" />
