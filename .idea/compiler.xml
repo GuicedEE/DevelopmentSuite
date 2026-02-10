@@ -36,6 +36,49 @@
         </processorPath>
         <module name="entity-assist-reactive" />
       </profile>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="angular-maven-plugin" />
+      </profile>
+      <profile name="Annotation profile for builder" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+        </processorPath>
+        <module name="web-awesome-pro" />
+        <module name="jwebmp-core" />
+        <module name="web-awesome" />
+        <module name="font-awesome" />
+        <module name="aggrid" />
+        <module name="jwebmp-testlib" />
+        <module name="agcharts-enterprise" />
+        <module name="jwebmp-client" />
+        <module name="session-master" />
+        <module name="font-awesome-pro" />
+        <module name="cerial-master" />
+        <module name="typescript-client" />
+        <module name="image-master" />
+        <module name="guiced-rest-services" />
+        <module name="profile-master" />
+        <module name="json-representation" />
+        <module name="chartjs" />
+        <module name="guiced-vertx-sockets" />
+        <module name="full-calendar-pro" />
+        <module name="agcharts" />
+        <module name="guice-inject-client" />
+        <module name="guiced-metrics" />
+        <module name="activity-master-client" />
+        <module name="jwebmp-vertx" />
+        <module name="cerial-master-client" />
+        <module name="jwebmp-rabbitmq" />
+        <module name="guiced-health" />
+        <module name="easing-effects" />
+        <module name="full-calendar" />
+      </profile>
       <profile name="Annotation profile for activity-master" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -160,6 +203,16 @@
         </processorPath>
         <module name="xml-representation" />
       </profile>
+      <profile name="Annotation profile for Google Guice" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+        </processorPath>
+        <module name="guice" />
+      </profile>
       <profile name="Annotation profile for guiced-swagger-ui" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -217,44 +270,22 @@
         </processorPath>
         <module name="aggrid-enterprise" />
       </profile>
-      <profile name="Annotation profile for builder" enabled="true">
+      <profile name="Annotation profile for angular" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <option name="mapstruct.generatedAnnotationClass" value="jakarta.annotation.Generated" />
+        <option name="mapstruct.suppressGeneratorAnnotation" value="true" />
+        <option name="mapstruct.suppressGeneratorTimestamp" value="true" />
+        <option name="mapstruct.suppressGeneratorVersionInfoComment" value="true" />
+        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
+        <processor name="org.mapstruct.ap.MappingProcessor" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
-        <module name="web-awesome-pro" />
-        <module name="jwebmp-core" />
-        <module name="web-awesome" />
-        <module name="font-awesome" />
-        <module name="aggrid" />
-        <module name="jwebmp-testlib" />
-        <module name="agcharts-enterprise" />
-        <module name="jwebmp-client" />
-        <module name="session-master" />
-        <module name="font-awesome-pro" />
-        <module name="cerial-master" />
-        <module name="typescript-client" />
-        <module name="image-master" />
-        <module name="guiced-rest-services" />
-        <module name="profile-master" />
-        <module name="json-representation" />
-        <module name="chartjs" />
-        <module name="guiced-vertx-sockets" />
-        <module name="full-calendar-pro" />
-        <module name="agcharts" />
         <module name="angular" />
-        <module name="guice-inject-client" />
-        <module name="guiced-metrics" />
-        <module name="activity-master-client" />
-        <module name="jwebmp-vertx" />
-        <module name="cerial-master-client" />
-        <module name="jwebmp-rabbitmq" />
-        <module name="guiced-health" />
-        <module name="easing-effects" />
-        <module name="full-calendar" />
-        <module name="guice" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -269,6 +300,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="activity-master" options="--add-reads org.jboss.logging=org.hibernate.reactive --add-reads org.hibernate.orm.core=com.guicedee.activitymaster.fsdm" />
       <module name="aggrid-enterprise" options="-Amapstruct.suppressGeneratorTimestamp=true -Amapstruct.suppressGeneratorVersionInfoComment=true -Amapstruct.suppressGeneratorAnnotation=true -Amapstruct.generatedAnnotationClass=jakarta.annotation.Generated" />
+      <module name="angular" options="-Amapstruct.suppressGeneratorTimestamp=true -Amapstruct.suppressGeneratorVersionInfoComment=true -Amapstruct.suppressGeneratorAnnotation=true -Amapstruct.generatedAnnotationClass=jakarta.annotation.Generated" />
       <module name="entity-assist-reactive" options="-AaddGeneratedAnnotation=false -Adebug=true --add-reads org.jboss.logging=org.hibernate.reactive" />
       <module name="guiced-vertx" options="--add-exports io.vertx.core/io.vertx.core.impl=com.guicedee.vertx" />
       <module name="guiced-vertx-persistence" options="--add-reads org.jboss.logging=org.hibernate.reactive --add-reads org.hibernate.orm.core=guiced.vertx.persistence.test" />

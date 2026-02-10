@@ -6,6 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/GuicedEE/services/Google/guice-core/pom.xml" />
+        <option value="$PROJECT_DIR$/JWebMP/plugins/angular-maven-plugin/pom.xml" />
       </list>
     </option>
   </component>

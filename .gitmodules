@@ -196,3 +196,6 @@
 [submodule "GuicedEE/fault-tolerance"]
 	path = GuicedEE/fault-tolerance
 	url = https://github.com/GuicedEE/FaultTolerance.git
+[submodule "GuicedEE/mcp"]
+	path = GuicedEE/mcp
+	url = https://github.com/GuicedEE/mcp.git
