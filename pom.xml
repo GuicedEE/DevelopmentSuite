@@ -38,6 +38,7 @@
                 <module>GuicedEE/representations/excel</module>
                 <module>GuicedEE/representations/xml</module>
                 <module>GuicedEE/rest</module>
+                <module>GuicedEE/rest-client</module>
                 <module>GuicedEE/websockets</module>
                 <module>GuicedEE/persistence</module>
                 <module>GuicedEE/vertx</module>

@@ -199,3 +199,6 @@
 [submodule "GuicedEE/mcp"]
 	path = GuicedEE/mcp
 	url = https://github.com/GuicedEE/mcp.git
+[submodule "GuicedEE/rest-client"]
+	path = GuicedEE/rest-client
+	url = https://github.com/GuicedEE/Rest-Client.git

@@ -53,6 +53,7 @@
     <mapping directory="$PROJECT_DIR$/GuicedEE/representations/json" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/representations/xml" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/rest" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/rest-client" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/services" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/swagger-ui" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/telemetry" vcs="Git" />
