@@ -202,3 +202,9 @@
 [submodule "GuicedEE/rest-client"]
 	path = GuicedEE/rest-client
 	url = https://github.com/GuicedEE/Rest-Client.git
+[submodule "GuicedEE/workflows"]
+	path = GuicedEE/workflows
+	url = https://github.com/GuicedEE/Workflows.git
+[submodule "AIRules"]
+	path = AIRules
+	url = https://github.com/GuicedEE/ai-rules.git

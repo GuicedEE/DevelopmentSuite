@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AIRules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/bom" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/cerial" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/cerial-client" vcs="Git" />
@@ -66,6 +67,7 @@
     <mapping directory="$PROJECT_DIR$/GuicedEE/website/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/websockets" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/websockets/rules" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/workflows" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/bom" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/client" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/client/rules" vcs="Git" />
