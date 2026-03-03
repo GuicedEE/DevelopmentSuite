@@ -13,645 +13,331 @@ on:
         type: boolean
         description: Run a release to Maven Central (requires secrets)
         default: false
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+  GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+  CENTRAL_PROFILE: ${{ inputs.centralRelease == true && '-Psonatype-distribution,release' || '' }}
+
 jobs:
-  # ──────────────────────────────────────────────
-  # Layer 0 – Versioner (root of all BOMs)
-  # ──────────────────────────────────────────────
-  Versioner:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    with:
-      baseDir: 'GuicedEE/bom/Versioner/'
-      name: 'Versioner'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    name: Full Environment Build
+    steps:
 
-  # ──────────────────────────────────────────────
-  # Layer 1 – Sub-BOMs (all depend on Versioner, run in parallel)
-  # ──────────────────────────────────────────────
-  Standalone-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/bom/StandaloneBOM/'
-      name: 'Standalone BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ── Setup ──────────────────────────────────────
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+          show-progress: 'true'
 
-  Tests-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/bom/TestLayoutBOM/'
-      name: 'Tests BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: Set up Java
+        uses: actions/setup-java@v4.2.1
+        with:
+          java-version: '25'
+          distribution: 'oracle'
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: GPG_PASSPHRASE
 
-  Swagger-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/bom/SwaggerBOM/'
-      name: 'Swagger BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
-  JBoss-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/bom/JBossBOM/'
-      name: 'JBoss BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: Setup Maven
+        uses: actionctl/setup-maven-cli@v1
+        with:
+          maven_version: '4.0.0-rc-5'
+          download_url_pattern: 'https://dlcdn.apache.org/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz'
 
-  Jakarta-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/bom/JakartaBOM/'
-      name: 'Jakarta BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: Update Settings.xml
+        uses: s4u/maven-settings-action@v4.0.0
+        with:
+          sonatypeSnapshots: true
+          servers: >
+            [
+              {
+                "id": "github",
+                "username": "${{ secrets.USERNAME }}",
+                "password": "${{ secrets.USER_TOKEN }}"
+              },
+              {
+                "id": "packages",
+                "username": "${{ secrets.USERNAME }}",
+                "password": "${{ secrets.USER_TOKEN }}"
+              },
+              {
+                "id": "packages_jwebmp",
+                "username": "${{ secrets.USERNAME }}",
+                "password": "${{ secrets.USER_TOKEN }}"
+              },
+              {
+                "id": "sona-snapshot",
+                "username": "${{ secrets.SONA_USERNAME }}",
+                "password": "${{ secrets.SONA_PASSWORD }}"
+              },
+              {
+                "id": "sona-release",
+                "username": "${{ secrets.SONA_USERNAME }}",
+                "password": "${{ secrets.SONA_PASSWORD }}"
+              }
+            ]
+          repositories: >
+            [
+              {
+                "id": "packages",
+                "name": "packages",
+                "url": "https://maven.pkg.github.com/GuicedEE/Packages",
+                "releases": { "enabled": "true" },
+                "snapshots": { "enabled": "true" }
+              },
+              {
+                "id": "packages_jwebmp",
+                "name": "packages_jwebmp",
+                "url": "https://maven.pkg.github.com/JWebMP/Packages",
+                "releases": { "enabled": "true" },
+                "snapshots": { "enabled": "true" }
+              },
+              {
+                "id": "shibboleth",
+                "name": "shibboleth",
+                "url": "https://build.shibboleth.net/nexus/content/repositories/releases",
+                "releases": { "enabled": "true" },
+                "snapshots": { "enabled": "true" }
+              }
+            ]
 
-  Hibernate-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/bom/HibernateBOM/'
-      name: 'Hibernate BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 0 – Versioner (root of all BOMs)
+      # ══════════════════════════════════════════════
+      - name: 'BOM: Versioner'
+        run: mvn -B deploy --file GuicedEE/bom/Versioner/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  Google-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/bom/GoogleBOM/'
-      name: 'Google BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 1 – Sub-BOMs (all depend on Versioner)
+      # ══════════════════════════════════════════════
+      - name: 'BOM: Standalone'
+        run: mvn -B deploy --file GuicedEE/bom/StandaloneBOM/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  FasterXML-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/bom/FasterXMLBOM/'
-      name: 'FasterXML BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'BOM: Tests'
+        run: mvn -B deploy --file GuicedEE/bom/TestLayoutBOM/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  Apache-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/bom/ApacheBOM/'
-      name: 'Apache BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'BOM: Swagger'
+        run: mvn -B deploy --file GuicedEE/bom/SwaggerBOM/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  ApacheCXF-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/bom/ApacheCXFBOM/'
-      name: 'Apache CXF BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'BOM: JBoss'
+        run: mvn -B deploy --file GuicedEE/bom/JBossBOM/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  SmallRye-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/bom/SmallRyeBOM/'
-      name: 'SmallRye BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'BOM: Jakarta'
+        run: mvn -B deploy --file GuicedEE/bom/JakartaBOM/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 2 – GuicedEE BOM (depends on all sub-BOMs)
-  # ──────────────────────────────────────────────
-  GuicedEE-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs:
-      - Standalone-BOM
-      - Tests-BOM
-      - Swagger-BOM
-      - JBoss-BOM
-      - Jakarta-BOM
-      - Hibernate-BOM
-      - Google-BOM
-      - FasterXML-BOM
-      - Apache-BOM
-      - ApacheCXF-BOM
-      - SmallRye-BOM
-    if: ${{ !cancelled() && needs.Standalone-BOM.result != 'failure' && needs.Tests-BOM.result != 'failure' && needs.Swagger-BOM.result != 'failure' && needs.JBoss-BOM.result != 'failure' && needs.Jakarta-BOM.result != 'failure' && needs.Hibernate-BOM.result != 'failure' && needs.Google-BOM.result != 'failure' && needs.FasterXML-BOM.result != 'failure' && needs.Apache-BOM.result != 'failure' && needs.ApacheCXF-BOM.result != 'failure' && needs.SmallRye-BOM.result != 'failure' }}
-    with:
-      baseDir: 'GuicedEE/bom/'
-      name: 'GuicedEE BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'BOM: Hibernate'
+        run: mvn -B deploy --file GuicedEE/bom/HibernateBOM/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 3 – Parent POM (depends on Versioner + GuicedEE BOM)
-  # ──────────────────────────────────────────────
-  Parent:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs:
-      - GuicedEE-BOM
-    if: ${{ !cancelled() && needs.GuicedEE-BOM.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/parent/'
-      name: 'GuicedEE Parent'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'BOM: Google'
+        run: mvn -B deploy --file GuicedEE/bom/GoogleBOM/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 4 – Services depending only on Parent (parallel)
-  # ──────────────────────────────────────────────
-  AOP:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/Google/aop/'
-      name: 'AOP Alliance'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'BOM: FasterXML'
+        run: mvn -B deploy --file GuicedEE/bom/FasterXMLBOM/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  Vertx-Mutiny:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/Vert.x/vertx-mutiny/'
-      name: 'Vert.x Mutiny'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'BOM: Apache'
+        run: mvn -B deploy --file GuicedEE/bom/ApacheBOM/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  Config-Core:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/MicroProfile/config-core/'
-      name: 'Config Core'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'BOM: Apache CXF'
+        run: mvn -B deploy --file GuicedEE/bom/ApacheCXFBOM/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  Health-Core:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/MicroProfile/health-core/'
-      name: 'Health Core'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'BOM: SmallRye'
+        run: mvn -B deploy --file GuicedEE/bom/SmallRyeBOM/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  Metrics-Core:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/MicroProfile/metrics-core/'
-      name: 'Metrics Core'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 2 – GuicedEE BOM (depends on all sub-BOMs)
+      # ══════════════════════════════════════════════
+      - name: 'BOM: GuicedEE'
+        run: mvn -B deploy --file GuicedEE/bom/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  Telemetry-Core:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/MicroProfile/telemetry-core/'
-      name: 'Telemetry Core'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 3 – Parent POM
+      # ══════════════════════════════════════════════
+      - name: 'BOM: GuicedEE Parent'
+        run: mvn -B deploy --file GuicedEE/parent/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  Jandex:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/Libraries/jandex/'
-      name: 'Jandex'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 4 – Services depending only on Parent
+      # ══════════════════════════════════════════════
+      - name: 'Build: AOP Alliance'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/Google/aop/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  Swagger-Services:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/Libraries/swagger/'
-      name: 'Swagger Services'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'Build: Vert.x Mutiny'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/Vert.x/vertx-mutiny/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  AMQP-Client:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/Libraries/rabbitmq-client/'
-      name: 'AMQP Client'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'Build: Config Core'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/MicroProfile/config-core/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  Vertx-RabbitMQ:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - AMQP-Client
-    if: ${{ !cancelled() && needs.AMQP-Client.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/Vert.x/vertx-rabbitmq/'
-      name: 'Vert.x RabbitMQ'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'Build: Health Core'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/MicroProfile/health-core/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  Cache-API:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/JCache/cache-api/'
-      name: 'Cache API'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'Build: Metrics Core'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/MicroProfile/metrics-core/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  EHCache:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Cache-API
-    if: ${{ !cancelled() && needs.Cache-API.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/JCache/ehcache/'
-      name: 'EHCache'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'Build: Telemetry Core'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/MicroProfile/telemetry-core/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 5 – Guice Core (depends on AOP)
-  # ──────────────────────────────────────────────
-  Guice:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - AOP
-    if: ${{ !cancelled() && needs.AOP.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/Google/guice-core/'
-      name: 'Google Guice'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'Build: Jandex'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/Libraries/jandex/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 5b – Hibernate Core (depends on Jandex, EHCache)
-  # ──────────────────────────────────────────────
-  Hibernate-Core:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Jandex
-      - EHCache
-    if: ${{ !cancelled() && needs.Jandex.result == 'success' && needs.EHCache.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/Hibernate/hibernate-core/'
-      name: 'Hibernate Core'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'Build: Swagger Services'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/Libraries/swagger/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 5c – Hibernate Reactive (depends on Hibernate Core)
-  # ──────────────────────────────────────────────
-  Hibernate-Reactive:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Hibernate-Core
-    if: ${{ !cancelled() && needs.Hibernate-Core.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/services/Hibernate/hibernate-reactive/'
-      name: 'Hibernate Reactive'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'Build: AMQP Client'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/Libraries/rabbitmq-client/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 6 – guice-inject-client (depends on Guice)
-  # ──────────────────────────────────────────────
-  Guice-Inject-Client:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guice
-    if: ${{ !cancelled() && needs.Guice.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/client/'
-      name: 'Guice Inject Client'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'Build: Cache API'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/JCache/cache-api/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 7 – JSON Representation (depends on Guice-Inject-Client)
-  # ──────────────────────────────────────────────
-  JSON-Representation:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guice-Inject-Client
-    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/representations/json/'
-      name: 'JSON Representation'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 4b – Services with one dependency above
+      # ══════════════════════════════════════════════
+      - name: 'Build: Vert.x RabbitMQ'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/Vert.x/vertx-rabbitmq/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 7b – XML Representation (depends on Guice-Inject-Client)
-  # ──────────────────────────────────────────────
-  XML-Representation:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guice-Inject-Client
-    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/representations/xml/'
-      name: 'XML Representation'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'Build: EHCache'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/JCache/ehcache/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 8 – Guiced Vert.x (depends on Client, JSON Representation, Vert.x Mutiny)
-  # ──────────────────────────────────────────────
-  Guiced-Vertx:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guice-Inject-Client
-      - JSON-Representation
-      - Vertx-Mutiny
-    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Vertx-Mutiny.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/vertx/'
-      name: 'Guiced Vert.x'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 5 – Guice Core (depends on AOP)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Google Guice'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/Google/guice-core/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 9 – Guiced Inject (depends on Client, Vertx, Config Core)
-  # ──────────────────────────────────────────────
-  Guiced-Inject:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guice-Inject-Client
-      - Guiced-Vertx
-      - Config-Core
-    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Config-Core.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/inject/'
-      name: 'Guiced Inject'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 5b – Hibernate Core (depends on Jandex, EHCache)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Hibernate Core'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/Hibernate/hibernate-core/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 9a – Guiced Rabbit (depends on Guice-Inject-Client, JSON Representation, Guiced Vert.x, Vertx-RabbitMQ, AMQP-Client)
-  # ──────────────────────────────────────────────
-  Guiced-Rabbit:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guice-Inject-Client
-      - JSON-Representation
-      - Guiced-Vertx
-      - Vertx-RabbitMQ
-      - AMQP-Client
-    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Vertx-RabbitMQ.result == 'success' && needs.AMQP-Client.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/rabbitmq/'
-      name: 'Guiced Rabbit'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 5c – Hibernate Reactive (depends on Hibernate Core)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Hibernate Reactive'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/Hibernate/hibernate-reactive/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 9b – Guiced Web (depends on Guiced Vert.x, Guice-Inject-Client, JSON Representation)
-  # ──────────────────────────────────────────────
-  Guiced-Web:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guiced-Vertx
-      - Guice-Inject-Client
-      - JSON-Representation
-    if: ${{ !cancelled() && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/web/'
-      name: 'Guiced Web'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 6 – Guice Inject Client (depends on Guice)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guice Inject Client'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/client/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 10 – Guiced Rest (depends on Web, XML Representation)
-  # ──────────────────────────────────────────────
-  Guiced-Rest:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guiced-Web
-      - XML-Representation
-    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' && needs.XML-Representation.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/rest/'
-      name: 'Guiced Rest'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 7 – Representations (depend on Client)
+      # ══════════════════════════════════════════════
+      - name: 'Build: JSON Representation'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/representations/json/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 10c – Guiced Websockets (depends on Guiced Web)
-  # ──────────────────────────────────────────────
-  Guiced-Websockets:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guiced-Web
-    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/websockets/'
-      name: 'Guiced Websockets'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      - name: 'Build: XML Representation'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/representations/xml/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 10e – Guiced OpenAPI (depends on Guiced Web, Swagger Services)
-  # ──────────────────────────────────────────────
-  Guiced-OpenAPI:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guiced-Web
-      - Swagger-Services
-    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' && needs.Swagger-Services.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/openapi/'
-      name: 'Guiced OpenAPI'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 8 – Guiced Vert.x (depends on Client, JSON, Vert.x Mutiny)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Vert.x'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/vertx/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 10f – Guiced Swagger UI (depends on Guiced Web)
-  # ──────────────────────────────────────────────
-  Guiced-Swagger-UI:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guiced-Web
-    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/swagger-ui/'
-      name: 'Guiced Swagger UI'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 9 – Guiced Inject (depends on Client, Vertx, Config Core)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Inject'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/inject/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 10b – Guiced Rest Client (depends on Guiced Inject, XML Representation)
-  # ──────────────────────────────────────────────
-  Guiced-Rest-Client:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guiced-Inject
-      - XML-Representation
-    if: ${{ !cancelled() && needs.Guiced-Inject.result == 'success' && needs.XML-Representation.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/rest-client/'
-      name: 'Guiced Rest Client'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 9a – Guiced Rabbit (depends on Client, JSON, Vertx, Vertx-RabbitMQ, AMQP)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Rabbit'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/rabbitmq/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 10d – Guiced Config (depends on Guice-Inject-Client, Guiced Vert.x, Config Core)
-  # ──────────────────────────────────────────────
-  Guiced-Config:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guice-Inject-Client
-      - Guiced-Vertx
-      - Config-Core
-    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Config-Core.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/config/'
-      name: 'Guiced Config'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 9b – Guiced Web (depends on Vertx, Client, JSON)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Web'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/web/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 11 – Guiced Health (depends on Guiced Vert.x, Guice-Inject-Client, Guiced Inject, Health Core)
-  # ──────────────────────────────────────────────
-  Guiced-Health:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guiced-Vertx
-      - Guice-Inject-Client
-      - Guiced-Inject
-      - Health-Core
-    if: ${{ !cancelled() && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Health-Core.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/health/'
-      name: 'Guiced Health'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 10 – Guiced Rest (depends on Web, XML)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Rest'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/rest/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 11b – Guiced Metrics (depends on Guiced Web, Guiced Inject, Metrics Core)
-  # ──────────────────────────────────────────────
-  Guiced-Metrics:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guiced-Web
-      - Guiced-Inject
-      - Metrics-Core
-    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Metrics-Core.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/metrics/'
-      name: 'Guiced Metrics'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 10b – Guiced Rest Client (depends on Inject, XML)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Rest Client'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/rest-client/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 11c – Guiced Persistence (depends on Guiced Config, Guiced Vertx, Guice-Inject-Client, JSON Representation, Guiced Inject, Guiced Rest, Hibernate Reactive)
-  # ──────────────────────────────────────────────
-  Guiced-Persistence:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guiced-Config
-      - Guiced-Vertx
-      - Guice-Inject-Client
-      - JSON-Representation
-      - Guiced-Inject
-      - Guiced-Rest
-      - Hibernate-Reactive
-    if: ${{ !cancelled() && needs.Guiced-Config.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Guiced-Rest.result == 'success' && needs.Hibernate-Reactive.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/persistence/'
-      name: 'Guiced Persistence'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 10c – Guiced Websockets (depends on Web)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Websockets'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/websockets/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 12 – Guiced Telemetry (depends on Telemetry Core, JSON Representation, Guiced Vert.x, Guiced Health, Guiced Inject)
-  # ──────────────────────────────────────────────
-  Guiced-Telemetry:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Telemetry-Core
-      - JSON-Representation
-      - Guiced-Vertx
-      - Guiced-Health
-      - Guiced-Inject
-    if: ${{ !cancelled() && needs.Telemetry-Core.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Guiced-Health.result == 'success' && needs.Guiced-Inject.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/telemetry/'
-      name: 'Guiced Telemetry'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 10d – Guiced Config (depends on Client, Vertx, Config Core)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Config'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/config/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 10g – Guiced CDI (depends on Guiced Inject)
-  # ──────────────────────────────────────────────
-  Guiced-CDI:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guiced-Inject
-    if: ${{ !cancelled() && needs.Guiced-Inject.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/cdi/'
-      name: 'Guiced CDI'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 10e – Guiced OpenAPI (depends on Web, Swagger Services)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced OpenAPI'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/openapi/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
-  # ──────────────────────────────────────────────
-  # Layer 13 – Guiced Cerial (depends on Guiced Health, Guiced Telemetry, Guiced Vert.x, JSON Representation, Guice-Inject-Client, Guiced Inject)
-  # ──────────────────────────────────────────────
-  Guiced-Cerial:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guiced-Health
-      - Guiced-Telemetry
-      - Guiced-Vertx
-      - JSON-Representation
-      - Guice-Inject-Client
-      - Guiced-Inject
-    if: ${{ !cancelled() && needs.Guiced-Health.result == 'success' && needs.Guiced-Telemetry.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Inject.result == 'success' }}
-    with:
-      baseDir: 'GuicedEE/cerial/'
-      name: 'Guiced Cerial'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
+      # ══════════════════════════════════════════════
+      # Layer 10f – Guiced Swagger UI (depends on Web)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Swagger UI'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/swagger-ui/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
+      # ══════════════════════════════════════════════
+      # Layer 10g – Guiced CDI (depends on Inject)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced CDI'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/cdi/pom.xml -U ${{ env.CENTRAL_PROFILE }}
+
+      # ══════════════════════════════════════════════
+      # Layer 11 – Guiced Health (depends on Vertx, Client, Inject, Health Core)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Health'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/health/pom.xml -U ${{ env.CENTRAL_PROFILE }}
+
+      # ══════════════════════════════════════════════
+      # Layer 11b – Guiced Metrics (depends on Web, Inject, Metrics Core)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Metrics'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/metrics/pom.xml -U ${{ env.CENTRAL_PROFILE }}
+
+      # ══════════════════════════════════════════════
+      # Layer 11c – Guiced Persistence (depends on Config, Vertx, Client, JSON, Inject, Rest, Hibernate Reactive)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Persistence'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/persistence/pom.xml -U ${{ env.CENTRAL_PROFILE }}
+
+      # ══════════════════════════════════════════════
+      # Layer 12 – Guiced Telemetry (depends on Telemetry Core, JSON, Vertx, Health, Inject)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Telemetry'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/telemetry/pom.xml -U ${{ env.CENTRAL_PROFILE }}
+
+      # ══════════════════════════════════════════════
+      # Layer 13 – Guiced Cerial (depends on Health, Telemetry, Vertx, JSON, Client, Inject)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Cerial'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/cerial/pom.xml -U ${{ env.CENTRAL_PROFILE }}
