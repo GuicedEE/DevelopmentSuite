@@ -1,4 +1,4 @@
-name: Full Environment
+name: By Job
 
 on:
   workflow_dispatch:
