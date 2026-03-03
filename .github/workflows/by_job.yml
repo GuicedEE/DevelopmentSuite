@@ -1,0 +1,653 @@
+name: Full Environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      centralRelease:
+        type: boolean
+        description: Run a release to Maven Central (requires secrets)
+        default: false
+
+jobs:
+
+  # ──────────────────────────────────────────────
+  # Layer 0 – Versioner (root of all BOMs)
+  # ──────────────────────────────────────────────
+  Versioner:
+    uses: ./.github/workflows/bom.yml
+    with:
+      baseDir: 'GuicedEE/bom/Versioner/'
+      name: 'Versioner'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 1 – Sub-BOMs (all depend on Versioner, run in parallel)
+  # ──────────────────────────────────────────────
+  Standalone-BOM:
+    uses: ./.github/workflows/bom.yml
+    needs: [ Versioner ]
+    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/bom/StandaloneBOM/'
+      name: 'Standalone BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Tests-BOM:
+    uses: ./.github/workflows/bom.yml
+    needs: [ Versioner ]
+    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/bom/TestLayoutBOM/'
+      name: 'Tests BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Swagger-BOM:
+    uses: ./.github/workflows/bom.yml
+    needs: [ Versioner ]
+    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/bom/SwaggerBOM/'
+      name: 'Swagger BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  JBoss-BOM:
+    uses: ./.github/workflows/bom.yml
+    needs: [ Versioner ]
+    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/bom/JBossBOM/'
+      name: 'JBoss BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Jakarta-BOM:
+    uses: ./.github/workflows/bom.yml
+    needs: [ Versioner ]
+    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/bom/JakartaBOM/'
+      name: 'Jakarta BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Hibernate-BOM:
+    uses: ./.github/workflows/bom.yml
+    needs: [ Versioner ]
+    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/bom/HibernateBOM/'
+      name: 'Hibernate BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Google-BOM:
+    uses: ./.github/workflows/bom.yml
+    needs: [ Versioner ]
+    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/bom/GoogleBOM/'
+      name: 'Google BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  FasterXML-BOM:
+    uses: ./.github/workflows/bom.yml
+    needs: [ Versioner ]
+    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/bom/FasterXMLBOM/'
+      name: 'FasterXML BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Apache-BOM:
+    uses: ./.github/workflows/bom.yml
+    needs: [ Versioner ]
+    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/bom/ApacheBOM/'
+      name: 'Apache BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  ApacheCXF-BOM:
+    uses: ./.github/workflows/bom.yml
+    needs: [ Versioner ]
+    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/bom/ApacheCXFBOM/'
+      name: 'Apache CXF BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  SmallRye-BOM:
+    uses: ./.github/workflows/bom.yml
+    needs: [ Versioner ]
+    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/bom/SmallRyeBOM/'
+      name: 'SmallRye BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 2 – GuicedEE BOM (depends on all sub-BOMs)
+  # ──────────────────────────────────────────────
+  GuicedEE-BOM:
+    uses: ./.github/workflows/bom.yml
+    needs:
+      - Standalone-BOM
+      - Tests-BOM
+      - Swagger-BOM
+      - JBoss-BOM
+      - Jakarta-BOM
+      - Hibernate-BOM
+      - Google-BOM
+      - FasterXML-BOM
+      - Apache-BOM
+      - ApacheCXF-BOM
+      - SmallRye-BOM
+    if: ${{ !cancelled() && needs.Standalone-BOM.result != 'failure' && needs.Tests-BOM.result != 'failure' && needs.Swagger-BOM.result != 'failure' && needs.JBoss-BOM.result != 'failure' && needs.Jakarta-BOM.result != 'failure' && needs.Hibernate-BOM.result != 'failure' && needs.Google-BOM.result != 'failure' && needs.FasterXML-BOM.result != 'failure' && needs.Apache-BOM.result != 'failure' && needs.ApacheCXF-BOM.result != 'failure' && needs.SmallRye-BOM.result != 'failure' }}
+    with:
+      baseDir: 'GuicedEE/bom/'
+      name: 'GuicedEE BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 3 – Parent POM (depends on Versioner + GuicedEE BOM)
+  # ──────────────────────────────────────────────
+  Parent:
+    uses: ./.github/workflows/bom.yml
+    needs:
+      - GuicedEE-BOM
+    if: ${{ !cancelled() && needs.GuicedEE-BOM.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/parent/'
+      name: 'GuicedEE Parent'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 4 – Services depending only on Parent (parallel)
+  # ──────────────────────────────────────────────
+  AOP:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Parent
+    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/Google/aop/'
+      name: 'AOP Alliance'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Vertx-Mutiny:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Parent
+    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/Vert.x/vertx-mutiny/'
+      name: 'Vert.x Mutiny'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Config-Core:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Parent
+    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/MicroProfile/config-core/'
+      name: 'Config Core'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Health-Core:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Parent
+    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/MicroProfile/health-core/'
+      name: 'Health Core'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Metrics-Core:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Parent
+    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/MicroProfile/metrics-core/'
+      name: 'Metrics Core'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Telemetry-Core:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Parent
+    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/MicroProfile/telemetry-core/'
+      name: 'Telemetry Core'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Jandex:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Parent
+    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/Libraries/jandex/'
+      name: 'Jandex'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Swagger-Services:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Parent
+    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/Libraries/swagger/'
+      name: 'Swagger Services'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  AMQP-Client:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Parent
+    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/Libraries/rabbitmq-client/'
+      name: 'AMQP Client'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Vertx-RabbitMQ:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - AMQP-Client
+    if: ${{ !cancelled() && needs.AMQP-Client.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/Vert.x/vertx-rabbitmq/'
+      name: 'Vert.x RabbitMQ'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  Cache-API:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Parent
+    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/JCache/cache-api/'
+      name: 'Cache API'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  EHCache:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Cache-API
+    if: ${{ !cancelled() && needs.Cache-API.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/JCache/ehcache/'
+      name: 'EHCache'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 5 – Guice Core (depends on AOP)
+  # ──────────────────────────────────────────────
+  Guice:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - AOP
+    if: ${{ !cancelled() && needs.AOP.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/Google/guice-core/'
+      name: 'Google Guice'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 5b – Hibernate Core (depends on Jandex, EHCache)
+  # ──────────────────────────────────────────────
+  Hibernate-Core:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Jandex
+      - EHCache
+    if: ${{ !cancelled() && needs.Jandex.result == 'success' && needs.EHCache.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/Hibernate/hibernate-core/'
+      name: 'Hibernate Core'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 5c – Hibernate Reactive (depends on Hibernate Core)
+  # ──────────────────────────────────────────────
+  Hibernate-Reactive:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Hibernate-Core
+    if: ${{ !cancelled() && needs.Hibernate-Core.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/services/Hibernate/hibernate-reactive/'
+      name: 'Hibernate Reactive'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 6 – guice-inject-client (depends on Guice)
+  # ──────────────────────────────────────────────
+  Guice-Inject-Client:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guice
+    if: ${{ !cancelled() && needs.Guice.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/client/'
+      name: 'Guice Inject Client'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 7 – JSON Representation (depends on Guice-Inject-Client)
+  # ──────────────────────────────────────────────
+  JSON-Representation:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guice-Inject-Client
+    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/representations/json/'
+      name: 'JSON Representation'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 7b – XML Representation (depends on Guice-Inject-Client)
+  # ──────────────────────────────────────────────
+  XML-Representation:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guice-Inject-Client
+    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/representations/xml/'
+      name: 'XML Representation'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 8 – Guiced Vert.x (depends on Client, JSON Representation, Vert.x Mutiny)
+  # ──────────────────────────────────────────────
+  Guiced-Vertx:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guice-Inject-Client
+      - JSON-Representation
+      - Vertx-Mutiny
+    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Vertx-Mutiny.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/vertx/'
+      name: 'Guiced Vert.x'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 9 – Guiced Inject (depends on Client, Vertx, Config Core)
+  # ──────────────────────────────────────────────
+  Guiced-Inject:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guice-Inject-Client
+      - Guiced-Vertx
+      - Config-Core
+    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Config-Core.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/inject/'
+      name: 'Guiced Inject'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 9a – Guiced Rabbit (depends on Guice-Inject-Client, JSON Representation, Guiced Vert.x, Vertx-RabbitMQ, AMQP-Client)
+  # ──────────────────────────────────────────────
+  Guiced-Rabbit:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guice-Inject-Client
+      - JSON-Representation
+      - Guiced-Vertx
+      - Vertx-RabbitMQ
+      - AMQP-Client
+    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Vertx-RabbitMQ.result == 'success' && needs.AMQP-Client.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/rabbitmq/'
+      name: 'Guiced Rabbit'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 9b – Guiced Web (depends on Guiced Vert.x, Guice-Inject-Client, JSON Representation)
+  # ──────────────────────────────────────────────
+  Guiced-Web:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guiced-Vertx
+      - Guice-Inject-Client
+      - JSON-Representation
+    if: ${{ !cancelled() && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/web/'
+      name: 'Guiced Web'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 10 – Guiced Rest (depends on Web, XML Representation)
+  # ──────────────────────────────────────────────
+  Guiced-Rest:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guiced-Web
+      - XML-Representation
+    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' && needs.XML-Representation.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/rest/'
+      name: 'Guiced Rest'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 10c – Guiced Websockets (depends on Guiced Web)
+  # ──────────────────────────────────────────────
+  Guiced-Websockets:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guiced-Web
+    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/websockets/'
+      name: 'Guiced Websockets'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 10e – Guiced OpenAPI (depends on Guiced Web, Swagger Services)
+  # ──────────────────────────────────────────────
+  Guiced-OpenAPI:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guiced-Web
+      - Swagger-Services
+    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' && needs.Swagger-Services.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/openapi/'
+      name: 'Guiced OpenAPI'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 10f – Guiced Swagger UI (depends on Guiced Web)
+  # ──────────────────────────────────────────────
+  Guiced-Swagger-UI:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guiced-Web
+    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/swagger-ui/'
+      name: 'Guiced Swagger UI'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 10b – Guiced Rest Client (depends on Guiced Inject, XML Representation)
+  # ──────────────────────────────────────────────
+  Guiced-Rest-Client:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guiced-Inject
+      - XML-Representation
+    if: ${{ !cancelled() && needs.Guiced-Inject.result == 'success' && needs.XML-Representation.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/rest-client/'
+      name: 'Guiced Rest Client'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 10d – Guiced Config (depends on Guice-Inject-Client, Guiced Vert.x, Config Core)
+  # ──────────────────────────────────────────────
+  Guiced-Config:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guice-Inject-Client
+      - Guiced-Vertx
+      - Config-Core
+    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Config-Core.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/config/'
+      name: 'Guiced Config'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 11 – Guiced Health (depends on Guiced Vert.x, Guice-Inject-Client, Guiced Inject, Health Core)
+  # ──────────────────────────────────────────────
+  Guiced-Health:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guiced-Vertx
+      - Guice-Inject-Client
+      - Guiced-Inject
+      - Health-Core
+    if: ${{ !cancelled() && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Health-Core.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/health/'
+      name: 'Guiced Health'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 11b – Guiced Metrics (depends on Guiced Web, Guiced Inject, Metrics Core)
+  # ──────────────────────────────────────────────
+  Guiced-Metrics:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guiced-Web
+      - Guiced-Inject
+      - Metrics-Core
+    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Metrics-Core.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/metrics/'
+      name: 'Guiced Metrics'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 11c – Guiced Persistence (depends on Guiced Config, Guiced Vertx, Guice-Inject-Client, JSON Representation, Guiced Inject, Guiced Rest, Hibernate Reactive)
+  # ──────────────────────────────────────────────
+  Guiced-Persistence:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guiced-Config
+      - Guiced-Vertx
+      - Guice-Inject-Client
+      - JSON-Representation
+      - Guiced-Inject
+      - Guiced-Rest
+      - Hibernate-Reactive
+    if: ${{ !cancelled() && needs.Guiced-Config.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Guiced-Rest.result == 'success' && needs.Hibernate-Reactive.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/persistence/'
+      name: 'Guiced Persistence'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 12 – Guiced Telemetry (depends on Telemetry Core, JSON Representation, Guiced Vert.x, Guiced Health, Guiced Inject)
+  # ──────────────────────────────────────────────
+  Guiced-Telemetry:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Telemetry-Core
+      - JSON-Representation
+      - Guiced-Vertx
+      - Guiced-Health
+      - Guiced-Inject
+    if: ${{ !cancelled() && needs.Telemetry-Core.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Guiced-Health.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/telemetry/'
+      name: 'Guiced Telemetry'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 10g – Guiced CDI (depends on Guiced Inject)
+  # ──────────────────────────────────────────────
+  Guiced-CDI:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guiced-Inject
+    if: ${{ !cancelled() && needs.Guiced-Inject.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/cdi/'
+      name: 'Guiced CDI'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 13 – Guiced Cerial (depends on Guiced Health, Guiced Telemetry, Guiced Vert.x, JSON Representation, Guice-Inject-Client, Guiced Inject)
+  # ──────────────────────────────────────────────
+  Guiced-Cerial:
+    uses: ./.github/workflows/projects.yml
+    needs:
+      - Guiced-Health
+      - Guiced-Telemetry
+      - Guiced-Vertx
+      - JSON-Representation
+      - Guice-Inject-Client
+      - Guiced-Inject
+    if: ${{ !cancelled() && needs.Guiced-Health.result == 'success' && needs.Guiced-Telemetry.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    with:
+      baseDir: 'GuicedEE/cerial/'
+      name: 'Guiced Cerial'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
