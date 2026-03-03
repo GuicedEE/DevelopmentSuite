@@ -14,7 +14,7 @@ jobs:
   # Layer 0 – Versioner (root of all BOMs)
   # ──────────────────────────────────────────────
   Versioner:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       baseDir: 'GuicedEE/bom/Versioner/'
       name: 'Versioner'
@@ -25,7 +25,7 @@ jobs:
   # Layer 1 – Sub-BOMs (all depend on Versioner, run in parallel)
   # ──────────────────────────────────────────────
   Standalone-BOM:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
@@ -35,7 +35,7 @@ jobs:
     secrets: inherit
 
   Tests-BOM:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
@@ -45,7 +45,7 @@ jobs:
     secrets: inherit
 
   Swagger-BOM:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
@@ -55,7 +55,7 @@ jobs:
     secrets: inherit
 
   JBoss-BOM:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
@@ -65,7 +65,7 @@ jobs:
     secrets: inherit
 
   Jakarta-BOM:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
@@ -75,7 +75,7 @@ jobs:
     secrets: inherit
 
   Hibernate-BOM:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
@@ -85,7 +85,7 @@ jobs:
     secrets: inherit
 
   Google-BOM:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
@@ -95,7 +95,7 @@ jobs:
     secrets: inherit
 
   FasterXML-BOM:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
@@ -105,7 +105,7 @@ jobs:
     secrets: inherit
 
   Apache-BOM:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
@@ -115,7 +115,7 @@ jobs:
     secrets: inherit
 
   ApacheCXF-BOM:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
@@ -125,7 +125,7 @@ jobs:
     secrets: inherit
 
   SmallRye-BOM:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
@@ -138,7 +138,7 @@ jobs:
   # Layer 2 – GuicedEE BOM (depends on all sub-BOMs)
   # ──────────────────────────────────────────────
   GuicedEE-BOM:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs:
       - Standalone-BOM
       - Tests-BOM
@@ -162,7 +162,7 @@ jobs:
   # Layer 3 – Parent POM (depends on Versioner + GuicedEE BOM)
   # ──────────────────────────────────────────────
   Parent:
-    uses: ./.github/workflows/bom.yml
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs:
       - GuicedEE-BOM
     if: ${{ !cancelled() && needs.GuicedEE-BOM.result == 'success' }}
@@ -176,7 +176,7 @@ jobs:
   # Layer 4 – Services depending only on Parent (parallel)
   # ──────────────────────────────────────────────
   AOP:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
@@ -187,7 +187,7 @@ jobs:
     secrets: inherit
 
   Vertx-Mutiny:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
@@ -198,7 +198,7 @@ jobs:
     secrets: inherit
 
   Config-Core:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
@@ -209,7 +209,7 @@ jobs:
     secrets: inherit
 
   Health-Core:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
@@ -220,7 +220,7 @@ jobs:
     secrets: inherit
 
   Metrics-Core:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
@@ -231,7 +231,7 @@ jobs:
     secrets: inherit
 
   Telemetry-Core:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
@@ -242,7 +242,7 @@ jobs:
     secrets: inherit
 
   Jandex:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
@@ -253,7 +253,7 @@ jobs:
     secrets: inherit
 
   Swagger-Services:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
@@ -264,7 +264,7 @@ jobs:
     secrets: inherit
 
   AMQP-Client:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
@@ -275,7 +275,7 @@ jobs:
     secrets: inherit
 
   Vertx-RabbitMQ:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AMQP-Client
     if: ${{ !cancelled() && needs.AMQP-Client.result == 'success' }}
@@ -286,7 +286,7 @@ jobs:
     secrets: inherit
 
   Cache-API:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
@@ -297,7 +297,7 @@ jobs:
     secrets: inherit
 
   EHCache:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Cache-API
     if: ${{ !cancelled() && needs.Cache-API.result == 'success' }}
@@ -311,7 +311,7 @@ jobs:
   # Layer 5 – Guice Core (depends on AOP)
   # ──────────────────────────────────────────────
   Guice:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AOP
     if: ${{ !cancelled() && needs.AOP.result == 'success' }}
@@ -325,7 +325,7 @@ jobs:
   # Layer 5b – Hibernate Core (depends on Jandex, EHCache)
   # ──────────────────────────────────────────────
   Hibernate-Core:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Jandex
       - EHCache
@@ -340,7 +340,7 @@ jobs:
   # Layer 5c – Hibernate Reactive (depends on Hibernate Core)
   # ──────────────────────────────────────────────
   Hibernate-Reactive:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Hibernate-Core
     if: ${{ !cancelled() && needs.Hibernate-Core.result == 'success' }}
@@ -354,7 +354,7 @@ jobs:
   # Layer 6 – guice-inject-client (depends on Guice)
   # ──────────────────────────────────────────────
   Guice-Inject-Client:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guice
     if: ${{ !cancelled() && needs.Guice.result == 'success' }}
@@ -368,7 +368,7 @@ jobs:
   # Layer 7 – JSON Representation (depends on Guice-Inject-Client)
   # ──────────────────────────────────────────────
   JSON-Representation:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guice-Inject-Client
     if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' }}
@@ -382,7 +382,7 @@ jobs:
   # Layer 7b – XML Representation (depends on Guice-Inject-Client)
   # ──────────────────────────────────────────────
   XML-Representation:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guice-Inject-Client
     if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' }}
@@ -396,7 +396,7 @@ jobs:
   # Layer 8 – Guiced Vert.x (depends on Client, JSON Representation, Vert.x Mutiny)
   # ──────────────────────────────────────────────
   Guiced-Vertx:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guice-Inject-Client
       - JSON-Representation
@@ -412,7 +412,7 @@ jobs:
   # Layer 9 – Guiced Inject (depends on Client, Vertx, Config Core)
   # ──────────────────────────────────────────────
   Guiced-Inject:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guice-Inject-Client
       - Guiced-Vertx
@@ -428,7 +428,7 @@ jobs:
   # Layer 9a – Guiced Rabbit (depends on Guice-Inject-Client, JSON Representation, Guiced Vert.x, Vertx-RabbitMQ, AMQP-Client)
   # ──────────────────────────────────────────────
   Guiced-Rabbit:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guice-Inject-Client
       - JSON-Representation
@@ -446,7 +446,7 @@ jobs:
   # Layer 9b – Guiced Web (depends on Guiced Vert.x, Guice-Inject-Client, JSON Representation)
   # ──────────────────────────────────────────────
   Guiced-Web:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Vertx
       - Guice-Inject-Client
@@ -462,7 +462,7 @@ jobs:
   # Layer 10 – Guiced Rest (depends on Web, XML Representation)
   # ──────────────────────────────────────────────
   Guiced-Rest:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Web
       - XML-Representation
@@ -477,7 +477,7 @@ jobs:
   # Layer 10c – Guiced Websockets (depends on Guiced Web)
   # ──────────────────────────────────────────────
   Guiced-Websockets:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Web
     if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' }}
@@ -491,7 +491,7 @@ jobs:
   # Layer 10e – Guiced OpenAPI (depends on Guiced Web, Swagger Services)
   # ──────────────────────────────────────────────
   Guiced-OpenAPI:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Web
       - Swagger-Services
@@ -506,7 +506,7 @@ jobs:
   # Layer 10f – Guiced Swagger UI (depends on Guiced Web)
   # ──────────────────────────────────────────────
   Guiced-Swagger-UI:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Web
     if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' }}
@@ -520,7 +520,7 @@ jobs:
   # Layer 10b – Guiced Rest Client (depends on Guiced Inject, XML Representation)
   # ──────────────────────────────────────────────
   Guiced-Rest-Client:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Inject
       - XML-Representation
@@ -535,7 +535,7 @@ jobs:
   # Layer 10d – Guiced Config (depends on Guice-Inject-Client, Guiced Vert.x, Config Core)
   # ──────────────────────────────────────────────
   Guiced-Config:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guice-Inject-Client
       - Guiced-Vertx
@@ -551,7 +551,7 @@ jobs:
   # Layer 11 – Guiced Health (depends on Guiced Vert.x, Guice-Inject-Client, Guiced Inject, Health Core)
   # ──────────────────────────────────────────────
   Guiced-Health:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Vertx
       - Guice-Inject-Client
@@ -568,7 +568,7 @@ jobs:
   # Layer 11b – Guiced Metrics (depends on Guiced Web, Guiced Inject, Metrics Core)
   # ──────────────────────────────────────────────
   Guiced-Metrics:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Web
       - Guiced-Inject
@@ -584,7 +584,7 @@ jobs:
   # Layer 11c – Guiced Persistence (depends on Guiced Config, Guiced Vertx, Guice-Inject-Client, JSON Representation, Guiced Inject, Guiced Rest, Hibernate Reactive)
   # ──────────────────────────────────────────────
   Guiced-Persistence:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Config
       - Guiced-Vertx
@@ -604,7 +604,7 @@ jobs:
   # Layer 12 – Guiced Telemetry (depends on Telemetry Core, JSON Representation, Guiced Vert.x, Guiced Health, Guiced Inject)
   # ──────────────────────────────────────────────
   Guiced-Telemetry:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Telemetry-Core
       - JSON-Representation
@@ -622,7 +622,7 @@ jobs:
   # Layer 10g – Guiced CDI (depends on Guiced Inject)
   # ──────────────────────────────────────────────
   Guiced-CDI:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Inject
     if: ${{ !cancelled() && needs.Guiced-Inject.result == 'success' }}
@@ -636,7 +636,7 @@ jobs:
   # Layer 13 – Guiced Cerial (depends on Guiced Health, Guiced Telemetry, Guiced Vert.x, JSON Representation, Guice-Inject-Client, Guiced Inject)
   # ──────────────────────────────────────────────
   Guiced-Cerial:
-    uses: ./.github/workflows/projects.yml
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Health
       - Guiced-Telemetry
