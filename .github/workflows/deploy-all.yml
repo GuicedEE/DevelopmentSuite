@@ -1,0 +1,129 @@
+name: Deploy All Profiles
+
+on:
+  workflow_dispatch:
+    inputs:
+      centralRelease:
+        type: boolean
+        description: Run a release to Maven Central (requires secrets)
+        default: false
+      skipTests:
+        type: boolean
+        description: Skip tests during the build
+        default: true
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+  GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+  CENTRAL_PROFILE: ${{ inputs.centralRelease == true && '-Psonatype-distribution,release' || '' }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    name: Deploy – All Profiles
+    steps:
+
+      # ── Setup ──────────────────────────────────────
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+          show-progress: 'true'
+          token: ${{ secrets.BUILD_TOKEN }}
+
+      - name: Set up Java
+        uses: actions/setup-java@v4.2.1
+        with:
+          java-version: '25'
+          distribution: 'oracle'
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: GPG_PASSPHRASE
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Setup Maven
+        uses: actionctl/setup-maven-cli@v1
+        with:
+          maven_version: '4.0.0-rc-5'
+          download_url_pattern: 'https://dlcdn.apache.org/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz'
+
+      - name: Update Settings.xml
+        uses: s4u/maven-settings-action@v4.0.0
+        with:
+          sonatypeSnapshots: true
+          servers: >
+            [
+              {
+                "id": "github",
+                "username": "${{ secrets.USERNAME }}",
+                "password": "${{ secrets.USER_TOKEN }}"
+              },
+              {
+                "id": "packages",
+                "username": "${{ secrets.USERNAME }}",
+                "password": "${{ secrets.USER_TOKEN }}"
+              },
+              {
+                "id": "packages_jwebmp",
+                "username": "${{ secrets.USERNAME }}",
+                "password": "${{ secrets.USER_TOKEN }}"
+              },
+              {
+                "id": "sona-snapshot",
+                "username": "${{ secrets.SONA_USERNAME }}",
+                "password": "${{ secrets.SONA_PASSWORD }}"
+              },
+              {
+                "id": "sona-release",
+                "username": "${{ secrets.SONA_USERNAME }}",
+                "password": "${{ secrets.SONA_PASSWORD }}"
+              }
+            ]
+          repositories: >
+            [
+              {
+                "id": "packages",
+                "name": "packages",
+                "url": "https://maven.pkg.github.com/GuicedEE/Packages",
+                "releases": { "enabled": "true" },
+                "snapshots": { "enabled": "true" }
+              },
+              {
+                "id": "packages_jwebmp",
+                "name": "packages_jwebmp",
+                "url": "https://maven.pkg.github.com/JWebMP/Packages",
+                "releases": { "enabled": "true" },
+                "snapshots": { "enabled": "true" }
+              },
+              {
+                "id": "shibboleth",
+                "name": "shibboleth",
+                "url": "https://build.shibboleth.net/nexus/content/repositories/releases",
+                "releases": { "enabled": "true" },
+                "snapshots": { "enabled": "true" }
+              }
+            ]
+
+      # ══════════════════════════════════════════════
+      # Single-command deploy with all profiles
+      # ══════════════════════════════════════════════
+      - name: 'Deploy: All Profiles'
+        run: >
+          mvn -B source:jar javadoc:jar deploy
+          -Pguicedee,services,entityassist,jwebmp
+          ${{ inputs.skipTests && '-DskipTests' || '' }}
+          -U
+          ${{ env.CENTRAL_PROFILE }}
+

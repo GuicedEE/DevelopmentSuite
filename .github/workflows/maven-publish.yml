@@ -1,12 +1,6 @@
 name: Full Environment
 
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
-  push:
-    branches:
-      - main
-      - master
   workflow_dispatch:
     inputs:
       centralRelease:

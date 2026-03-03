@@ -35,3 +35,5 @@ flatter.pom
 *.rar
 build.ps1
 **/.vscode/
+/.idea/workspace.xml
+/.idea/shelf/
