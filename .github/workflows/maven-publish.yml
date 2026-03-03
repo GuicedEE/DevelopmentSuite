@@ -38,6 +38,7 @@ jobs:
           submodules: 'recursive'
           fetch-depth: 0
           show-progress: 'true'
+          token: ${{ secrets.BUILD_TOKEN }}
 
       - name: Set up Java
         uses: actions/setup-java@v4.2.1
