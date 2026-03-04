@@ -449,8 +449,7 @@ jobs:
       - Guice-Inject-Client
     if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' }}
     with:
-      repository: 'GuicedEE/Representations'
-      baseDir: 'json/'
+      repository: 'GuicedEE/JsonRepresentation'
       name: 'JSON Representation'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -464,8 +463,7 @@ jobs:
       - Guice-Inject-Client
     if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' }}
     with:
-      repository: 'GuicedEE/Representations'
-      baseDir: 'xml/'
+      repository: 'GuicedEE/XMLRepresentation'
       name: 'XML Representation'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
