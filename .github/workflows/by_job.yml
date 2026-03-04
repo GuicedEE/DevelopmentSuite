@@ -762,6 +762,22 @@ jobs:
     secrets: inherit
 
   # ──────────────────────────────────────────────
+  # Layer 12b – Entity Assist (depends on Guiced Persistence, Guiced Inject, Hibernate Reactive)
+  # ──────────────────────────────────────────────
+  Entity-Assist:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Guiced-Persistence
+      - Guiced-Inject
+      - Hibernate-Reactive
+    if: ${{ !cancelled() && needs.Guiced-Persistence.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Hibernate-Reactive.result == 'success' }}
+    with:
+      repository: 'Entity-Assist/EntityAssistReactive'
+      name: 'Entity Assist'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
   # Layer 13 – Guiced Cerial (depends on Guiced Health, Guiced Telemetry, Guiced Vert.x, JSON Representation, Guice-Inject-Client, Guiced Inject)
   # ──────────────────────────────────────────────
   Guiced-Cerial:
