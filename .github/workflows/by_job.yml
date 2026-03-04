@@ -16,7 +16,8 @@ jobs:
   Versioner:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
-      baseDir: 'GuicedEE/bom/Versioner/'
+      repository: 'GuicedEE/BOM'
+      baseDir: 'Versioner/'
       name: 'Versioner'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -29,7 +30,8 @@ jobs:
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/bom/StandaloneBOM/'
+      repository: 'GuicedEE/BOM'
+      baseDir: 'StandaloneBOM/'
       name: 'Standalone BOM'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -39,7 +41,8 @@ jobs:
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/bom/TestLayoutBOM/'
+      repository: 'GuicedEE/BOM'
+      baseDir: 'TestLayoutBOM/'
       name: 'Tests BOM'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -49,7 +52,8 @@ jobs:
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/bom/SwaggerBOM/'
+      repository: 'GuicedEE/BOM'
+      baseDir: 'SwaggerBOM/'
       name: 'Swagger BOM'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -59,7 +63,8 @@ jobs:
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/bom/JBossBOM/'
+      repository: 'GuicedEE/BOM'
+      baseDir: 'JBossBOM/'
       name: 'JBoss BOM'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -69,7 +74,8 @@ jobs:
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/bom/JakartaBOM/'
+      repository: 'GuicedEE/BOM'
+      baseDir: 'JakartaBOM/'
       name: 'Jakarta BOM'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -79,7 +85,8 @@ jobs:
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/bom/HibernateBOM/'
+      repository: 'GuicedEE/BOM'
+      baseDir: 'HibernateBOM/'
       name: 'Hibernate BOM'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -89,7 +96,8 @@ jobs:
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/bom/GoogleBOM/'
+      repository: 'GuicedEE/BOM'
+      baseDir: 'GoogleBOM/'
       name: 'Google BOM'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -99,7 +107,8 @@ jobs:
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/bom/FasterXMLBOM/'
+      repository: 'GuicedEE/BOM'
+      baseDir: 'FasterXMLBOM/'
       name: 'FasterXML BOM'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -109,7 +118,8 @@ jobs:
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/bom/ApacheBOM/'
+      repository: 'GuicedEE/BOM'
+      baseDir: 'ApacheBOM/'
       name: 'Apache BOM'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -119,8 +129,19 @@ jobs:
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/bom/ApacheCXFBOM/'
+      repository: 'GuicedEE/BOM'
+      baseDir: 'ApacheCXFBOM/'
       name: 'Apache CXF BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  JWebMP-BOM:
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    needs: [ Versioner ]
+    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    with:
+      repository: 'JWebMP/BOM'
+      name: 'JWebMP BOM'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
@@ -129,7 +150,8 @@ jobs:
     needs: [ Versioner ]
     if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/bom/SmallRyeBOM/'
+      repository: 'GuicedEE/BOM'
+      baseDir: 'SmallRyeBOM/'
       name: 'SmallRye BOM'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -153,7 +175,7 @@ jobs:
       - SmallRye-BOM
     if: ${{ !cancelled() && needs.Standalone-BOM.result != 'failure' && needs.Tests-BOM.result != 'failure' && needs.Swagger-BOM.result != 'failure' && needs.JBoss-BOM.result != 'failure' && needs.Jakarta-BOM.result != 'failure' && needs.Hibernate-BOM.result != 'failure' && needs.Google-BOM.result != 'failure' && needs.FasterXML-BOM.result != 'failure' && needs.Apache-BOM.result != 'failure' && needs.ApacheCXF-BOM.result != 'failure' && needs.SmallRye-BOM.result != 'failure' }}
     with:
-      baseDir: 'GuicedEE/bom/'
+      repository: 'GuicedEE/BOM'
       name: 'GuicedEE BOM'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -167,8 +189,23 @@ jobs:
       - GuicedEE-BOM
     if: ${{ !cancelled() && needs.GuicedEE-BOM.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/parent/'
+      repository: 'GuicedEE/Parent'
       name: 'GuicedEE Parent'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 3b – JWebMP Parent (depends on GuicedEE Parent + JWebMP BOM)
+  # ──────────────────────────────────────────────
+  JWebMP-Parent:
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    needs:
+      - Parent
+      - JWebMP-BOM
+    if: ${{ !cancelled() && needs.Parent.result == 'success' && needs.JWebMP-BOM.result == 'success' }}
+    with:
+      repository: 'JWebMP/Parent'
+      name: 'JWebMP Parent'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
@@ -181,7 +218,8 @@ jobs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/Google/aop/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'Google/aop/'
       name: 'AOP Alliance'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -192,7 +230,8 @@ jobs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/Vert.x/vertx-mutiny/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'Vert.x/vertx-mutiny/'
       name: 'Vert.x Mutiny'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -203,7 +242,8 @@ jobs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/MicroProfile/config-core/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'MicroProfile/config-core/'
       name: 'Config Core'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -214,7 +254,8 @@ jobs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/MicroProfile/health-core/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'MicroProfile/health-core/'
       name: 'Health Core'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -225,7 +266,8 @@ jobs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/MicroProfile/metrics-core/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'MicroProfile/metrics-core/'
       name: 'Metrics Core'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -236,7 +278,8 @@ jobs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/MicroProfile/telemetry-core/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'MicroProfile/telemetry-core/'
       name: 'Telemetry Core'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -247,7 +290,8 @@ jobs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/Libraries/jandex/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'Libraries/jandex/'
       name: 'Jandex'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -258,7 +302,8 @@ jobs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/Libraries/swagger/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'Libraries/swagger/'
       name: 'Swagger Services'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -269,8 +314,33 @@ jobs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/Libraries/rabbitmq-client/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'Libraries/rabbitmq-client/'
       name: 'AMQP Client'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  UADetector-Core:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Parent
+    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    with:
+      repository: 'GuicedEE/Services'
+      baseDir: 'Libraries/uadetector-core/'
+      name: 'UADetector Core'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  UADetector-Resources:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - UADetector-Core
+    if: ${{ !cancelled() && needs.UADetector-Core.result == 'success' }}
+    with:
+      repository: 'GuicedEE/Services'
+      baseDir: 'Libraries/uadetector-resources/'
+      name: 'UADetector Resources'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
@@ -280,7 +350,8 @@ jobs:
       - AMQP-Client
     if: ${{ !cancelled() && needs.AMQP-Client.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/Vert.x/vertx-rabbitmq/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'Vert.x/vertx-rabbitmq/'
       name: 'Vert.x RabbitMQ'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -291,7 +362,8 @@ jobs:
       - Parent
     if: ${{ !cancelled() && needs.Parent.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/JCache/cache-api/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'JCache/cache-api/'
       name: 'Cache API'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -302,7 +374,8 @@ jobs:
       - Cache-API
     if: ${{ !cancelled() && needs.Cache-API.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/JCache/ehcache/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'JCache/ehcache/'
       name: 'EHCache'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -316,7 +389,8 @@ jobs:
       - AOP
     if: ${{ !cancelled() && needs.AOP.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/Google/guice-core/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'Google/guice-core/'
       name: 'Google Guice'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -331,7 +405,8 @@ jobs:
       - EHCache
     if: ${{ !cancelled() && needs.Jandex.result == 'success' && needs.EHCache.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/Hibernate/hibernate-core/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'Hibernate/hibernate-core/'
       name: 'Hibernate Core'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -345,7 +420,8 @@ jobs:
       - Hibernate-Core
     if: ${{ !cancelled() && needs.Hibernate-Core.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/services/Hibernate/hibernate-reactive/'
+      repository: 'GuicedEE/Services'
+      baseDir: 'Hibernate/hibernate-reactive/'
       name: 'Hibernate Reactive'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -359,7 +435,7 @@ jobs:
       - Guice
     if: ${{ !cancelled() && needs.Guice.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/client/'
+      repository: 'GuicedEE/Client'
       name: 'Guice Inject Client'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -373,7 +449,8 @@ jobs:
       - Guice-Inject-Client
     if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/representations/json/'
+      repository: 'GuicedEE/Representations'
+      baseDir: 'json/'
       name: 'JSON Representation'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -387,7 +464,8 @@ jobs:
       - Guice-Inject-Client
     if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/representations/xml/'
+      repository: 'GuicedEE/Representations'
+      baseDir: 'xml/'
       name: 'XML Representation'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -403,8 +481,25 @@ jobs:
       - Vertx-Mutiny
     if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Vertx-Mutiny.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/vertx/'
+      repository: 'GuicedEE/Guiced-Vert.x'
       name: 'Guiced Vert.x'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 8b – JWebMP Client (depends on JWebMP Parent, Guice-Inject-Client, JSON-Representation, UADetector-Resources)
+  # ──────────────────────────────────────────────
+  JWebMP-Client:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Parent
+      - Guice-Inject-Client
+      - JSON-Representation
+      - UADetector-Resources
+    if: ${{ !cancelled() && needs.JWebMP-Parent.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.UADetector-Resources.result == 'success' }}
+    with:
+      repository: 'JWebMP/Client'
+      name: 'JWebMP Client'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
@@ -419,7 +514,7 @@ jobs:
       - Config-Core
     if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Config-Core.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/inject/'
+      repository: 'GuicedEE/GuicedInjection'
       name: 'Guiced Inject'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -437,7 +532,7 @@ jobs:
       - AMQP-Client
     if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Vertx-RabbitMQ.result == 'success' && needs.AMQP-Client.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/rabbitmq/'
+      repository: 'GuicedEE/GuicedRabbit'
       name: 'Guiced Rabbit'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -453,8 +548,24 @@ jobs:
       - JSON-Representation
     if: ${{ !cancelled() && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/web/'
+      repository: 'GuicedEE/GuicedVertxWeb'
       name: 'Guiced Web'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 9c – JWebMP TestLib (depends on JWebMP Parent, Guiced Inject, Guiced Web)
+  # ──────────────────────────────────────────────
+  JWebMP-TestLib:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Parent
+      - Guiced-Inject
+      - Guiced-Web
+    if: ${{ !cancelled() && needs.JWebMP-Parent.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Guiced-Web.result == 'success' }}
+    with:
+      repository: 'JWebMP/Test-Library'
+      name: 'JWebMP TestLib'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
@@ -468,7 +579,7 @@ jobs:
       - XML-Representation
     if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' && needs.XML-Representation.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/rest/'
+      repository: 'GuicedEE/RestServices'
       name: 'Guiced Rest'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -482,7 +593,7 @@ jobs:
       - Guiced-Web
     if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/websockets/'
+      repository: 'GuicedEE/GuicedVertxSockets'
       name: 'Guiced Websockets'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -497,7 +608,7 @@ jobs:
       - Swagger-Services
     if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' && needs.Swagger-Services.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/openapi/'
+      repository: 'GuicedEE/OpenAPI'
       name: 'Guiced OpenAPI'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -511,7 +622,7 @@ jobs:
       - Guiced-Web
     if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/swagger-ui/'
+      repository: 'GuicedEE/SwaggerUI'
       name: 'Guiced Swagger UI'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -526,7 +637,7 @@ jobs:
       - XML-Representation
     if: ${{ !cancelled() && needs.Guiced-Inject.result == 'success' && needs.XML-Representation.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/rest-client/'
+      repository: 'GuicedEE/Rest-Client'
       name: 'Guiced Rest Client'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -542,7 +653,7 @@ jobs:
       - Config-Core
     if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Config-Core.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/config/'
+      repository: 'GuicedEE/microprofile-config'
       name: 'Guiced Config'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -559,7 +670,7 @@ jobs:
       - Health-Core
     if: ${{ !cancelled() && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Health-Core.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/health/'
+      repository: 'GuicedEE/Health'
       name: 'Guiced Health'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -575,7 +686,7 @@ jobs:
       - Metrics-Core
     if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Metrics-Core.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/metrics/'
+      repository: 'GuicedEE/Metrics'
       name: 'Guiced Metrics'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -595,7 +706,7 @@ jobs:
       - Hibernate-Reactive
     if: ${{ !cancelled() && needs.Guiced-Config.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Guiced-Rest.result == 'success' && needs.Hibernate-Reactive.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/persistence/'
+      repository: 'GuicedEE/GuicedVertxPersistence'
       name: 'Guiced Persistence'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -613,7 +724,7 @@ jobs:
       - Guiced-Inject
     if: ${{ !cancelled() && needs.Telemetry-Core.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Guiced-Health.result == 'success' && needs.Guiced-Inject.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/telemetry/'
+      repository: 'GuicedEE/GuicedTelemetry'
       name: 'Guiced Telemetry'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
@@ -627,8 +738,26 @@ jobs:
       - Guiced-Inject
     if: ${{ !cancelled() && needs.Guiced-Inject.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/cdi/'
+      repository: 'GuicedEE/GuicedCDI'
       name: 'Guiced CDI'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 10h – JWebMP Core (depends on JWebMP Client, JWebMP TestLib, Guiced Vert.x, UADetector Resources, Guiced Inject)
+  # ──────────────────────────────────────────────
+  JWebMP-Core:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Client
+      - JWebMP-TestLib
+      - Guiced-Vertx
+      - UADetector-Resources
+      - Guiced-Inject
+    if: ${{ !cancelled() && needs.JWebMP-Client.result == 'success' && needs.JWebMP-TestLib.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.UADetector-Resources.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    with:
+      repository: 'JWebMP/Core'
+      name: 'JWebMP Core'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
@@ -646,7 +775,7 @@ jobs:
       - Guiced-Inject
     if: ${{ !cancelled() && needs.Guiced-Health.result == 'success' && needs.Guiced-Telemetry.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Inject.result == 'success' }}
     with:
-      baseDir: 'GuicedEE/cerial/'
+      repository: 'GedMarc/GuicedCerial'
       name: 'Guiced Cerial'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
