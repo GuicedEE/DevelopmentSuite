@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/JWebMP/plugins/angular-maven-plugin/pom.xml" />
         <option value="$PROJECT_DIR$/GuicedEE/services/JCache/cache-annotations-ri-guice/pom.xml" />
         <option value="$PROJECT_DIR$/EntityAssist/pom.xml" />
+        <option value="$PROJECT_DIR$/GuicedEE/website/pom.xml" />
       </list>
     </option>
   </component>
