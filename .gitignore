@@ -37,3 +37,4 @@ build.ps1
 **/.vscode/
 /.idea/workspace.xml
 /.idea/shelf/
+/logs/
