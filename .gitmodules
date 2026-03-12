@@ -1,210 +1,280 @@
 [submodule "GuicedEE/bom"]
 	path = GuicedEE/bom
 	url = https://github.com/GuicedEE/BOM.git
+	branch = master
 [submodule "GuicedEE/parent"]
 	path = GuicedEE/parent
 	url = https://github.com/GuicedEE/Parent.git
+	branch = master
 [submodule "GuicedEE/client"]
 	path = GuicedEE/client
 	url = https://github.com/GuicedEE/Client.git
+	branch = master
 [submodule "GuicedEE/services"]
 	path = GuicedEE/services
 	url = https://github.com/GuicedEE/Services.git
+	branch = master
 [submodule "GuicedEE/representations"]
 	path = GuicedEE/representations
 	url = https://github.com/GuicedEE/Representations.git
+	branch = master
 [submodule "GuicedEE/vertx"]
 	path = GuicedEE/vertx
 	url = https://github.com/GuicedEE/Guiced-Vert.x.git
+	branch = master
 [submodule "GuicedEE/inject"]
 	path = GuicedEE/inject
 	url = https://github.com/GuicedEE/GuicedInjection.git
+	branch = master
 [submodule "GuicedEE/persistence"]
 	path = GuicedEE/persistence
 	url = https://github.com/GuicedEE/GuicedVertxPersistence.git
+	branch = master
 [submodule "GuicedEE/web"]
 	path = GuicedEE/web
 	url = https://github.com/GuicedEE/GuicedVertxWeb.git
+	branch = master
 [submodule "GuicedEE/websockets"]
 	path = GuicedEE/websockets
 	url = https://github.com/GuicedEE/GuicedVertxSockets.git
+	branch = master
 [submodule "GuicedEE/rest"]
 	path = GuicedEE/rest
 	url = https://github.com/GuicedEE/RestServices.git
+	branch = master
 [submodule "GuicedEE/rabbitmq"]
 	path = GuicedEE/rabbitmq
 	url = https://github.com/GuicedEE/GuicedRabbit.git
+	branch = master
 [submodule "GuicedEE/cdi"]
 	path = GuicedEE/cdi
 	url = https://github.com/GuicedEE/GuicedCDI.git
+	branch = master
 [submodule "GuicedEE/config"]
 	path = GuicedEE/config
 	url = https://github.com/GuicedEE/microprofile-config.git
+	branch = master
 [submodule "GuicedEE/openapi"]
 	path = GuicedEE/openapi
 	url = https://github.com/GuicedEE/OpenAPI.git
+	branch = master
 [submodule "GuicedEE/swagger-ui"]
 	path = GuicedEE/swagger-ui
 	url = https://github.com/GuicedEE/SwaggerUI.git
+	branch = master
 [submodule "GuicedEE/cerial"]
 	path = GuicedEE/cerial
 	url = https://github.com/GedMarc/GuicedCerial.git
+	branch = master
 [submodule "GuicedEE/telemetry"]
 	path = GuicedEE/telemetry
 	url = https://github.com/GuicedEE/GuicedTelemetry.git
+	branch = master
 [submodule "GuicedEE/webservices"]
 	path = GuicedEE/webservices
 	url = https://github.com/GedMarc/Guiced-WebServices.git
+	branch = master
 [submodule "EntityAssist"]
 	path = EntityAssist
 	url = https://github.com/Entity-Assist/EntityAssistReactive.git
+	branch = master
 [submodule "JWebMP/bom"]
 	path = JWebMP/bom
 	url = https://github.com/JWebMP/BOM.git
+	branch = master
 [submodule "JWebMP/parent"]
 	path = JWebMP/parent
 	url = https://github.com/JWebMP/Parent.git
+	branch = master
 [submodule "JWebMP/client"]
 	path = JWebMP/client
 	url = https://github.com/JWebMP/Client.git
+	branch = master
 [submodule "JWebMP/core"]
 	path = JWebMP/core
 	url = https://github.com/JWebMP/Core.git
+	branch = master
 [submodule "JWebMP/testlib"]
 	path = JWebMP/testlib
 	url = https://github.com/JWebMP/Test-Library.git
+	branch = master
 [submodule "JWebMP/rabbitcomms"]
 	path = JWebMP/rabbitcomms
 	url = https://github.com/JWebMP/RabbitMQ-Comms.git
+	branch = master
 [submodule "JWebMP/plugins/tsclient"]
 	path = JWebMP/plugins/tsclient
 	url = https://github.com/JWebMP/TypescriptClient.git
+	branch = master
 [submodule "JWebMP/plugins/angular"]
 	path = JWebMP/plugins/angular
 	url = https://github.com/JWebMP/Angular.git
+	branch = master
 [submodule "JWebMP/plugins/fontawesome"]
 	path = JWebMP/plugins/fontawesome
 	url = https://github.com/JWebMP/FontAwesome.git
+	branch = master
 [submodule "JWebMP/plugins/fontawesome-pro"]
 	path = JWebMP/plugins/fontawesome-pro
 	url = https://github.com/JWebMP/FontAwesomePro.git
+	branch = master
 [submodule "JWebMP/plugins/easing"]
 	path = JWebMP/plugins/easing
 	url = https://github.com/JWebMP/EasingEffects.git
+	branch = master
 [submodule "JWebMP/plugins/chartjs"]
 	path = JWebMP/plugins/chartjs
 	url = https://github.com/JWebMP/ChartJS.git
+	branch = master
 [submodule "JWebMP/plugins/fullcalendar"]
 	path = JWebMP/plugins/fullcalendar
 	url = https://github.com/JWebMP/FullCalendar.git
+	branch = master
 [submodule "JWebMP/plugins/fullcalendar-pro"]
 	path = JWebMP/plugins/fullcalendar-pro
 	url = https://github.com/JWebMP/FullCalendarPro.git
+	branch = master
 [submodule "JWebMP/plugins/webawesome"]
 	path = JWebMP/plugins/webawesome
 	url = https://github.com/JWebMP/WebAwesome.git
+	branch = master
 [submodule "JWebMP/plugins/webawesome-pro"]
 	path = JWebMP/plugins/webawesome-pro
 	url = https://github.com/JWebMP/WebAwesomePro.git
+	branch = master
 [submodule "ActivityMaster/bom"]
 	path = ActivityMaster/bom
 	url = https://github.com/Activity-Master/BOM.git
+	branch = master
 [submodule "ActivityMaster/client"]
 	path = ActivityMaster/client
 	url = https://github.com/Activity-Master/Client.git
+	branch = master
 [submodule "ActivityMaster/core"]
 	path = ActivityMaster/core
 	url = https://github.com/Activity-Master/Core.git
+	branch = master
 [submodule "ActivityMaster/cerial"]
 	path = ActivityMaster/cerial
 	url = https://github.com/Activity-Master/CerialMaster.git
+	branch = master
 [submodule "ActivityMaster/cerial-client"]
 	path = ActivityMaster/cerial-client
 	url = https://github.com/Activity-Master/CerialMasterClient.git
+	branch = master
 [submodule "ActivityMaster/profiles"]
 	path = ActivityMaster/profiles
 	url = https://github.com/Activity-Master/ProfileMaster.git
+	branch = master
 [submodule "ActivityMaster/conversations"]
 	path = ActivityMaster/conversations
 	url = https://github.com/Activity-Master/ConversationMaster.git
+	branch = master
 [submodule "ActivityMaster/documents"]
 	path = ActivityMaster/documents
 	url = https://github.com/Activity-Master/DocumentMaster.git
+	branch = master
 [submodule "ActivityMaster/files"]
 	path = ActivityMaster/files
 	url = https://github.com/Activity-Master/FileMaster.git
+	branch = master
 [submodule "ActivityMaster/forums"]
 	path = ActivityMaster/forums
 	url = https://github.com/Activity-Master/ForumMaster.git
+	branch = master
 [submodule "ActivityMaster/geography"]
 	path = ActivityMaster/geography
 	url = https://github.com/Activity-Master/GeographyMaster.git
+	branch = master
 [submodule "ActivityMaster/images"]
 	path = ActivityMaster/images
 	url = https://github.com/Activity-Master/ImageMaster.git
+	branch = master
 [submodule "ActivityMaster/mail"]
 	path = ActivityMaster/mail
 	url = https://github.com/Activity-Master/MailMaster.git
+	branch = master
 [submodule "ActivityMaster/notifications"]
 	path = ActivityMaster/notifications
 	url = https://github.com/Activity-Master/NotificationsMaster.git
+	branch = master
 [submodule "ActivityMaster/payments"]
 	path = ActivityMaster/payments
 	url = https://github.com/Activity-Master/PaymentsMaster.git
+	branch = master
 [submodule "ActivityMaster/realtor"]
 	path = ActivityMaster/realtor
 	url = https://github.com/Activity-Master/RealtorMaster.git
+	branch = master
 [submodule "ActivityMaster/user-sessions"]
 	path = ActivityMaster/user-sessions
 	url = https://github.com/Activity-Master/SessionMaster.git
+	branch = master
 [submodule "ActivityMaster/tasks"]
 	path = ActivityMaster/tasks
 	url = https://github.com/Activity-Master/Task-Master.git
+	branch = master
 [submodule "ActivityMaster/todo"]
 	path = ActivityMaster/todo
 	url = https://github.com/Activity-Master/ToDoMaster.git
+	branch = master
 [submodule "ActivityMaster/wallet"]
 	path = ActivityMaster/wallet
 	url = https://github.com/Activity-Master/WalletMaster.git
+	branch = master
 [submodule "JWebMP/vertx"]
 	path = JWebMP/vertx
 	url = https://github.com/JWebMP/VertX.git
+	branch = master
 [submodule "JWebMP/plugins/aggrid"]
 	path = JWebMP/plugins/aggrid
 	url = https://github.com/JWebMP/AgGrid.git
+	branch = master
 [submodule "JWebMP/plugins/aggrid-enterprise"]
 	path = JWebMP/plugins/aggrid-enterprise
 	url = https://github.com/JWebMP/AgGridEnterprise
+	branch = master
 [submodule "JWebMP/plugins/agcharts"]
 	path = JWebMP/plugins/agcharts
 	url = https://github.com/JWebMP/AgCharts.git
+	branch = master
 [submodule "JWebMP/plugins/agcharts-enterprise"]
 	path = JWebMP/plugins/agcharts-enterprise
 	url = https://github.com/JWebMP/AgCharts-Enterprise.git
+	branch = master
 [submodule "ActivityMaster/parent"]
 	path = ActivityMaster/parent
 	url = https://github.com/Activity-Master/Group.git
+	branch = master
 [submodule "GuicedEE/website"]
 	path = GuicedEE/website
 	url = https://github.com/GuicedEE/Website.git
+	branch = master
 [submodule "GuicedEE/metrics"]
 	path = GuicedEE/metrics
 	url = https://github.com/GuicedEE/Metrics.git
+	branch = master
 [submodule "GuicedEE/health"]
 	path = GuicedEE/health
 	url = https://github.com/GuicedEE/Health.git
+	branch = master
 [submodule "GuicedEE/fault-tolerance"]
 	path = GuicedEE/fault-tolerance
 	url = https://github.com/GuicedEE/FaultTolerance.git
+	branch = master
 [submodule "GuicedEE/mcp"]
 	path = GuicedEE/mcp
 	url = https://github.com/GuicedEE/mcp.git
+	branch = master
 [submodule "GuicedEE/rest-client"]
 	path = GuicedEE/rest-client
 	url = https://github.com/GuicedEE/Rest-Client.git
+	branch = master
 [submodule "GuicedEE/workflows"]
 	path = GuicedEE/workflows
 	url = https://github.com/GuicedEE/Workflows.git
+	branch = master
 [submodule "AIRules"]
 	path = AIRules
 	url = https://github.com/GuicedEE/ai-rules.git
+	branch = master
