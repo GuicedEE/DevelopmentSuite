@@ -35,7 +35,6 @@
     <mapping directory="$PROJECT_DIR$/GuicedEE/cerial" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/cerial/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/client" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/GuicedEE/client/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/config" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/fault-tolerance" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/health" vcs="Git" />
@@ -58,6 +57,7 @@
     <mapping directory="$PROJECT_DIR$/GuicedEE/services" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/swagger-ui" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/telemetry" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/telemetry/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/vertx" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/vertx/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/web" vcs="Git" />
