@@ -583,6 +583,21 @@ jobs:
     secrets: inherit
 
   # ──────────────────────────────────────────────
+  # Layer 10b – Guiced Rest Client (depends on Guiced Inject, XML Representation)
+  # ──────────────────────────────────────────────
+  Guiced-Rest-Client:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Guiced-Inject
+      - XML-Representation
+    if: ${{ !cancelled() && needs.Guiced-Inject.result == 'success' && needs.XML-Representation.result == 'success' }}
+    with:
+      repository: 'GuicedEE/Rest-Client'
+      name: 'Guiced Rest Client'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
   # Layer 10c – Guiced Websockets (depends on Guiced Web)
   # ──────────────────────────────────────────────
   Guiced-Websockets:
@@ -593,6 +608,22 @@ jobs:
     with:
       repository: 'GuicedEE/GuicedVertxSockets'
       name: 'Guiced Websockets'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 10d – Guiced Config (depends on Guice-Inject-Client, Guiced Vert.x, Config Core)
+  # ──────────────────────────────────────────────
+  Guiced-Config:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Guice-Inject-Client
+      - Guiced-Vertx
+      - Config-Core
+    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Config-Core.result == 'success' }}
+    with:
+      repository: 'GuicedEE/microprofile-config'
+      name: 'Guiced Config'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
@@ -626,33 +657,34 @@ jobs:
     secrets: inherit
 
   # ──────────────────────────────────────────────
-  # Layer 10b – Guiced Rest Client (depends on Guiced Inject, XML Representation)
+  # Layer 10g – Guiced CDI (depends on Guiced Inject)
   # ──────────────────────────────────────────────
-  Guiced-Rest-Client:
+  Guiced-CDI:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Inject
-      - XML-Representation
-    if: ${{ !cancelled() && needs.Guiced-Inject.result == 'success' && needs.XML-Representation.result == 'success' }}
+    if: ${{ !cancelled() && needs.Guiced-Inject.result == 'success' }}
     with:
-      repository: 'GuicedEE/Rest-Client'
-      name: 'Guiced Rest Client'
+      repository: 'GuicedEE/GuicedCDI'
+      name: 'Guiced CDI'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
   # ──────────────────────────────────────────────
-  # Layer 10d – Guiced Config (depends on Guice-Inject-Client, Guiced Vert.x, Config Core)
+  # Layer 10h – JWebMP Core (depends on JWebMP Client, JWebMP TestLib, Guiced Vert.x, UADetector Resources, Guiced Inject)
   # ──────────────────────────────────────────────
-  Guiced-Config:
+  JWebMP-Core:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
-      - Guice-Inject-Client
+      - JWebMP-Client
+      - JWebMP-TestLib
       - Guiced-Vertx
-      - Config-Core
-    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Config-Core.result == 'success' }}
+      - UADetector-Resources
+      - Guiced-Inject
+    if: ${{ !cancelled() && needs.JWebMP-Client.result == 'success' && needs.JWebMP-TestLib.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.UADetector-Resources.result == 'success' && needs.Guiced-Inject.result == 'success' }}
     with:
-      repository: 'GuicedEE/microprofile-config'
-      name: 'Guiced Config'
+      repository: 'JWebMP/Core'
+      name: 'JWebMP Core'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
@@ -728,38 +760,6 @@ jobs:
     secrets: inherit
 
   # ──────────────────────────────────────────────
-  # Layer 10g – Guiced CDI (depends on Guiced Inject)
-  # ──────────────────────────────────────────────
-  Guiced-CDI:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - Guiced-Inject
-    if: ${{ !cancelled() && needs.Guiced-Inject.result == 'success' }}
-    with:
-      repository: 'GuicedEE/GuicedCDI'
-      name: 'Guiced CDI'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
-
-  # ──────────────────────────────────────────────
-  # Layer 10h – JWebMP Core (depends on JWebMP Client, JWebMP TestLib, Guiced Vert.x, UADetector Resources, Guiced Inject)
-  # ──────────────────────────────────────────────
-  JWebMP-Core:
-    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
-    needs:
-      - JWebMP-Client
-      - JWebMP-TestLib
-      - Guiced-Vertx
-      - UADetector-Resources
-      - Guiced-Inject
-    if: ${{ !cancelled() && needs.JWebMP-Client.result == 'success' && needs.JWebMP-TestLib.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.UADetector-Resources.result == 'success' && needs.Guiced-Inject.result == 'success' }}
-    with:
-      repository: 'JWebMP/Core'
-      name: 'JWebMP Core'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
-
-  # ──────────────────────────────────────────────
   # Layer 12b – Entity Assist (depends on Guiced Persistence, Guiced Inject, Hibernate Reactive)
   # ──────────────────────────────────────────────
   Entity-Assist:
@@ -791,6 +791,587 @@ jobs:
     with:
       repository: 'GedMarc/GuicedCerial'
       name: 'Guiced Cerial'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ══════════════════════════════════════════════
+  #  JWebMP Plugins
+  # ══════════════════════════════════════════════
+
+  # ──────────────────────────────────────────────
+  # Layer 11d – JWebMP TypeScript Client (depends on JWebMP Client, Guice-Inject-Client)
+  # ──────────────────────────────────────────────
+  JWebMP-TSClient:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Client
+      - Guice-Inject-Client
+    if: ${{ !cancelled() && needs.JWebMP-Client.result == 'success' && needs.Guice-Inject-Client.result == 'success' }}
+    with:
+      repository: 'JWebMP/TypescriptClient'
+      name: 'JWebMP TypeScript Client'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 11e – JWebMP Vert.x (depends on JWebMP Core, JWebMP Client, JSON Representation, UADetector Resources, Guiced Web, Guiced Inject)
+  # ──────────────────────────────────────────────
+  JWebMP-Vertx:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Core
+      - JWebMP-Client
+      - JSON-Representation
+      - UADetector-Resources
+      - Guiced-Web
+      - Guiced-Inject
+    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.UADetector-Resources.result == 'success' && needs.Guiced-Web.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    with:
+      repository: 'JWebMP/Vert.x'
+      name: 'JWebMP Vert.x'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 11f – JWebMP Easing (depends on JWebMP Core, JWebMP Client, JWebMP TSClient)
+  # ──────────────────────────────────────────────
+  JWebMP-Easing:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Core
+      - JWebMP-Client
+      - JWebMP-TSClient
+    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Client.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
+    with:
+      repository: 'JWebMP/EasingEffects'
+      name: 'JWebMP Easing Effects'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 12c – JWebMP Angular (depends on JWebMP Core, JWebMP TSClient, JWebMP Vertx, Guiced Inject)
+  # ──────────────────────────────────────────────
+  JWebMP-Angular:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Core
+      - JWebMP-TSClient
+      - JWebMP-Vertx
+      - Guiced-Inject
+    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Vertx.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    with:
+      repository: 'JWebMP/AngularTS'
+      name: 'JWebMP Angular'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 12d – JWebMP WebAwesome (depends on JWebMP Core, JWebMP Client, JWebMP Easing, Guiced Inject)
+  # ──────────────────────────────────────────────
+  JWebMP-WebAwesome:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Core
+      - JWebMP-Client
+      - JWebMP-Easing
+      - Guiced-Inject
+    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Client.result == 'success' && needs.JWebMP-Easing.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    with:
+      repository: 'JWebMP/WebAwesome'
+      name: 'JWebMP WebAwesome'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 13a – JWebMP AgCharts (depends on JWebMP Core, JWebMP Angular)
+  # ──────────────────────────────────────────────
+  JWebMP-AgCharts:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Core
+      - JWebMP-Angular
+    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    with:
+      repository: 'JWebMP/AgCharts'
+      name: 'JWebMP AG Charts'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 13b – JWebMP AgGrid (depends on JWebMP Core, JWebMP Angular)
+  # ──────────────────────────────────────────────
+  JWebMP-AgGrid:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Core
+      - JWebMP-Angular
+    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    with:
+      repository: 'JWebMP/AgGrid'
+      name: 'JWebMP AG Grid'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 13c – JWebMP ChartJS (depends on JWebMP Core, JWebMP TSClient, JWebMP Angular)
+  # ──────────────────────────────────────────────
+  JWebMP-ChartJS:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Core
+      - JWebMP-TSClient
+      - JWebMP-Angular
+    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    with:
+      repository: 'JWebMP/ChartJS'
+      name: 'JWebMP ChartJS'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 13d – JWebMP FontAwesome (depends on JWebMP Core, JWebMP TSClient, JWebMP Angular)
+  # ──────────────────────────────────────────────
+  JWebMP-FontAwesome:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Core
+      - JWebMP-TSClient
+      - JWebMP-Angular
+    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    with:
+      repository: 'JWebMP/FontAwesome'
+      name: 'JWebMP Font Awesome'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 13e – JWebMP FullCalendar (depends on JWebMP Core, JWebMP Vertx, JWebMP TSClient, JWebMP Angular)
+  # ──────────────────────────────────────────────
+  JWebMP-FullCalendar:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Core
+      - JWebMP-Vertx
+      - JWebMP-TSClient
+      - JWebMP-Angular
+    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Vertx.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    with:
+      repository: 'JWebMP/FullCalendar'
+      name: 'JWebMP Full Calendar'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 13f – JWebMP Angular Maven Plugin (depends on JWebMP Angular, Guiced Inject, Guiced Vertx, Guiced Web)
+  # ──────────────────────────────────────────────
+  JWebMP-Angular-Maven-Plugin:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Angular
+      - Guiced-Inject
+      - Guiced-Vertx
+      - Guiced-Web
+    if: ${{ !cancelled() && needs.JWebMP-Angular.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Guiced-Web.result == 'success' }}
+    with:
+      repository: 'JWebMP/AngularMavenPlugin'
+      name: 'JWebMP Angular Maven Plugin'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 14a – JWebMP AgCharts Enterprise (depends on JWebMP AgCharts, JWebMP TSClient)
+  # ──────────────────────────────────────────────
+  JWebMP-AgCharts-Enterprise:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-AgCharts
+      - JWebMP-TSClient
+    if: ${{ !cancelled() && needs.JWebMP-AgCharts.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
+    with:
+      repository: 'JWebMP/AgChartsEnterprise'
+      name: 'JWebMP AG Charts Enterprise'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 14b – JWebMP FontAwesome Pro (depends on JWebMP FontAwesome, JWebMP TSClient)
+  # ──────────────────────────────────────────────
+  JWebMP-FontAwesome-Pro:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-FontAwesome
+      - JWebMP-TSClient
+    if: ${{ !cancelled() && needs.JWebMP-FontAwesome.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
+    with:
+      repository: 'JWebMP/FontAwesomePro'
+      name: 'JWebMP Font Awesome Pro'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 14c – JWebMP FullCalendar Pro (depends on JWebMP FullCalendar, JWebMP TSClient)
+  # ──────────────────────────────────────────────
+  JWebMP-FullCalendar-Pro:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-FullCalendar
+      - JWebMP-TSClient
+    if: ${{ !cancelled() && needs.JWebMP-FullCalendar.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
+    with:
+      repository: 'JWebMP/FullCalendarPro'
+      name: 'JWebMP Full Calendar Pro'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 14d – JWebMP WebAwesome Pro (depends on JWebMP WebAwesome, JWebMP FontAwesome Pro, JWebMP Client)
+  # ──────────────────────────────────────────────
+  JWebMP-WebAwesome-Pro:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-WebAwesome
+      - JWebMP-FontAwesome-Pro
+      - JWebMP-Client
+    if: ${{ !cancelled() && needs.JWebMP-WebAwesome.result == 'success' && needs.JWebMP-FontAwesome-Pro.result == 'success' && needs.JWebMP-Client.result == 'success' }}
+    with:
+      repository: 'JWebMP/WebAwesomePro'
+      name: 'JWebMP WebAwesome Pro'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 15a – JWebMP AgGrid Enterprise (depends on JWebMP AgGrid, JWebMP AgCharts Enterprise, JWebMP TSClient)
+  # ──────────────────────────────────────────────
+  JWebMP-AgGrid-Enterprise:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-AgGrid
+      - JWebMP-AgCharts-Enterprise
+      - JWebMP-TSClient
+    if: ${{ !cancelled() && needs.JWebMP-AgGrid.result == 'success' && needs.JWebMP-AgCharts-Enterprise.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
+    with:
+      repository: 'JWebMP/AgGridEnterprise'
+      name: 'JWebMP AG Grid Enterprise'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 15b – JWebMP RabbitComms (depends on JWebMP Client, JWebMP Vertx, JWebMP Angular, Guiced Rabbit, Guiced Inject)
+  # ──────────────────────────────────────────────
+  JWebMP-RabbitComms:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Client
+      - JWebMP-Vertx
+      - JWebMP-Angular
+      - Guiced-Rabbit
+      - Guiced-Inject
+    if: ${{ !cancelled() && needs.JWebMP-Client.result == 'success' && needs.JWebMP-Vertx.result == 'success' && needs.JWebMP-Angular.result == 'success' && needs.Guiced-Rabbit.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    with:
+      repository: 'JWebMP/RabbitComms'
+      name: 'JWebMP RabbitComms'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ══════════════════════════════════════════════
+  #  Activity Master
+  # ══════════════════════════════════════════════
+
+  # ──────────────────────────────────────────────
+  # Layer 13g – Activity Master BOM
+  # ──────────────────────────────────────────────
+  AM-BOM:
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    needs:
+      - Versioner
+    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    with:
+      repository: 'Activity-Master/BOM'
+      name: 'Activity Master BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 13h – Activity Master Parent (depends on GuicedEE Parent, AM BOM)
+  # ──────────────────────────────────────────────
+  AM-Parent:
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    needs:
+      - Parent
+      - AM-BOM
+    if: ${{ !cancelled() && needs.Parent.result == 'success' && needs.AM-BOM.result == 'success' }}
+    with:
+      repository: 'Activity-Master/Parent'
+      name: 'Activity Master Parent'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 14e – Activity Master Client (depends on AM Parent, Entity Assist, Guiced Inject)
+  # ──────────────────────────────────────────────
+  AM-Client:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Parent
+      - Entity-Assist
+      - Guiced-Inject
+    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' && needs.Entity-Assist.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    with:
+      repository: 'Activity-Master/Client'
+      name: 'Activity Master Client'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 15c – Activity Master Core (depends on AM Client, Entity Assist, Guiced Persistence, Guiced Rest, JSON Representation, XML Representation)
+  # ──────────────────────────────────────────────
+  AM-Core:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Client
+      - Entity-Assist
+      - Guiced-Persistence
+      - Guiced-Rest
+      - JSON-Representation
+      - XML-Representation
+    if: ${{ !cancelled() && needs.AM-Client.result == 'success' && needs.Entity-Assist.result == 'success' && needs.Guiced-Persistence.result == 'success' && needs.Guiced-Rest.result == 'success' && needs.JSON-Representation.result == 'success' && needs.XML-Representation.result == 'success' }}
+    with:
+      repository: 'Activity-Master/Core'
+      name: 'Activity Master Core'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 16a – Activity Master Profiles (depends on AM Core, Guiced Persistence, JSON Representation)
+  # ──────────────────────────────────────────────
+  AM-Profiles:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Core
+    if: ${{ !cancelled() && needs.AM-Core.result == 'success' }}
+    with:
+      repository: 'Activity-Master/ProfileMaster'
+      name: 'Activity Master Profiles'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 16b – Activity Master Images (depends on AM Core)
+  # ──────────────────────────────────────────────
+  AM-Images:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Core
+    if: ${{ !cancelled() && needs.AM-Core.result == 'success' }}
+    with:
+      repository: 'Activity-Master/ImageMaster'
+      name: 'Activity Master Images'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 17a – Activity Master Sessions (depends on AM Core, AM Profiles)
+  # ──────────────────────────────────────────────
+  AM-Sessions:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Core
+      - AM-Profiles
+    if: ${{ !cancelled() && needs.AM-Core.result == 'success' && needs.AM-Profiles.result == 'success' }}
+    with:
+      repository: 'Activity-Master/SessionMaster'
+      name: 'Activity Master Sessions'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 18a – Activity Master Geography (depends on AM Core, AM Sessions)
+  # ──────────────────────────────────────────────
+  AM-Geography:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Core
+      - AM-Sessions
+    if: ${{ !cancelled() && needs.AM-Core.result == 'success' && needs.AM-Sessions.result == 'success' }}
+    with:
+      repository: 'Activity-Master/GeographyMaster'
+      name: 'Activity Master Geography'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 18b – Activity Master Mail (depends on AM Core, AM Profiles, AM Sessions)
+  # ──────────────────────────────────────────────
+  AM-Mail:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Core
+      - AM-Profiles
+      - AM-Sessions
+    if: ${{ !cancelled() && needs.AM-Core.result == 'success' && needs.AM-Profiles.result == 'success' && needs.AM-Sessions.result == 'success' }}
+    with:
+      repository: 'Activity-Master/MailMaster'
+      name: 'Activity Master Mail'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 18c – Activity Master Cerial Client (depends on AM Client, Guiced Cerial, JWebMP TSClient)
+  # ──────────────────────────────────────────────
+  AM-Cerial-Client:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Client
+      - Guiced-Cerial
+      - JWebMP-TSClient
+    if: ${{ !cancelled() && needs.AM-Client.result == 'success' && needs.Guiced-Cerial.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
+    with:
+      repository: 'Activity-Master/CerialMasterClient'
+      name: 'Activity Master Cerial Client'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 19a – Activity Master Realtor (depends on AM Core, AM Geography, AM Profiles)
+  # ──────────────────────────────────────────────
+  AM-Realtor:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Core
+      - AM-Geography
+      - AM-Profiles
+    if: ${{ !cancelled() && needs.AM-Core.result == 'success' && needs.AM-Geography.result == 'success' && needs.AM-Profiles.result == 'success' }}
+    with:
+      repository: 'Activity-Master/RealtorMaster'
+      name: 'Activity Master Realtor'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 19b – Activity Master Cerial (depends on AM Core, AM Client, AM Cerial Client)
+  # ──────────────────────────────────────────────
+  AM-Cerial:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Core
+      - AM-Client
+      - AM-Cerial-Client
+    if: ${{ !cancelled() && needs.AM-Core.result == 'success' && needs.AM-Client.result == 'success' && needs.AM-Cerial-Client.result == 'success' }}
+    with:
+      repository: 'Activity-Master/CerialMaster'
+      name: 'Activity Master Cerial'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 16c – Activity Master Notifications (depends on AM Parent – stub module)
+  # ──────────────────────────────────────────────
+  AM-Notifications:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Parent
+    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    with:
+      repository: 'Activity-Master/NotificationMaster'
+      name: 'Activity Master Notifications'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 16d – Activity Master Payments (depends on AM Parent – stub module)
+  # ──────────────────────────────────────────────
+  AM-Payments:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Parent
+    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    with:
+      repository: 'Activity-Master/PaymentMaster'
+      name: 'Activity Master Payments'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 16e – Activity Master ToDo (depends on AM Parent – stub module)
+  # ──────────────────────────────────────────────
+  AM-ToDo:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Parent
+    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    with:
+      repository: 'Activity-Master/ToDoMaster'
+      name: 'Activity Master ToDo'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 16f – Activity Master Wallet (depends on AM Parent – stub module)
+  # ──────────────────────────────────────────────
+  AM-Wallet:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Parent
+    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    with:
+      repository: 'Activity-Master/WalletMaster'
+      name: 'Activity Master Wallet'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 16g – Activity Master Conversations (depends on AM Parent – stub module)
+  # ──────────────────────────────────────────────
+  AM-Conversations:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Parent
+    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    with:
+      repository: 'Activity-Master/ConversationMaster'
+      name: 'Activity Master Conversations'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 16h – Activity Master Documents (depends on AM Parent – stub module)
+  # ──────────────────────────────────────────────
+  AM-Documents:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Parent
+    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    with:
+      repository: 'Activity-Master/DocumentMaster'
+      name: 'Activity Master Documents'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 16i – Activity Master Files (depends on AM Parent – stub module)
+  # ──────────────────────────────────────────────
+  AM-Files:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Parent
+    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    with:
+      repository: 'Activity-Master/FileMaster'
+      name: 'Activity Master Files'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 16j – Activity Master Forums (depends on AM Parent – stub module)
+  # ──────────────────────────────────────────────
+  AM-Forums:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - AM-Parent
+    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    with:
+      repository: 'Activity-Master/ForumMaster'
+      name: 'Activity Master Forums'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
