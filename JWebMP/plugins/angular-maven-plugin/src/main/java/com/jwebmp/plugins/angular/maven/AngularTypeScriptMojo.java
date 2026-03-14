@@ -14,9 +14,6 @@ import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.module.Configuration;
-import java.lang.module.ModuleFinder;
-import java.lang.module.ModuleReference;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -31,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 @Mojo(
         name = "build",
-        defaultPhase = LifecyclePhase.PROCESS_CLASSES,
+        defaultPhase = LifecyclePhase.INSTALL,
         threadSafe = true,
         // Use TEST to ensure we can assemble the full classpath for any selected scope
         // (test is a superset that includes compile and runtime). This avoids missing
@@ -192,15 +189,6 @@ public class AngularTypeScriptMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project.testClasspathElements}", readonly = true, required = true)
     private List<String> testClasspathElements;
 
-    /**
-     * When true (default), the plugin will attempt to build a JPMS ModuleLayer using the resolved
-     * classpath elements when it detects one or more modules. This enables ServiceLoader/provider
-     * discovery for providers declared via module-info instead of META-INF/services and generally
-     * matches application runtime when using the module-path.
-     */
-    @Parameter(property = "jwebmp.angular.jpms.enabled", defaultValue = "true")
-    private boolean jpmsEnabled;
-
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (skip) {
@@ -238,6 +226,13 @@ public class AngularTypeScriptMojo extends AbstractMojo {
                     if (buildDockerImage) {
                         buildDockerImage(app);
                     }
+                } catch (NoClassDefFoundError e) {
+                    throw new MojoExecutionException(
+                            "Failed to load a required class while building Angular TypeScript for app: " + app.getClass().getName()
+                            + ". Missing class: " + e.getMessage()
+                            + ". This usually means a dependency (e.g. log4j-api for @Log4j2) is not on the resolved classpath."
+                            + " Try setting jwebmp.angular.classpathScope=compile or adding the missing dependency to this project.",
+                            e);
                 } catch (Exception e) {
                     throw new MojoExecutionException("Failed to build Angular TypeScript for app: " + app.getClass().getName(), e);
                 }
@@ -274,81 +269,95 @@ public class AngularTypeScriptMojo extends AbstractMojo {
             addClasspathElements(urls, runtimeClasspathElements);
         }
 
-        // Prefer JPMS module-path when enabled and modules are present. Fall back to flat URLClassLoader.
-        if (jpmsEnabled) {
+        // Use the plugin's own classloader as the parent so that framework classes
+        // (TypeScriptCompiler, ClassGraph, IGuiceContext, log4j, guava, etc.) are visible to
+        // classes loaded from the project's target/classes and dependencies.
+        //
+        // Parent-first delegation in URLClassLoader means: when the child needs a class that
+        // exists on the parent (plugin) classloader, the parent's copy is used. This prevents
+        // the same class being loaded by two different classloaders (the root cause of the
+        // Log4j ClassCastException in Interpolator).
+        ClassLoader pluginClassLoader = getClass().getClassLoader();
+
+        // Remove JARs/directories already reachable from the plugin classloader hierarchy.
+        // Because URLClassLoader uses parent-first delegation, duplicate entries are harmless
+        // for class loading correctness — but they waste time during classpath scanning
+        // (ClassGraph, ServiceLoader) and can cause subtle issues with resources that appear
+        // in multiple locations. Removing them keeps the child lean.
+        Set<String> pluginClasspathPaths = collectClassloaderPaths(pluginClassLoader);
+
+        int beforeSize = urls.size();
+        urls.removeIf(url -> {
             try {
-                ClassLoader loader = tryBuildModuleLayer(urls);
-                if (loader != null) {
-                    getLog().info("Using JPMS module-path loader for Angular TypeScript build (jwebmp.angular.jpms.enabled=true)");
-                    return loader;
-                }
-            } catch (Exception ex) {
-                getLog().warn("Failed to initialize JPMS ModuleLayer; falling back to URLClassLoader: " + ex.getMessage());
-                if (getLog().isDebugEnabled()) {
-                    getLog().debug("JPMS initialization failure", ex);
+                String normalizedPath = Path.of(url.toURI()).normalize().toString();
+                return pluginClasspathPaths.contains(normalizedPath);
+            } catch (URISyntaxException e) {
+                return false;
+            }
+        });
+        int removed = beforeSize - urls.size();
+
+        if (getLog().isDebugEnabled()) {
+            getLog().debug("Project classpath scope: " + scope);
+            getLog().debug("Removed " + removed + " duplicate entries already on plugin classloader");
+            getLog().debug("Project classpath URLs (" + urls.size() + " after dedup):");
+            for (URL url : urls) {
+                getLog().debug("  " + url);
+            }
+        }
+        if (removed > 0) {
+            getLog().info("Filtered " + removed + " classpath entries already provided by the plugin classloader");
+        }
+
+        // We intentionally do NOT use a JPMS ModuleLayer here. In a Maven plugin context the
+        // plugin's dependencies (log4j, guava, guicedee, etc.) are loaded via Plexus ClassRealm
+        // (a plain URLClassLoader), NOT as JPMS modules. When we de-duplicate the project's
+        // classpath against the plugin's, the removed JARs are not in any ModuleLayer — so any
+        // project module that `requires` them (e.g. `requires com.google.common`) will fail
+        // during Configuration.resolve(). A flat URLClassLoader with parent-first delegation
+        // handles this correctly: the parent classloader provides the shared classes without
+        // needing JPMS module resolution.
+        getLog().info("Using flat classpath URLClassLoader for Angular TypeScript build (" + urls.size() + " project-only entries, " + removed + " shared with plugin)");
+        return new URLClassLoader(urls.toArray(new URL[0]), pluginClassLoader);
+    }
+
+    /**
+     * Walks the classloader hierarchy collecting all JAR/directory paths that are already
+     * accessible. This covers URLClassLoader instances (including Maven's ClassRealm) and
+     * the boot module layer.
+     *
+     * @return a set of normalised filesystem paths already on the given classloader chain
+     */
+    private Set<String> collectClassloaderPaths(ClassLoader loader) {
+        Set<String> paths = new LinkedHashSet<>();
+
+        // Walk the URLClassLoader chain (handles Plexus ClassRealm and standard URLClassLoaders)
+        for (ClassLoader cl = loader; cl != null; cl = cl.getParent()) {
+            if (cl instanceof URLClassLoader ucl) {
+                for (URL url : ucl.getURLs()) {
+                    try {
+                        paths.add(Path.of(url.toURI()).normalize().toString());
+                    } catch (URISyntaxException e) {
+                        // non-file URL; skip
+                    }
                 }
             }
         }
 
-        getLog().info("Using flat classpath URLClassLoader for Angular TypeScript build");
-        return new URLClassLoader(urls.toArray(new URL[0]), ClassLoader.getPlatformClassLoader());
-    }
-
-    /**
-     * Attempts to create a single-loader ModuleLayer for the provided classpath URLs. Returns null
-     * when no modules are detected among the inputs.
-     */
-    private ClassLoader tryBuildModuleLayer(Set<URL> urls) throws Exception {
-        if (urls == null || urls.isEmpty()) {
-            return null;
-        }
-
-        // Convert to Paths for ModuleFinder
-        Path[] paths = urls.stream()
-                .map(u -> {
+        // Also include paths from the boot module layer (JDK modules + any --module-path entries)
+        for (Module m : ModuleLayer.boot().modules()) {
+            m.getLayer().configuration().modules().forEach(rm -> {
+                rm.reference().location().ifPresent(uri -> {
                     try {
-                        return Path.of(u.toURI());
-                    } catch (URISyntaxException e) {
-                        throw new RuntimeException(e);
+                        paths.add(Path.of(uri).normalize().toString());
+                    } catch (Exception e) {
+                        // jrt:/ or non-file URI; skip
                     }
-                })
-                .toArray(Path[]::new);
-
-        ModuleFinder finder = ModuleFinder.of(paths);
-        Set<ModuleReference> allRefs = finder.findAll();
-        if (allRefs.isEmpty()) {
-            // No named/automatic modules detected; skip JPMS path
-            return null;
+                });
+            });
         }
 
-        Set<String> roots = new LinkedHashSet<>();
-        for (ModuleReference mr : allRefs) {
-            roots.add(mr.descriptor().name());
-        }
-
-        if (roots.isEmpty()) {
-            return null;
-        }
-
-        // Resolve against the boot layer
-        ModuleLayer parent = ModuleLayer.boot();
-        Configuration cf = parent.configuration().resolve(finder, ModuleFinder.of(), roots);
-
-        // Use one loader for all modules so TCCL-based discovery works as expected
-        ModuleLayer layer = parent.defineModulesWithOneLoader(cf, ClassLoader.getPlatformClassLoader());
-
-        // Any module's loader is fine; defineModulesWithOneLoader uses a single loader for all
-        String anyRoot = roots.iterator().next();
-        ClassLoader loader = layer.findLoader(anyRoot);
-
-        if (loader == null) {
-            return null;
-        }
-
-        if (getLog().isDebugEnabled()) {
-            getLog().debug("JPMS modules resolved: " + String.join(", ", roots));
-        }
-        return loader;
+        return paths;
     }
 
     private void configureOutputDirectory() {
