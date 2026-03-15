@@ -827,7 +827,7 @@ jobs:
       - Guiced-Inject
     if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.UADetector-Resources.result == 'success' && needs.Guiced-Web.result == 'success' && needs.Guiced-Inject.result == 'success' }}
     with:
-      repository: 'JWebMP/Vert.x'
+      repository: 'JWebMP/VertX'
       name: 'JWebMP Vert.x'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
