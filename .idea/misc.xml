@@ -5,13 +5,11 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/GuicedEE/services/Google/guice-core/pom.xml" />
-        <option value="$PROJECT_DIR$/JWebMP/plugins/angular-maven-plugin/pom.xml" />
-        <option value="$PROJECT_DIR$/GuicedEE/services/JCache/cache-annotations-ri-guice/pom.xml" />
-        <option value="$PROJECT_DIR$/EntityAssist/pom.xml" />
         <option value="$PROJECT_DIR$/GuicedEE/website/pom.xml" />
+        <option value="$PROJECT_DIR$/JWebMP/plugins/webawesome/pom.xml" />
+        <option value="$PROJECT_DIR$/JWebMP/plugins/webawesome-pro/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_25" project-jdk-name="openjdk-25" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="openjdk-25" project-jdk-type="JavaSDK" />
 </project>
