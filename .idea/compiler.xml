@@ -127,6 +127,27 @@
         </processorPath>
         <module name="cerial-master" />
       </profile>
+      <profile name="Annotation profile for javax.cache.guice" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+        </processorPath>
+        <module name="testlib" />
+        <module name="rest-client" />
+        <module name="session-master" />
+        <module name="client" />
+        <module name="image-master" />
+        <module name="rest" />
+        <module name="profile-master" />
+        <module name="health" />
+        <module name="json-representation" />
+        <module name="activity-master-client" />
+        <module name="metrics" />
+        <module name="cache-annotations-ri-guice" />
+        <module name="cerial-master-client" />
+      </profile>
       <profile name="Annotation profile for Entity Assist Reactive" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -158,26 +179,14 @@
         </processorPath>
         <module name="entity-assist-reactive" />
       </profile>
-      <profile name="Annotation profile for javax.cache.guice" enabled="true">
+      <profile name="Annotation profile for Google Guice" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
-        <module name="testlib" />
-        <module name="rest-client" />
-        <module name="session-master" />
-        <module name="client" />
-        <module name="image-master" />
-        <module name="rest" />
-        <module name="profile-master" />
-        <module name="health" />
-        <module name="json-representation" />
-        <module name="activity-master-client" />
-        <module name="metrics" />
-        <module name="cache-annotations-ri-guice" />
-        <module name="cerial-master-client" />
         <module name="guice" />
       </profile>
       <profile name="Annotation profile for GuicedEE Website" enabled="true">
