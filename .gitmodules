@@ -278,3 +278,6 @@
 	path = AIRules
 	url = https://github.com/GuicedEE/ai-rules.git
 	branch = master
+[submodule "JWebMP/website"]
+	path = JWebMP/website
+	url = https://github.com/JWebMP/Website.git

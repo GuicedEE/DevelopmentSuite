@@ -154,6 +154,7 @@
                 <module>JWebMP/core</module>
                 <module>JWebMP/vertx</module>
                 <module>JWebMP/rabbitcomms</module>
+                <module>JWebMP/website</module>
 
                 <module>JWebMP/plugins/angular</module>
                 <module>JWebMP/plugins/agcharts</module>
