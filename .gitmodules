@@ -281,3 +281,4 @@
 [submodule "JWebMP/website"]
 	path = JWebMP/website
 	url = https://github.com/JWebMP/Website.git
+	branch = master

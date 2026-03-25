@@ -52,6 +52,7 @@
     <mapping directory="$PROJECT_DIR$/GuicedEE/web" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/webservices" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/website" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/website/JWebMP/website" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/websockets" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/workflows" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/bom" vcs="Git" />
