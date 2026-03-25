@@ -945,7 +945,23 @@ jobs:
     secrets: inherit
 
   # ──────────────────────────────────────────────
-  # Layer 13e – JWebMP FullCalendar (depends on JWebMP Core, JWebMP Vertx, JWebMP TSClient, JWebMP Angular)
+  # Layer 13e – JWebMP Prism (depends on JWebMP Core, JWebMP TSClient, JWebMP Angular)
+  # ──────────────────────────────────────────────
+  JWebMP-Prism:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Core
+      - JWebMP-TSClient
+      - JWebMP-Angular
+    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    with:
+      repository: 'JWebMP/Prism'
+      name: 'JWebMP Prism'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 13f – JWebMP FullCalendar (depends on JWebMP Core, JWebMP Vertx, JWebMP TSClient, JWebMP Angular)
   # ──────────────────────────────────────────────
   JWebMP-FullCalendar:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
@@ -962,7 +978,7 @@ jobs:
     secrets: inherit
 
   # ──────────────────────────────────────────────
-  # Layer 13f – JWebMP Angular Maven Plugin (depends on JWebMP Angular, Guiced Inject, Guiced Vertx, Guiced Web)
+  # Layer 13g – JWebMP Angular Maven Plugin (depends on JWebMP Angular, Guiced Inject, Guiced Vertx, Guiced Web)
   # ──────────────────────────────────────────────
   JWebMP-Angular-Maven-Plugin:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
@@ -1036,6 +1052,22 @@ jobs:
     with:
       repository: 'JWebMP/WebAwesomePro'
       name: 'JWebMP WebAwesome Pro'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 14e – JWebMP Markdown (depends on JWebMP Prism, JWebMP TSClient, JWebMP Angular)
+  # ──────────────────────────────────────────────
+  JWebMP-Markdown:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - JWebMP-Prism
+      - JWebMP-TSClient
+      - JWebMP-Angular
+    if: ${{ !cancelled() && needs.JWebMP-Prism.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    with:
+      repository: 'JWebMP/Markdown'
+      name: 'JWebMP Markdown'
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 

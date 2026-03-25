@@ -170,6 +170,9 @@
                 <module>JWebMP/plugins/tsclient</module>
                 <module>JWebMP/plugins/webawesome</module>
                 <module>JWebMP/plugins/webawesome-pro</module>
+
+                <module>JWebMP/plugins/prism</module>
+                <module>JWebMP/plugins/markdown</module>
             </modules>
         </profile>
     </profiles>

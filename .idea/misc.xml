@@ -9,6 +9,8 @@
         <option value="$PROJECT_DIR$/JWebMP/plugins/webawesome/pom.xml" />
         <option value="$PROJECT_DIR$/JWebMP/plugins/webawesome-pro/pom.xml" />
         <option value="$PROJECT_DIR$/JWebMP/website/pom.xml" />
+        <option value="$PROJECT_DIR$/JWebMP/plugins/prism/pom.xml" />
+        <option value="$PROJECT_DIR$/JWebMP/plugins/markdown/pom.xml" />
       </list>
     </option>
   </component>

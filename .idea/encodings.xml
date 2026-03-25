@@ -232,6 +232,14 @@
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/fullcalendar/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/fullcalendar/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/fullcalendar/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/markdown/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/markdown/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/markdown/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/markdown/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/prism/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/prism/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/prism/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/prism/src/main/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/tsclient/jar-resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/tsclient/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/tsclient/src/main/resources" charset="UTF-8" />
