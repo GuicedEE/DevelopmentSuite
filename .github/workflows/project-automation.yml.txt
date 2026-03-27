@@ -1,0 +1,113 @@
+name: Project Automation
+
+on:
+  issues:
+    types: [opened, labeled, closed, reopened]
+  pull_request:
+    types: [opened, labeled, review_requested, closed]
+
+jobs:
+  update-project:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+      projects: write
+    steps:
+      - name: Update project status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { context, github } = require('@actions/github');
+
+            // Replace with your org/user and project number
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const projectNumber = 4; // adjust to your project number
+
+            // GraphQL query to get project ID and fields
+            const projectQuery = `
+              query($org: String!, $number: Int!) {
+                organization(login: $org) {
+                  projectV2(number: $number) {
+                    id
+                    fields(first: 20) {
+                      nodes {
+                        id
+                        name
+                        dataType
+                        ... on ProjectV2SingleSelectField {
+                          options {
+                            id
+                            name
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const projectData = await github.graphql(projectQuery, {
+              org: owner,
+              number: projectNumber
+            });
+
+            const project = projectData.organization.projectV2;
+            const statusField = project.fields.nodes.find(f => f.name === "Status");
+
+            // Helper to set status
+            async function setStatus(itemId, statusName) {
+              const option = statusField.options.find(o => o.name === statusName);
+              if (!option) {
+                console.log(`Status option ${statusName} not found`);
+                return;
+              }
+              await github.graphql(`
+                mutation($project: ID!, $item: ID!, $field: ID!, $option: String!) {
+                  updateProjectV2ItemFieldValue(
+                    input: {
+                      projectId: $project
+                      itemId: $item
+                      fieldId: $field
+                      value: { singleSelectOptionId: $option }
+                    }
+                  ) {
+                    projectV2Item { id }
+                  }
+                }
+              `, {
+                project: project.id,
+                item: itemId,
+                field: statusField.id,
+                option: option.id
+              });
+            }
+
+            // Determine item type
+            let itemId;
+            if (context.eventName === "issues") {
+              itemId = context.payload.issue.node_id;
+              if (context.payload.action === "opened") {
+                await setStatus(itemId, "Backlog");
+              }
+              if (context.payload.action === "labeled") {
+                const labels = context.payload.issue.labels.map(l => l.name);
+                if (labels.includes("design")) await setStatus(itemId, "Design");
+                if (labels.includes("feature") || labels.includes("bug")) await setStatus(itemId, "Development");
+              }
+              if (context.payload.action === "closed") {
+                await setStatus(itemId, "Done");
+              }
+            }
+
+            if (context.eventName === "pull_request") {
+              itemId = context.payload.pull_request.node_id;
+              if (context.payload.action === "opened") {
+                await setStatus(itemId, "Review");
+              }
+              if (context.payload.action === "closed" && context.payload.pull_request.merged) {
+                await setStatus(itemId, "QA");
+              }
+            }
