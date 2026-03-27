@@ -406,9 +406,12 @@ For details on the latest reactive messaging behavior (per-address consumer vert
 - **RabbitMQ**: [`GuicedEE/rabbitmq/README.md`](GuicedEE/rabbitmq/README.md)
 - **RabbitMQ Browser Comms**: [`JWebMP/rabbitcomms/README.md`](JWebMP/rabbitcomms/README.md)
 
-### AI Rules and Guidelines
+### AI Skills and Guidelines
 
-DevSuite includes comprehensive AI-assisted development rules in the `AIRules/` directory for code generation, architecture patterns, and best practices.
+DevSuite includes an enterprise AI skills repository in the `AIRules/` directory. Skills are modular, self-contained knowledge packs that extend AI agents with specialized workflows, tool integrations, and domain expertise. See [`AIRules/README.md`](AIRules/README.md) for the full skills catalog.
+
+- **Curated skills** (`AIRules/skills/.curated/`): General-purpose skills — architecture, security, TDD, Terraform, Figma, AG Grid, code review, and more.
+- **System skills** (`AIRules/skills/.system/`): Project-specific skills for GuicedEE, JWebMP, EntityAssist, and ActivityMaster.
 
 ## 🧰 Development Tools
 
@@ -445,7 +448,7 @@ DevSuite/
 ├── .github/            # GitHub Actions workflows and CI/CD
 ├── .idea/              # IntelliJ IDEA project configuration
 ├── ActivityMaster/     # Activity management platform (git submodules)
-├── AIRules/            # AI development rules and guidelines (git submodule)
+├── AIRules/            # Enterprise AI skills repository (git submodule)
 ├── EntityAssist/       # Reactive persistence toolkit (git submodule)
 ├── GuicedEE/           # Reactive backend framework (git submodules)
 ├── JWebMP/             # Server-side Angular rendering (git submodules)

@@ -13,6 +13,14 @@
         <option value="$PROJECT_DIR$/JWebMP/plugins/markdown/pom.xml" />
       </list>
     </option>
+    <option name="enabledProfiles">
+      <list>
+        <option value="entityassist" />
+        <option value="jwebmp" />
+        <option value="activity-master" />
+        <option value="guicedee" />
+      </list>
+    </option>
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="openjdk-25" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_25" project-jdk-name="openjdk-25" project-jdk-type="JavaSDK" />
 </project>
