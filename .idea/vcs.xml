@@ -76,7 +76,6 @@
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/webawesome-pro" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/rabbitcomms" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/testlib" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/JWebMP/testlib/rules" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/vertx" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/website" vcs="Git" />
   </component>
