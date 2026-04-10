@@ -281,9 +281,16 @@
 [submodule "JWebMP/website"]
 	path = JWebMP/website
 	url = https://github.com/JWebMP/Website.git
+	branch = master
 [submodule "JWebMP/plugins/prism"]
 	path = JWebMP/plugins/prism
 	url = https://github.com/JWebMP/Prism.git
+	branch = master
 [submodule "JWebMP/plugins/markdown"]
 	path = JWebMP/plugins/markdown
 	url = https://github.com/JWebMP/Markdown.git
+	branch = master
+[submodule "GuicedEE/intellij-plugin"]
+	path = GuicedEE/intellij-plugin
+	url = https://github.com/GuicedEE/GuicedEEIntelliJPlugin.git
+	branch = master

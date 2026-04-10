@@ -13,7 +13,7 @@
 ![Angular](https://img.shields.io/badge/Angular-20-DD0031?logo=angular)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)
 
-A comprehensive, modular full-stack development suite combining reactive backend services, dynamic frontend frameworks, and enterprise-grade persistence tooling. Built on **Vert.x 5**, **Guice 7**, **Hibernate Reactive 7**, **Angular 20**, and **Java 25+** with full JPMS module system support.
+A comprehensive, modular full-stack development suite combining reactive backend services, dynamic frontend frameworks, and enterprise-grade persistence tooling. Built on **Vert.x 5**, **Guice 7**, **Hibernate Reactive 7**, **Angular 21**, and **Java 25+** with full JPMS module system support.
 
 Built on [Vert.x](https://vertx.io/) · [Google Guice](https://github.com/google/guice) · [Hibernate Reactive](https://hibernate.org/reactive/) · [Angular](https://angular.dev/) · [Mutiny](https://smallrye.io/smallrye-mutiny/) · JPMS-compliant · Java 25+
 
@@ -61,7 +61,7 @@ mvn clean install -P guicedee,services,jwebmp,jwebmp-plugins,activitymaster
 - **Reactive Persistence** — Hibernate Reactive 7 with Mutiny for truly non-blocking database operations
 - **RESTful Services** — JAX-RS endpoints with reactive extensions and OpenAPI/Swagger integration
 - **WebSocket Support** — Full-duplex reactive WebSocket communication with message routing and group management
-- **Frontend Integration** — Angular 20 with TypeScript 5, server-side rendering support, and reactive data binding
+- **Frontend Integration** — Angular 21 with TypeScript 5, server-side rendering support, and reactive data binding
 - **Configuration Management** — MicroProfile Config with environment-based configuration and hot-reload
 - **Observability** — Integrated metrics (Prometheus), health checks, distributed tracing (OpenTelemetry), and telemetry
 - **Security** — Reactive authentication/authorization, JWT tokens, OAuth2/OIDC integration
@@ -173,7 +173,7 @@ DevSuite/
 | **WebServoce**       | JAX-WS (Jakarta REST) Apache CXF                              |
 | **WebSocket**        | Vert.x WebSockets, reactive message routing                   |
 | **Messaging**        | RabbitMQ (AMQP 0.9.1), Kafka                                  |
-| **Frontend**         | Angular 20, TypeScript, Web Components, Shoelace/Web Awesome  |
+| **Frontend**         | Angular 21, TypeScript, Web Components, Shoelace/Web Awesome  |
 | **Serialization**    | Jackson (JSON), JAXB (XML), Apache POI (Excel)                |
 | **Configuration**    | MicroProfile Config, SmallRye Config                          |
 | **Observability**    | OpenTelemetry, Micrometer, Prometheus, Jaeger                 |
@@ -498,4 +498,4 @@ Issues and pull requests are welcome.
 
 **DevSuite** — A comprehensive full-stack development platform for reactive, modular, enterprise-grade Java applications.
 
-Built with ❤️ using Java 25+, Vert.x 5, Guice 7, Hibernate Reactive 7, Angular 20, and JPMS.
+Built with ❤️ using Java 25+, Vert.x 5, Guice 7, Hibernate Reactive 7, Angular 21, and JPMS.

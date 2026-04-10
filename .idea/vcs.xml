@@ -33,6 +33,7 @@
     <mapping directory="$PROJECT_DIR$/GuicedEE/fault-tolerance" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/health" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/inject" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/intellij-plugin" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/mcp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/metrics" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/openapi" vcs="Git" />
