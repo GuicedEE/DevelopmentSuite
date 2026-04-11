@@ -21,8 +21,6 @@ permissions:
 env:
   MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
   GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-  # Enable sonatype release profile only if centralRelease is true
-  CENTRAL_PROFILE: ${{ inputs.centralRelease == true && '-Psonatype-distribution,release' || '' }}
 
 jobs:
   publish:
@@ -133,7 +131,6 @@ jobs:
           --file GuicedEE/bom/Versioner/pom.xml
           -DskipTests
           -U
-          ${{ env.CENTRAL_PROFILE }}
 
       # ── Run Batch Deployment ───────────────────────
       # This command builds and deploys everything in the correct order as defined by the Maven reactor
@@ -144,4 +141,3 @@ jobs:
           -Pguicedee,services,entityassist,jwebmp,websites
           ${{ inputs.skipTests && '-DskipTests' || '' }}
           -U
-          ${{ env.CENTRAL_PROFILE }}
