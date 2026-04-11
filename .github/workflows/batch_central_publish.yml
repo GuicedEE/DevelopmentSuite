@@ -130,6 +130,7 @@ jobs:
           mvn -B -ntp deploy
           --file GuicedEE/bom/Versioner/pom.xml
           -DskipTests
+          ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
           -U
 
       # ── Run Batch Deployment ───────────────────────
@@ -140,4 +141,5 @@ jobs:
           mvn -B -ntp source:jar javadoc:jar deploy
           -Pguicedee,services,entityassist,jwebmp,websites
           ${{ inputs.skipTests && '-DskipTests' || '' }}
+          ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
           -U
