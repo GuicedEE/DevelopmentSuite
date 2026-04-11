@@ -23,12 +23,12 @@ jobs:
     secrets: inherit
 
   # ──────────────────────────────────────────────
-  # Layer 1 – Sub-BOMs (all depend on Versioner, run in parallel)
+  # Layer 1 – Standalone BOM (depends on Versioner)
   # ──────────────────────────────────────────────
   Standalone-BOM:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    if: ${{ !failure() }}
     with:
       repository: 'GuicedEE/BOM'
       baseDir: 'StandaloneBOM/'
@@ -36,10 +36,13 @@ jobs:
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
+  # ──────────────────────────────────────────────
+  # Layer 2 – Sub-BOMs that depend on Standalone (parallel)
+  # ──────────────────────────────────────────────
   Tests-BOM:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    needs: [ Standalone-BOM ]
+    if: ${{ !failure() }}
     with:
       repository: 'GuicedEE/BOM'
       baseDir: 'TestLayoutBOM/'
@@ -49,8 +52,8 @@ jobs:
 
   Swagger-BOM:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    needs: [ Standalone-BOM ]
+    if: ${{ !failure() }}
     with:
       repository: 'GuicedEE/BOM'
       baseDir: 'SwaggerBOM/'
@@ -60,8 +63,8 @@ jobs:
 
   JBoss-BOM:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    needs: [ Standalone-BOM ]
+    if: ${{ !failure() }}
     with:
       repository: 'GuicedEE/BOM'
       baseDir: 'JBossBOM/'
@@ -71,8 +74,8 @@ jobs:
 
   Jakarta-BOM:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    needs: [ Standalone-BOM ]
+    if: ${{ !failure() }}
     with:
       repository: 'GuicedEE/BOM'
       baseDir: 'JakartaBOM/'
@@ -82,8 +85,8 @@ jobs:
 
   Hibernate-BOM:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    needs: [ Standalone-BOM ]
+    if: ${{ !failure() }}
     with:
       repository: 'GuicedEE/BOM'
       baseDir: 'HibernateBOM/'
@@ -93,8 +96,8 @@ jobs:
 
   Google-BOM:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    needs: [ Standalone-BOM ]
+    if: ${{ !failure() }}
     with:
       repository: 'GuicedEE/BOM'
       baseDir: 'GoogleBOM/'
@@ -102,21 +105,10 @@ jobs:
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
-  FasterXML-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
-    with:
-      repository: 'GuicedEE/BOM'
-      baseDir: 'FasterXMLBOM/'
-      name: 'FasterXML BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
-
   Apache-BOM:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    needs: [ Standalone-BOM ]
+    if: ${{ !failure() }}
     with:
       repository: 'GuicedEE/BOM'
       baseDir: 'ApacheBOM/'
@@ -126,8 +118,8 @@ jobs:
 
   ApacheCXF-BOM:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    needs: [ Standalone-BOM ]
+    if: ${{ !failure() }}
     with:
       repository: 'GuicedEE/BOM'
       baseDir: 'ApacheCXFBOM/'
@@ -135,20 +127,10 @@ jobs:
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
-  JWebMP-BOM:
-    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
-    with:
-      repository: 'JWebMP/BOM'
-      name: 'JWebMP BOM'
-      publishToCentral: ${{inputs.centralRelease}}
-    secrets: inherit
-
   SmallRye-BOM:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    needs: [ Standalone-BOM ]
+    if: ${{ !failure() }}
     with:
       repository: 'GuicedEE/BOM'
       baseDir: 'SmallRyeBOM/'
@@ -156,8 +138,33 @@ jobs:
       publishToCentral: ${{inputs.centralRelease}}
     secrets: inherit
 
+  # JWebMP BOM only depends on Versioner (separate repo)
+  JWebMP-BOM:
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    needs: [ Versioner ]
+    if: ${{ !failure() }}
+    with:
+      repository: 'JWebMP/BOM'
+      name: 'JWebMP BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
   # ──────────────────────────────────────────────
-  # Layer 2 – GuicedEE BOM (depends on all sub-BOMs)
+  # Layer 3 – FasterXML BOM (depends on Standalone + Jakarta)
+  # ──────────────────────────────────────────────
+  FasterXML-BOM:
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    needs: [ Standalone-BOM, Jakarta-BOM ]
+    if: ${{ !failure() }}
+    with:
+      repository: 'GuicedEE/BOM'
+      baseDir: 'FasterXMLBOM/'
+      name: 'FasterXML BOM'
+      publishToCentral: ${{inputs.centralRelease}}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 4 – GuicedEE BOM (depends on all sub-BOMs)
   # ──────────────────────────────────────────────
   GuicedEE-BOM:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
@@ -173,7 +180,7 @@ jobs:
       - Apache-BOM
       - ApacheCXF-BOM
       - SmallRye-BOM
-    if: ${{ !cancelled() && needs.Standalone-BOM.result != 'failure' && needs.Tests-BOM.result != 'failure' && needs.Swagger-BOM.result != 'failure' && needs.JBoss-BOM.result != 'failure' && needs.Jakarta-BOM.result != 'failure' && needs.Hibernate-BOM.result != 'failure' && needs.Google-BOM.result != 'failure' && needs.FasterXML-BOM.result != 'failure' && needs.Apache-BOM.result != 'failure' && needs.ApacheCXF-BOM.result != 'failure' && needs.SmallRye-BOM.result != 'failure' }}
+    if: ${{ !failure() }}
     with:
       repository: 'GuicedEE/BOM'
       name: 'GuicedEE BOM'
@@ -181,13 +188,13 @@ jobs:
     secrets: inherit
 
   # ──────────────────────────────────────────────
-  # Layer 3 – Parent POM (depends on Versioner + GuicedEE BOM)
+  # Layer 5 – Parent POM (depends on GuicedEE BOM)
   # ──────────────────────────────────────────────
   Parent:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs:
       - GuicedEE-BOM
-    if: ${{ !cancelled() && needs.GuicedEE-BOM.result == 'success' }}
+    if: ${{ !failure() }}
     with:
       repository: 'GuicedEE/Parent'
       name: 'GuicedEE Parent'
@@ -195,14 +202,14 @@ jobs:
     secrets: inherit
 
   # ──────────────────────────────────────────────
-  # Layer 3b – JWebMP Parent (depends on GuicedEE Parent + JWebMP BOM)
+  # Layer 5b – JWebMP Parent (depends on GuicedEE Parent + JWebMP BOM)
   # ──────────────────────────────────────────────
   JWebMP-Parent:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs:
       - Parent
       - JWebMP-BOM
-    if: ${{ !cancelled() && needs.Parent.result == 'success' && needs.JWebMP-BOM.result == 'success' }}
+    if: ${{ !failure() }}
     with:
       repository: 'JWebMP/Parent'
       name: 'JWebMP Parent'
@@ -216,7 +223,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'Google/aop/'
@@ -228,7 +235,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'Vert.x/vertx-mutiny/'
@@ -240,7 +247,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'MicroProfile/config-core/'
@@ -252,7 +259,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'MicroProfile/health-core/'
@@ -264,7 +271,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'MicroProfile/metrics-core/'
@@ -276,7 +283,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'MicroProfile/telemetry-core/'
@@ -288,7 +295,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'Libraries/jandex/'
@@ -300,7 +307,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'Libraries/swagger/'
@@ -312,7 +319,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'Libraries/rabbitmq-client/'
@@ -324,7 +331,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'Libraries/uadetector-core/'
@@ -336,7 +343,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - UADetector-Core
-    if: ${{ !cancelled() && needs.UADetector-Core.result == 'success' }}
+    if: ${{ !failure() && needs.UADetector-Core.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'Libraries/uadetector-resources/'
@@ -348,7 +355,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AMQP-Client
-    if: ${{ !cancelled() && needs.AMQP-Client.result == 'success' }}
+    if: ${{ !failure() && needs.AMQP-Client.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'Vert.x/vertx-rabbitmq/'
@@ -360,7 +367,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Parent
-    if: ${{ !cancelled() && needs.Parent.result == 'success' }}
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'JCache/cache-api/'
@@ -372,7 +379,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Cache-API
-    if: ${{ !cancelled() && needs.Cache-API.result == 'success' }}
+    if: ${{ !failure() && needs.Cache-API.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'JCache/ehcache/'
@@ -387,7 +394,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AOP
-    if: ${{ !cancelled() && needs.AOP.result == 'success' }}
+    if: ${{ !failure() && needs.AOP.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'Google/guice-core/'
@@ -403,7 +410,7 @@ jobs:
     needs:
       - Jandex
       - EHCache
-    if: ${{ !cancelled() && needs.Jandex.result == 'success' && needs.EHCache.result == 'success' }}
+    if: ${{ !failure() && needs.Jandex.result == 'success' && needs.EHCache.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'Hibernate/hibernate-core/'
@@ -418,7 +425,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Hibernate-Core
-    if: ${{ !cancelled() && needs.Hibernate-Core.result == 'success' }}
+    if: ${{ !failure() && needs.Hibernate-Core.result == 'success' }}
     with:
       repository: 'GuicedEE/Services'
       baseDir: 'Hibernate/hibernate-reactive/'
@@ -433,7 +440,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guice
-    if: ${{ !cancelled() && needs.Guice.result == 'success' }}
+    if: ${{ !failure() && needs.Guice.result == 'success' }}
     with:
       repository: 'GuicedEE/Client'
       name: 'Guice Inject Client'
@@ -447,7 +454,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guice-Inject-Client
-    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' }}
+    if: ${{ !failure() && needs.Guice-Inject-Client.result == 'success' }}
     with:
       repository: 'GuicedEE/JsonRepresentation'
       name: 'JSON Representation'
@@ -461,7 +468,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guice-Inject-Client
-    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' }}
+    if: ${{ !failure() && needs.Guice-Inject-Client.result == 'success' }}
     with:
       repository: 'GuicedEE/XMLRepresentation'
       name: 'XML Representation'
@@ -477,7 +484,7 @@ jobs:
       - Guice-Inject-Client
       - JSON-Representation
       - Vertx-Mutiny
-    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Vertx-Mutiny.result == 'success' }}
+    if: ${{ !failure() && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Vertx-Mutiny.result == 'success' }}
     with:
       repository: 'GuicedEE/Guiced-Vert.x'
       name: 'Guiced Vert.x'
@@ -494,7 +501,7 @@ jobs:
       - Guice-Inject-Client
       - JSON-Representation
       - UADetector-Resources
-    if: ${{ !cancelled() && needs.JWebMP-Parent.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.UADetector-Resources.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Parent.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.UADetector-Resources.result == 'success' }}
     with:
       repository: 'JWebMP/Client'
       name: 'JWebMP Client'
@@ -510,7 +517,7 @@ jobs:
       - Guice-Inject-Client
       - Guiced-Vertx
       - Config-Core
-    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Config-Core.result == 'success' }}
+    if: ${{ !failure() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Config-Core.result == 'success' }}
     with:
       repository: 'GuicedEE/GuicedInjection'
       name: 'Guiced Inject'
@@ -528,7 +535,7 @@ jobs:
       - Guiced-Vertx
       - Vertx-RabbitMQ
       - AMQP-Client
-    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Vertx-RabbitMQ.result == 'success' && needs.AMQP-Client.result == 'success' }}
+    if: ${{ !failure() && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Vertx-RabbitMQ.result == 'success' && needs.AMQP-Client.result == 'success' }}
     with:
       repository: 'GuicedEE/GuicedRabbit'
       name: 'Guiced Rabbit'
@@ -544,7 +551,7 @@ jobs:
       - Guiced-Vertx
       - Guice-Inject-Client
       - JSON-Representation
-    if: ${{ !cancelled() && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' }}
+    if: ${{ !failure() && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' }}
     with:
       repository: 'GuicedEE/GuicedVertxWeb'
       name: 'Guiced Web'
@@ -560,7 +567,7 @@ jobs:
       - JWebMP-Parent
       - Guiced-Inject
       - Guiced-Web
-    if: ${{ !cancelled() && needs.JWebMP-Parent.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Guiced-Web.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Parent.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Guiced-Web.result == 'success' }}
     with:
       repository: 'JWebMP/Test-Library'
       name: 'JWebMP TestLib'
@@ -575,7 +582,7 @@ jobs:
     needs:
       - Guiced-Web
       - XML-Representation
-    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' && needs.XML-Representation.result == 'success' }}
+    if: ${{ !failure() && needs.Guiced-Web.result == 'success' && needs.XML-Representation.result == 'success' }}
     with:
       repository: 'GuicedEE/RestServices'
       name: 'Guiced Rest'
@@ -590,7 +597,7 @@ jobs:
     needs:
       - Guiced-Inject
       - XML-Representation
-    if: ${{ !cancelled() && needs.Guiced-Inject.result == 'success' && needs.XML-Representation.result == 'success' }}
+    if: ${{ !failure() && needs.Guiced-Inject.result == 'success' && needs.XML-Representation.result == 'success' }}
     with:
       repository: 'GuicedEE/Rest-Client'
       name: 'Guiced Rest Client'
@@ -604,7 +611,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Web
-    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' }}
+    if: ${{ !failure() && needs.Guiced-Web.result == 'success' }}
     with:
       repository: 'GuicedEE/GuicedVertxSockets'
       name: 'Guiced Websockets'
@@ -620,7 +627,7 @@ jobs:
       - Guice-Inject-Client
       - Guiced-Vertx
       - Config-Core
-    if: ${{ !cancelled() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Config-Core.result == 'success' }}
+    if: ${{ !failure() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Config-Core.result == 'success' }}
     with:
       repository: 'GuicedEE/microprofile-config'
       name: 'Guiced Config'
@@ -635,7 +642,7 @@ jobs:
     needs:
       - Guiced-Web
       - Swagger-Services
-    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' && needs.Swagger-Services.result == 'success' }}
+    if: ${{ !failure() && needs.Guiced-Web.result == 'success' && needs.Swagger-Services.result == 'success' }}
     with:
       repository: 'GuicedEE/OpenAPI'
       name: 'Guiced OpenAPI'
@@ -649,7 +656,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Web
-    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' }}
+    if: ${{ !failure() && needs.Guiced-Web.result == 'success' }}
     with:
       repository: 'GuicedEE/SwaggerUI'
       name: 'Guiced Swagger UI'
@@ -663,7 +670,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - Guiced-Inject
-    if: ${{ !cancelled() && needs.Guiced-Inject.result == 'success' }}
+    if: ${{ !failure() && needs.Guiced-Inject.result == 'success' }}
     with:
       repository: 'GuicedEE/GuicedCDI'
       name: 'Guiced CDI'
@@ -681,7 +688,7 @@ jobs:
       - Guiced-Vertx
       - UADetector-Resources
       - Guiced-Inject
-    if: ${{ !cancelled() && needs.JWebMP-Client.result == 'success' && needs.JWebMP-TestLib.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.UADetector-Resources.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Client.result == 'success' && needs.JWebMP-TestLib.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.UADetector-Resources.result == 'success' && needs.Guiced-Inject.result == 'success' }}
     with:
       repository: 'JWebMP/Core'
       name: 'JWebMP Core'
@@ -698,7 +705,7 @@ jobs:
       - Guice-Inject-Client
       - Guiced-Inject
       - Health-Core
-    if: ${{ !cancelled() && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Health-Core.result == 'success' }}
+    if: ${{ !failure() && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Health-Core.result == 'success' }}
     with:
       repository: 'GuicedEE/Health'
       name: 'Guiced Health'
@@ -714,7 +721,7 @@ jobs:
       - Guiced-Web
       - Guiced-Inject
       - Metrics-Core
-    if: ${{ !cancelled() && needs.Guiced-Web.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Metrics-Core.result == 'success' }}
+    if: ${{ !failure() && needs.Guiced-Web.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Metrics-Core.result == 'success' }}
     with:
       repository: 'GuicedEE/Metrics'
       name: 'Guiced Metrics'
@@ -734,7 +741,7 @@ jobs:
       - Guiced-Inject
       - Guiced-Rest
       - Hibernate-Reactive
-    if: ${{ !cancelled() && needs.Guiced-Config.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Guiced-Rest.result == 'success' && needs.Hibernate-Reactive.result == 'success' }}
+    if: ${{ !failure() && needs.Guiced-Config.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Guiced-Rest.result == 'success' && needs.Hibernate-Reactive.result == 'success' }}
     with:
       repository: 'GuicedEE/GuicedVertxPersistence'
       name: 'Guiced Persistence'
@@ -752,7 +759,7 @@ jobs:
       - Guiced-Vertx
       - Guiced-Health
       - Guiced-Inject
-    if: ${{ !cancelled() && needs.Telemetry-Core.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Guiced-Health.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    if: ${{ !failure() && needs.Telemetry-Core.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Guiced-Health.result == 'success' && needs.Guiced-Inject.result == 'success' }}
     with:
       repository: 'GuicedEE/GuicedTelemetry'
       name: 'Guiced Telemetry'
@@ -768,7 +775,7 @@ jobs:
       - Guiced-Persistence
       - Guiced-Inject
       - Hibernate-Reactive
-    if: ${{ !cancelled() && needs.Guiced-Persistence.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Hibernate-Reactive.result == 'success' }}
+    if: ${{ !failure() && needs.Guiced-Persistence.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Hibernate-Reactive.result == 'success' }}
     with:
       repository: 'Entity-Assist/EntityAssistReactive'
       name: 'Entity Assist'
@@ -787,7 +794,7 @@ jobs:
       - JSON-Representation
       - Guice-Inject-Client
       - Guiced-Inject
-    if: ${{ !cancelled() && needs.Guiced-Health.result == 'success' && needs.Guiced-Telemetry.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    if: ${{ !failure() && needs.Guiced-Health.result == 'success' && needs.Guiced-Telemetry.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Inject.result == 'success' }}
     with:
       repository: 'GedMarc/GuicedCerial'
       name: 'Guiced Cerial'
@@ -806,7 +813,7 @@ jobs:
     needs:
       - JWebMP-Client
       - Guice-Inject-Client
-    if: ${{ !cancelled() && needs.JWebMP-Client.result == 'success' && needs.Guice-Inject-Client.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Client.result == 'success' && needs.Guice-Inject-Client.result == 'success' }}
     with:
       repository: 'JWebMP/TypescriptClient'
       name: 'JWebMP TypeScript Client'
@@ -825,7 +832,7 @@ jobs:
       - UADetector-Resources
       - Guiced-Web
       - Guiced-Inject
-    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.UADetector-Resources.result == 'success' && needs.Guiced-Web.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.UADetector-Resources.result == 'success' && needs.Guiced-Web.result == 'success' && needs.Guiced-Inject.result == 'success' }}
     with:
       repository: 'JWebMP/VertX'
       name: 'JWebMP Vert.x'
@@ -841,7 +848,7 @@ jobs:
       - JWebMP-Core
       - JWebMP-Client
       - JWebMP-TSClient
-    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Client.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Client.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
     with:
       repository: 'JWebMP/EasingEffects'
       name: 'JWebMP Easing Effects'
@@ -858,7 +865,7 @@ jobs:
       - JWebMP-TSClient
       - JWebMP-Vertx
       - Guiced-Inject
-    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Vertx.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Vertx.result == 'success' && needs.Guiced-Inject.result == 'success' }}
     with:
       repository: 'JWebMP/AngularTS'
       name: 'JWebMP Angular'
@@ -875,7 +882,7 @@ jobs:
       - JWebMP-Client
       - JWebMP-Easing
       - Guiced-Inject
-    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Client.result == 'success' && needs.JWebMP-Easing.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Client.result == 'success' && needs.JWebMP-Easing.result == 'success' && needs.Guiced-Inject.result == 'success' }}
     with:
       repository: 'JWebMP/WebAwesome'
       name: 'JWebMP WebAwesome'
@@ -890,7 +897,7 @@ jobs:
     needs:
       - JWebMP-Core
       - JWebMP-Angular
-    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
     with:
       repository: 'JWebMP/AgCharts'
       name: 'JWebMP AG Charts'
@@ -905,7 +912,7 @@ jobs:
     needs:
       - JWebMP-Core
       - JWebMP-Angular
-    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
     with:
       repository: 'JWebMP/AgGrid'
       name: 'JWebMP AG Grid'
@@ -921,7 +928,7 @@ jobs:
       - JWebMP-Core
       - JWebMP-TSClient
       - JWebMP-Angular
-    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
     with:
       repository: 'JWebMP/ChartJS'
       name: 'JWebMP ChartJS'
@@ -937,7 +944,7 @@ jobs:
       - JWebMP-Core
       - JWebMP-TSClient
       - JWebMP-Angular
-    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
     with:
       repository: 'JWebMP/FontAwesome'
       name: 'JWebMP Font Awesome'
@@ -953,7 +960,7 @@ jobs:
       - JWebMP-Core
       - JWebMP-TSClient
       - JWebMP-Angular
-    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
     with:
       repository: 'JWebMP/Prism'
       name: 'JWebMP Prism'
@@ -970,7 +977,7 @@ jobs:
       - JWebMP-Vertx
       - JWebMP-TSClient
       - JWebMP-Angular
-    if: ${{ !cancelled() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Vertx.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Core.result == 'success' && needs.JWebMP-Vertx.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
     with:
       repository: 'JWebMP/FullCalendar'
       name: 'JWebMP Full Calendar'
@@ -987,7 +994,7 @@ jobs:
       - Guiced-Inject
       - Guiced-Vertx
       - Guiced-Web
-    if: ${{ !cancelled() && needs.JWebMP-Angular.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Guiced-Web.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Angular.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Guiced-Web.result == 'success' }}
     with:
       repository: 'JWebMP/AngularMavenPlugin'
       name: 'JWebMP Angular Maven Plugin'
@@ -1002,7 +1009,7 @@ jobs:
     needs:
       - JWebMP-AgCharts
       - JWebMP-TSClient
-    if: ${{ !cancelled() && needs.JWebMP-AgCharts.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-AgCharts.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
     with:
       repository: 'JWebMP/AgChartsEnterprise'
       name: 'JWebMP AG Charts Enterprise'
@@ -1017,7 +1024,7 @@ jobs:
     needs:
       - JWebMP-FontAwesome
       - JWebMP-TSClient
-    if: ${{ !cancelled() && needs.JWebMP-FontAwesome.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-FontAwesome.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
     with:
       repository: 'JWebMP/FontAwesomePro'
       name: 'JWebMP Font Awesome Pro'
@@ -1032,7 +1039,7 @@ jobs:
     needs:
       - JWebMP-FullCalendar
       - JWebMP-TSClient
-    if: ${{ !cancelled() && needs.JWebMP-FullCalendar.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-FullCalendar.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
     with:
       repository: 'JWebMP/FullCalendarPro'
       name: 'JWebMP Full Calendar Pro'
@@ -1048,7 +1055,7 @@ jobs:
       - JWebMP-WebAwesome
       - JWebMP-FontAwesome-Pro
       - JWebMP-Client
-    if: ${{ !cancelled() && needs.JWebMP-WebAwesome.result == 'success' && needs.JWebMP-FontAwesome-Pro.result == 'success' && needs.JWebMP-Client.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-WebAwesome.result == 'success' && needs.JWebMP-FontAwesome-Pro.result == 'success' && needs.JWebMP-Client.result == 'success' }}
     with:
       repository: 'JWebMP/WebAwesomePro'
       name: 'JWebMP WebAwesome Pro'
@@ -1064,7 +1071,7 @@ jobs:
       - JWebMP-Prism
       - JWebMP-TSClient
       - JWebMP-Angular
-    if: ${{ !cancelled() && needs.JWebMP-Prism.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Prism.result == 'success' && needs.JWebMP-TSClient.result == 'success' && needs.JWebMP-Angular.result == 'success' }}
     with:
       repository: 'JWebMP/Markdown'
       name: 'JWebMP Markdown'
@@ -1080,7 +1087,7 @@ jobs:
       - JWebMP-AgGrid
       - JWebMP-AgCharts-Enterprise
       - JWebMP-TSClient
-    if: ${{ !cancelled() && needs.JWebMP-AgGrid.result == 'success' && needs.JWebMP-AgCharts-Enterprise.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-AgGrid.result == 'success' && needs.JWebMP-AgCharts-Enterprise.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
     with:
       repository: 'JWebMP/AgGridEnterprise'
       name: 'JWebMP AG Grid Enterprise'
@@ -1098,7 +1105,7 @@ jobs:
       - JWebMP-Angular
       - Guiced-Rabbit
       - Guiced-Inject
-    if: ${{ !cancelled() && needs.JWebMP-Client.result == 'success' && needs.JWebMP-Vertx.result == 'success' && needs.JWebMP-Angular.result == 'success' && needs.Guiced-Rabbit.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    if: ${{ !failure() && needs.JWebMP-Client.result == 'success' && needs.JWebMP-Vertx.result == 'success' && needs.JWebMP-Angular.result == 'success' && needs.Guiced-Rabbit.result == 'success' && needs.Guiced-Inject.result == 'success' }}
     with:
       repository: 'JWebMP/RabbitComms'
       name: 'JWebMP RabbitComms'
@@ -1116,7 +1123,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs:
       - Versioner
-    if: ${{ !cancelled() && needs.Versioner.result == 'success' }}
+    if: ${{ !failure() && needs.Versioner.result == 'success' }}
     with:
       repository: 'Activity-Master/BOM'
       name: 'Activity Master BOM'
@@ -1131,7 +1138,7 @@ jobs:
     needs:
       - Parent
       - AM-BOM
-    if: ${{ !cancelled() && needs.Parent.result == 'success' && needs.AM-BOM.result == 'success' }}
+    if: ${{ !failure() && needs.Parent.result == 'success' && needs.AM-BOM.result == 'success' }}
     with:
       repository: 'Activity-Master/Parent'
       name: 'Activity Master Parent'
@@ -1147,7 +1154,7 @@ jobs:
       - AM-Parent
       - Entity-Assist
       - Guiced-Inject
-    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' && needs.Entity-Assist.result == 'success' && needs.Guiced-Inject.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Parent.result == 'success' && needs.Entity-Assist.result == 'success' && needs.Guiced-Inject.result == 'success' }}
     with:
       repository: 'Activity-Master/Client'
       name: 'Activity Master Client'
@@ -1166,7 +1173,7 @@ jobs:
       - Guiced-Rest
       - JSON-Representation
       - XML-Representation
-    if: ${{ !cancelled() && needs.AM-Client.result == 'success' && needs.Entity-Assist.result == 'success' && needs.Guiced-Persistence.result == 'success' && needs.Guiced-Rest.result == 'success' && needs.JSON-Representation.result == 'success' && needs.XML-Representation.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Client.result == 'success' && needs.Entity-Assist.result == 'success' && needs.Guiced-Persistence.result == 'success' && needs.Guiced-Rest.result == 'success' && needs.JSON-Representation.result == 'success' && needs.XML-Representation.result == 'success' }}
     with:
       repository: 'Activity-Master/Core'
       name: 'Activity Master Core'
@@ -1180,7 +1187,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AM-Core
-    if: ${{ !cancelled() && needs.AM-Core.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Core.result == 'success' }}
     with:
       repository: 'Activity-Master/ProfileMaster'
       name: 'Activity Master Profiles'
@@ -1194,7 +1201,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AM-Core
-    if: ${{ !cancelled() && needs.AM-Core.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Core.result == 'success' }}
     with:
       repository: 'Activity-Master/ImageMaster'
       name: 'Activity Master Images'
@@ -1209,7 +1216,7 @@ jobs:
     needs:
       - AM-Core
       - AM-Profiles
-    if: ${{ !cancelled() && needs.AM-Core.result == 'success' && needs.AM-Profiles.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Core.result == 'success' && needs.AM-Profiles.result == 'success' }}
     with:
       repository: 'Activity-Master/SessionMaster'
       name: 'Activity Master Sessions'
@@ -1224,7 +1231,7 @@ jobs:
     needs:
       - AM-Core
       - AM-Sessions
-    if: ${{ !cancelled() && needs.AM-Core.result == 'success' && needs.AM-Sessions.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Core.result == 'success' && needs.AM-Sessions.result == 'success' }}
     with:
       repository: 'Activity-Master/GeographyMaster'
       name: 'Activity Master Geography'
@@ -1240,7 +1247,7 @@ jobs:
       - AM-Core
       - AM-Profiles
       - AM-Sessions
-    if: ${{ !cancelled() && needs.AM-Core.result == 'success' && needs.AM-Profiles.result == 'success' && needs.AM-Sessions.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Core.result == 'success' && needs.AM-Profiles.result == 'success' && needs.AM-Sessions.result == 'success' }}
     with:
       repository: 'Activity-Master/MailMaster'
       name: 'Activity Master Mail'
@@ -1256,7 +1263,7 @@ jobs:
       - AM-Client
       - Guiced-Cerial
       - JWebMP-TSClient
-    if: ${{ !cancelled() && needs.AM-Client.result == 'success' && needs.Guiced-Cerial.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Client.result == 'success' && needs.Guiced-Cerial.result == 'success' && needs.JWebMP-TSClient.result == 'success' }}
     with:
       repository: 'Activity-Master/CerialMasterClient'
       name: 'Activity Master Cerial Client'
@@ -1272,7 +1279,7 @@ jobs:
       - AM-Core
       - AM-Geography
       - AM-Profiles
-    if: ${{ !cancelled() && needs.AM-Core.result == 'success' && needs.AM-Geography.result == 'success' && needs.AM-Profiles.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Core.result == 'success' && needs.AM-Geography.result == 'success' && needs.AM-Profiles.result == 'success' }}
     with:
       repository: 'Activity-Master/RealtorMaster'
       name: 'Activity Master Realtor'
@@ -1288,7 +1295,7 @@ jobs:
       - AM-Core
       - AM-Client
       - AM-Cerial-Client
-    if: ${{ !cancelled() && needs.AM-Core.result == 'success' && needs.AM-Client.result == 'success' && needs.AM-Cerial-Client.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Core.result == 'success' && needs.AM-Client.result == 'success' && needs.AM-Cerial-Client.result == 'success' }}
     with:
       repository: 'Activity-Master/CerialMaster'
       name: 'Activity Master Cerial'
@@ -1302,7 +1309,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AM-Parent
-    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Parent.result == 'success' }}
     with:
       repository: 'Activity-Master/NotificationMaster'
       name: 'Activity Master Notifications'
@@ -1316,7 +1323,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AM-Parent
-    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Parent.result == 'success' }}
     with:
       repository: 'Activity-Master/PaymentMaster'
       name: 'Activity Master Payments'
@@ -1330,7 +1337,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AM-Parent
-    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Parent.result == 'success' }}
     with:
       repository: 'Activity-Master/ToDoMaster'
       name: 'Activity Master ToDo'
@@ -1344,7 +1351,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AM-Parent
-    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Parent.result == 'success' }}
     with:
       repository: 'Activity-Master/WalletMaster'
       name: 'Activity Master Wallet'
@@ -1358,7 +1365,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AM-Parent
-    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Parent.result == 'success' }}
     with:
       repository: 'Activity-Master/ConversationMaster'
       name: 'Activity Master Conversations'
@@ -1372,7 +1379,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AM-Parent
-    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Parent.result == 'success' }}
     with:
       repository: 'Activity-Master/DocumentMaster'
       name: 'Activity Master Documents'
@@ -1386,7 +1393,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AM-Parent
-    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Parent.result == 'success' }}
     with:
       repository: 'Activity-Master/FileMaster'
       name: 'Activity Master Files'
@@ -1400,7 +1407,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
       - AM-Parent
-    if: ${{ !cancelled() && needs.AM-Parent.result == 'success' }}
+    if: ${{ !failure() && needs.AM-Parent.result == 'success' }}
     with:
       repository: 'Activity-Master/ForumMaster'
       name: 'Activity Master Forums'
