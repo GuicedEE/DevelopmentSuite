@@ -1,0 +1,134 @@
+name: Batch Central Publishing
+
+on:
+  workflow_dispatch:
+    inputs:
+      centralRelease:
+        type: boolean
+        description: Run a release to Maven Central (requires secrets)
+        default: true
+      skipTests:
+        type: boolean
+        description: Skip tests during the build
+        default: true
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+  GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+  # Enable sonatype release profile only if centralRelease is true
+  CENTRAL_PROFILE: ${{ inputs.centralRelease == true && '-Psonatype-distribution,release' || '' }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: Batch Central Publishing
+    steps:
+
+      # ── Checkout with all submodules ────────────────
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+          token: ${{ secrets.BUILD_TOKEN }}
+
+      # ── Setup Java 25 (required by project) ─────────
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'oracle'
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      # ── Cache Maven packages ────────────────────────
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      # ── Setup Maven 4.0.0-rc-5 (required by project) ─
+      - name: Setup Maven
+        uses: actionctl/setup-maven-cli@v1
+        with:
+          maven_version: '4.0.0-rc-5'
+          download_url_pattern: 'https://dlcdn.apache.org/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz'
+
+      # ── Configure Maven Settings ───────────────────
+      - name: Update Settings.xml
+        uses: s4u/maven-settings-action@v3
+        with:
+          sonatypeSnapshots: true
+          servers: >
+            [
+              {
+                "id": "github",
+                "username": "${{ secrets.USERNAME }}",
+                "password": "${{ secrets.USER_TOKEN }}"
+              },
+              {
+                "id": "packages",
+                "username": "${{ secrets.USERNAME }}",
+                "password": "${{ secrets.USER_TOKEN }}"
+              },
+              {
+                "id": "packages_jwebmp",
+                "username": "${{ secrets.USERNAME }}",
+                "password": "${{ secrets.USER_TOKEN }}"
+              },
+              {
+                "id": "sona-snapshot",
+                "username": "${{ secrets.SONA_USERNAME }}",
+                "password": "${{ secrets.SONA_PASSWORD }}"
+              },
+              {
+                "id": "sona-release",
+                "username": "${{ secrets.SONA_USERNAME }}",
+                "password": "${{ secrets.SONA_PASSWORD }}"
+              },
+              {
+                "id": "central",
+                "username": "${{ secrets.SONA_USERNAME }}",
+                "password": "${{ secrets.SONA_PASSWORD }}"
+              }
+            ]
+          repositories: >
+            [
+              {
+                "id": "packages",
+                "name": "packages",
+                "url": "https://maven.pkg.github.com/GuicedEE/Packages",
+                "releases": { "enabled": "true" },
+                "snapshots": { "enabled": "true" }
+              },
+              {
+                "id": "packages_jwebmp",
+                "name": "packages_jwebmp",
+                "url": "https://maven.pkg.github.com/JWebMP/Packages",
+                "releases": { "enabled": "true" },
+                "snapshots": { "enabled": "true" }
+              },
+              {
+                "id": "shibboleth",
+                "name": "shibboleth",
+                "url": "https://build.shibboleth.net/nexus/content/repositories/releases",
+                "releases": { "enabled": "true" },
+                "snapshots": { "enabled": "true" }
+              }
+            ]
+
+      # ── Run Batch Deployment ───────────────────────
+      # This command builds and deploys everything in the correct order as defined by the Maven reactor
+      # using the profiles defined in the root pom.xml.
+      - name: 'Maven: Batch Deploy'
+        run: >
+          mvn -B -ntp source:jar javadoc:jar deploy
+          -Pguicedee,services,entityassist,jwebmp
+          ${{ inputs.skipTests && '-DskipTests' || '' }}
+          -U
+          ${{ env.CENTRAL_PROFILE }}

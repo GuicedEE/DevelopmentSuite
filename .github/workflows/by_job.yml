@@ -147,7 +147,7 @@ jobs:
   # JWebMP BOM only depends on Versioner (separate repo)
   JWebMP-BOM:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
-    needs: [ Versioner ]
+    needs: [ Versioner, GuicedEE-BOM ]
     if: ${{ !failure() }}
     with:
       repository: 'JWebMP/BOM'
