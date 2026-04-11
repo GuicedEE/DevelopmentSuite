@@ -31,10 +31,11 @@ jobs:
     steps:
 
       # ── Checkout with all submodules ────────────────
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.2
         with:
           submodules: 'recursive'
           fetch-depth: 0
+          show-progress: true
           token: ${{ secrets.BUILD_TOKEN }}
 
       # ── Setup Java 25 (required by project) ─────────
