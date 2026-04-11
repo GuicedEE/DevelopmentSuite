@@ -39,7 +39,7 @@ GuicedEE wires together [Google Guice](https://github.com/google/guice), [Vert.x
         <dependency>
             <groupId>com.guicedee</groupId>
             <artifactId>guicedee-bom</artifactId>
-            <version>2.0.0-RC2</version>
+            <version>2.0.0-RC3</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -118,10 +118,10 @@ module my.app {
 │                    Vert.x Web · HTTP/HTTPS · Router                 │
 ├─────────────────────────────────────────────────────────────────────┤
 │              Guiced Vert.x · EventBus · Verticles · Codecs          │
-├──────────┬──────────┬──────────┬──────────┬─────────────────────────┤
-│  Health  │ Metrics  │  Config  │   CDI    │    Fault Tolerance      │
-│(MP Health)│(Dropwiz.)│(SmallRye)│ (Bridge) │   (MP FT)              │
-├──────────┴──────────┴──────────┴──────────┴─────────────────────────┤
+├──────────┬──────────┬──────────┬─────────────────────────────────────┤
+│  Health  │ Metrics  │  Config  │         Fault Tolerance             │
+│(MP Health)│(Dropwiz.)│(SmallRye)│           (MP FT)                  │
+├──────────┴──────────┴──────────┴─────────────────────────────────────┤
 │        GuicedEE Inject · Guice Injector · ClassGraph · SPI          │
 ├─────────────────────────────────────────────────────────────────────┤
 │     Client SPI · Lifecycle Hooks · CallScope · Representations      │
@@ -140,7 +140,6 @@ module my.app {
 |--------|----------|-------------|
 | [**Client**](client/) | `com.guicedee:client` | Client SPI — lifecycle hooks, scoping primitives, and contracts that all modules program against |
 | [**Inject**](inject/) | `com.guicedee:inject` | Runtime engine — classpath scanning via ClassGraph, Guice injector creation, startup/shutdown lifecycle |
-| [**CDI**](cdi/) | `com.guicedee:cdi` | Jakarta CDI bridge — maps `@Inject`, `@Named`, `@ApplicationScoped` to Guice equivalents with `BeanManager` adapter |
 | [**Config**](config/) | `com.guicedee.microprofile:config` | MicroProfile Config via SmallRye — `@ConfigProperty` injection from env vars, system props, and properties files |
 
 ### Reactive Core
@@ -182,6 +181,14 @@ module my.app {
 | Module | Artifact | Description |
 |--------|----------|-------------|
 | [**MCP**](mcp/) | MCP Server | Model Context Protocol server — tools, resources, prompts, and completion for AI agent integration |
+
+### Migration & Compatibility
+
+> These modules are **not** part of the GuicedEE foundation. They exist to assist projects migrating from other DI frameworks (Jakarta CDI, Spring, etc.) to the native Guice-first model. New projects should use Guice annotations and APIs directly.
+
+| Module | Artifact | Description |
+|--------|----------|-------------|
+| [**CDI**](cdi/) | `com.guicedee:cdi` | Jakarta CDI compatibility bridge — maps `@Inject`, `@Named`, `@ApplicationScoped` to Guice equivalents with `BeanManager` adapter. Intended for migration assistance, not as a foundation layer. |
 
 ### Infrastructure
 

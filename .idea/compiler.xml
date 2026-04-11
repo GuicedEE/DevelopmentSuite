@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="angular-maven-plugin" />
       </profile>
       <profile name="Annotation profile for web-awesome" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -542,7 +543,6 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="angular-maven-plugin" target="25" />
       <module name="cache-annotations-ri-guice" target="25" />
       <module name="guice" target="17" />
       <module name="jwebmp-testlib" target="25" />

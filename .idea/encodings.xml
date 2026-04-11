@@ -211,6 +211,8 @@
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/aggrid/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/aggrid/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/aggrid/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/angular-maven-plugin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/angular-maven-plugin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/angular/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/angular/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/chartjs/jar-resources" charset="UTF-8" />

@@ -1137,14 +1137,18 @@ jobs:
     secrets: inherit
 
   # ──────────────────────────────────────────────
-  # Layer 13h – Activity Master Parent (depends on GuicedEE Parent, AM BOM)
+  # Layer 13h – Activity Master Parent (depends on GuicedEE Parent, JWebMP Parent, AM BOM, Hibernate, Vertx Mutiny)
   # ──────────────────────────────────────────────
   AM-Parent:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs:
       - Parent
+      - JWebMP-Parent
       - AM-BOM
-    if: ${{ !failure() && needs.Parent.result == 'success' && needs.AM-BOM.result == 'success' }}
+      - Hibernate-Core
+      - Hibernate-Reactive
+      - Vertx-Mutiny
+    if: ${{ !failure() && needs.Parent.result == 'success' && needs.JWebMP-Parent.result == 'success' && needs.AM-BOM.result == 'success' && needs.Hibernate-Core.result == 'success' && needs.Hibernate-Reactive.result == 'success' && needs.Vertx-Mutiny.result == 'success' }}
     with:
       repository: 'Activity-Master/Parent'
       name: 'Activity Master Parent'
