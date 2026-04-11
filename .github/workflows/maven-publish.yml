@@ -50,13 +50,13 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Setup Maven
-        uses: actionctl/setup-maven-cli@v1
+        uses: actionctl/setup-maven-cli@91780e83e5ea177cd5f05e192d38008a0bd3d4c6 # v1
         with:
           maven_version: '4.0.0-rc-5'
           download_url_pattern: 'https://dlcdn.apache.org/maven/maven-4/4.0.0-rc-5/binaries/apache-maven-4.0.0-rc-5-bin.tar.gz'
 
       - name: Update Settings.xml
-        uses: s4u/maven-settings-action@v4.0.0
+        uses: s4u/maven-settings-action@45b6ca948aeeb205adebe97c67b26e2b50896844 # v4.0.0
         with:
           sonatypeSnapshots: true
           servers: >
