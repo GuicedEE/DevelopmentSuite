@@ -39,7 +39,7 @@ GuicedEE wires together [Google Guice](https://github.com/google/guice), [Vert.x
         <dependency>
             <groupId>com.guicedee</groupId>
             <artifactId>guicedee-bom</artifactId>
-            <version>2.0.0-RC1</version>
+            <version>2.0.0-RC2</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>

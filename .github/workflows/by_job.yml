@@ -8,6 +8,10 @@ on:
         description: Run a release to Maven Central (requires secrets)
         default: false
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
 
   # ──────────────────────────────────────────────
@@ -19,7 +23,7 @@ jobs:
       repository: 'GuicedEE/BOM'
       baseDir: 'Versioner/'
       name: 'Versioner'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -33,7 +37,7 @@ jobs:
       repository: 'GuicedEE/BOM'
       baseDir: 'StandaloneBOM/'
       name: 'Standalone BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -47,7 +51,7 @@ jobs:
       repository: 'GuicedEE/BOM'
       baseDir: 'TestLayoutBOM/'
       name: 'Tests BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Swagger-BOM:
@@ -58,7 +62,7 @@ jobs:
       repository: 'GuicedEE/BOM'
       baseDir: 'SwaggerBOM/'
       name: 'Swagger BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   JBoss-BOM:
@@ -69,7 +73,7 @@ jobs:
       repository: 'GuicedEE/BOM'
       baseDir: 'JBossBOM/'
       name: 'JBoss BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Jakarta-BOM:
@@ -80,7 +84,7 @@ jobs:
       repository: 'GuicedEE/BOM'
       baseDir: 'JakartaBOM/'
       name: 'Jakarta BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Hibernate-BOM:
@@ -91,7 +95,7 @@ jobs:
       repository: 'GuicedEE/BOM'
       baseDir: 'HibernateBOM/'
       name: 'Hibernate BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Google-BOM:
@@ -102,7 +106,7 @@ jobs:
       repository: 'GuicedEE/BOM'
       baseDir: 'GoogleBOM/'
       name: 'Google BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Apache-BOM:
@@ -113,7 +117,7 @@ jobs:
       repository: 'GuicedEE/BOM'
       baseDir: 'ApacheBOM/'
       name: 'Apache BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   ApacheCXF-BOM:
@@ -124,7 +128,7 @@ jobs:
       repository: 'GuicedEE/BOM'
       baseDir: 'ApacheCXFBOM/'
       name: 'Apache CXF BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   SmallRye-BOM:
@@ -135,7 +139,7 @@ jobs:
       repository: 'GuicedEE/BOM'
       baseDir: 'SmallRyeBOM/'
       name: 'SmallRye BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # JWebMP BOM only depends on Versioner (separate repo)
@@ -146,7 +150,7 @@ jobs:
     with:
       repository: 'JWebMP/BOM'
       name: 'JWebMP BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -160,7 +164,7 @@ jobs:
       repository: 'GuicedEE/BOM'
       baseDir: 'FasterXMLBOM/'
       name: 'FasterXML BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -184,7 +188,7 @@ jobs:
     with:
       repository: 'GuicedEE/BOM'
       name: 'GuicedEE BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -198,7 +202,7 @@ jobs:
     with:
       repository: 'GuicedEE/Parent'
       name: 'GuicedEE Parent'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -213,7 +217,7 @@ jobs:
     with:
       repository: 'JWebMP/Parent'
       name: 'JWebMP Parent'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -228,7 +232,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'Google/aop/'
       name: 'AOP Alliance'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Vertx-Mutiny:
@@ -240,7 +244,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'Vert.x/vertx-mutiny/'
       name: 'Vert.x Mutiny'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Config-Core:
@@ -252,7 +256,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'MicroProfile/config-core/'
       name: 'Config Core'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Health-Core:
@@ -264,7 +268,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'MicroProfile/health-core/'
       name: 'Health Core'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Metrics-Core:
@@ -276,7 +280,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'MicroProfile/metrics-core/'
       name: 'Metrics Core'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Telemetry-Core:
@@ -288,7 +292,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'MicroProfile/telemetry-core/'
       name: 'Telemetry Core'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Jandex:
@@ -300,7 +304,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'Libraries/jandex/'
       name: 'Jandex'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Swagger-Services:
@@ -312,7 +316,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'Libraries/swagger/'
       name: 'Swagger Services'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   AMQP-Client:
@@ -324,7 +328,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'Libraries/rabbitmq-client/'
       name: 'AMQP Client'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   UADetector-Core:
@@ -336,7 +340,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'Libraries/uadetector-core/'
       name: 'UADetector Core'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   UADetector-Resources:
@@ -348,7 +352,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'Libraries/uadetector-resources/'
       name: 'UADetector Resources'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Vertx-RabbitMQ:
@@ -360,7 +364,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'Vert.x/vertx-rabbitmq/'
       name: 'Vert.x RabbitMQ'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   Cache-API:
@@ -372,7 +376,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'JCache/cache-api/'
       name: 'Cache API'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   EHCache:
@@ -384,7 +388,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'JCache/ehcache/'
       name: 'EHCache'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -399,7 +403,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'Google/guice-core/'
       name: 'Google Guice'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -415,7 +419,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'Hibernate/hibernate-core/'
       name: 'Hibernate Core'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -430,7 +434,7 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'Hibernate/hibernate-reactive/'
       name: 'Hibernate Reactive'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -444,7 +448,7 @@ jobs:
     with:
       repository: 'GuicedEE/Client'
       name: 'Guice Inject Client'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -458,7 +462,7 @@ jobs:
     with:
       repository: 'GuicedEE/JsonRepresentation'
       name: 'JSON Representation'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -472,7 +476,7 @@ jobs:
     with:
       repository: 'GuicedEE/XMLRepresentation'
       name: 'XML Representation'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -488,7 +492,7 @@ jobs:
     with:
       repository: 'GuicedEE/Guiced-Vert.x'
       name: 'Guiced Vert.x'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -505,7 +509,7 @@ jobs:
     with:
       repository: 'JWebMP/Client'
       name: 'JWebMP Client'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -521,7 +525,7 @@ jobs:
     with:
       repository: 'GuicedEE/GuicedInjection'
       name: 'Guiced Inject'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -539,7 +543,7 @@ jobs:
     with:
       repository: 'GuicedEE/GuicedRabbit'
       name: 'Guiced Rabbit'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -555,7 +559,7 @@ jobs:
     with:
       repository: 'GuicedEE/GuicedVertxWeb'
       name: 'Guiced Web'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -571,7 +575,7 @@ jobs:
     with:
       repository: 'JWebMP/Test-Library'
       name: 'JWebMP TestLib'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -586,7 +590,7 @@ jobs:
     with:
       repository: 'GuicedEE/RestServices'
       name: 'Guiced Rest'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -601,7 +605,7 @@ jobs:
     with:
       repository: 'GuicedEE/Rest-Client'
       name: 'Guiced Rest Client'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -615,7 +619,7 @@ jobs:
     with:
       repository: 'GuicedEE/GuicedVertxSockets'
       name: 'Guiced Websockets'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -631,7 +635,7 @@ jobs:
     with:
       repository: 'GuicedEE/microprofile-config'
       name: 'Guiced Config'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -646,7 +650,7 @@ jobs:
     with:
       repository: 'GuicedEE/OpenAPI'
       name: 'Guiced OpenAPI'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -660,7 +664,7 @@ jobs:
     with:
       repository: 'GuicedEE/SwaggerUI'
       name: 'Guiced Swagger UI'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -674,7 +678,7 @@ jobs:
     with:
       repository: 'GuicedEE/GuicedCDI'
       name: 'Guiced CDI'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -692,7 +696,7 @@ jobs:
     with:
       repository: 'JWebMP/Core'
       name: 'JWebMP Core'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -709,7 +713,7 @@ jobs:
     with:
       repository: 'GuicedEE/Health'
       name: 'Guiced Health'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -725,7 +729,7 @@ jobs:
     with:
       repository: 'GuicedEE/Metrics'
       name: 'Guiced Metrics'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -745,7 +749,7 @@ jobs:
     with:
       repository: 'GuicedEE/GuicedVertxPersistence'
       name: 'Guiced Persistence'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -763,7 +767,7 @@ jobs:
     with:
       repository: 'GuicedEE/GuicedTelemetry'
       name: 'Guiced Telemetry'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -779,7 +783,7 @@ jobs:
     with:
       repository: 'Entity-Assist/EntityAssistReactive'
       name: 'Entity Assist'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -798,7 +802,7 @@ jobs:
     with:
       repository: 'GedMarc/GuicedCerial'
       name: 'Guiced Cerial'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ══════════════════════════════════════════════
@@ -817,7 +821,7 @@ jobs:
     with:
       repository: 'JWebMP/TypescriptClient'
       name: 'JWebMP TypeScript Client'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -836,7 +840,7 @@ jobs:
     with:
       repository: 'JWebMP/VertX'
       name: 'JWebMP Vert.x'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -852,7 +856,7 @@ jobs:
     with:
       repository: 'JWebMP/EasingEffects'
       name: 'JWebMP Easing Effects'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -869,7 +873,7 @@ jobs:
     with:
       repository: 'JWebMP/AngularTS'
       name: 'JWebMP Angular'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -886,7 +890,7 @@ jobs:
     with:
       repository: 'JWebMP/WebAwesome'
       name: 'JWebMP WebAwesome'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -901,7 +905,7 @@ jobs:
     with:
       repository: 'JWebMP/AgCharts'
       name: 'JWebMP AG Charts'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -916,7 +920,7 @@ jobs:
     with:
       repository: 'JWebMP/AgGrid'
       name: 'JWebMP AG Grid'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -932,7 +936,7 @@ jobs:
     with:
       repository: 'JWebMP/ChartJS'
       name: 'JWebMP ChartJS'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -948,7 +952,7 @@ jobs:
     with:
       repository: 'JWebMP/FontAwesome'
       name: 'JWebMP Font Awesome'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -964,7 +968,7 @@ jobs:
     with:
       repository: 'JWebMP/Prism'
       name: 'JWebMP Prism'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -981,7 +985,7 @@ jobs:
     with:
       repository: 'JWebMP/FullCalendar'
       name: 'JWebMP Full Calendar'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -998,7 +1002,7 @@ jobs:
     with:
       repository: 'JWebMP/AngularMavenPlugin'
       name: 'JWebMP Angular Maven Plugin'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1013,7 +1017,7 @@ jobs:
     with:
       repository: 'JWebMP/AgChartsEnterprise'
       name: 'JWebMP AG Charts Enterprise'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1028,7 +1032,7 @@ jobs:
     with:
       repository: 'JWebMP/FontAwesomePro'
       name: 'JWebMP Font Awesome Pro'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1043,7 +1047,7 @@ jobs:
     with:
       repository: 'JWebMP/FullCalendarPro'
       name: 'JWebMP Full Calendar Pro'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1059,7 +1063,7 @@ jobs:
     with:
       repository: 'JWebMP/WebAwesomePro'
       name: 'JWebMP WebAwesome Pro'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1075,7 +1079,7 @@ jobs:
     with:
       repository: 'JWebMP/Markdown'
       name: 'JWebMP Markdown'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1091,7 +1095,7 @@ jobs:
     with:
       repository: 'JWebMP/AgGridEnterprise'
       name: 'JWebMP AG Grid Enterprise'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1109,7 +1113,7 @@ jobs:
     with:
       repository: 'JWebMP/RabbitComms'
       name: 'JWebMP RabbitComms'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ══════════════════════════════════════════════
@@ -1127,7 +1131,7 @@ jobs:
     with:
       repository: 'Activity-Master/BOM'
       name: 'Activity Master BOM'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1142,7 +1146,7 @@ jobs:
     with:
       repository: 'Activity-Master/Parent'
       name: 'Activity Master Parent'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1158,7 +1162,7 @@ jobs:
     with:
       repository: 'Activity-Master/Client'
       name: 'Activity Master Client'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1177,7 +1181,7 @@ jobs:
     with:
       repository: 'Activity-Master/Core'
       name: 'Activity Master Core'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1191,7 +1195,7 @@ jobs:
     with:
       repository: 'Activity-Master/ProfileMaster'
       name: 'Activity Master Profiles'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1205,7 +1209,7 @@ jobs:
     with:
       repository: 'Activity-Master/ImageMaster'
       name: 'Activity Master Images'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1220,7 +1224,7 @@ jobs:
     with:
       repository: 'Activity-Master/SessionMaster'
       name: 'Activity Master Sessions'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1235,7 +1239,7 @@ jobs:
     with:
       repository: 'Activity-Master/GeographyMaster'
       name: 'Activity Master Geography'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1251,7 +1255,7 @@ jobs:
     with:
       repository: 'Activity-Master/MailMaster'
       name: 'Activity Master Mail'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1267,7 +1271,7 @@ jobs:
     with:
       repository: 'Activity-Master/CerialMasterClient'
       name: 'Activity Master Cerial Client'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1283,7 +1287,7 @@ jobs:
     with:
       repository: 'Activity-Master/RealtorMaster'
       name: 'Activity Master Realtor'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1299,7 +1303,7 @@ jobs:
     with:
       repository: 'Activity-Master/CerialMaster'
       name: 'Activity Master Cerial'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1313,7 +1317,7 @@ jobs:
     with:
       repository: 'Activity-Master/NotificationMaster'
       name: 'Activity Master Notifications'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1327,7 +1331,7 @@ jobs:
     with:
       repository: 'Activity-Master/PaymentMaster'
       name: 'Activity Master Payments'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1341,7 +1345,7 @@ jobs:
     with:
       repository: 'Activity-Master/ToDoMaster'
       name: 'Activity Master ToDo'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1355,7 +1359,7 @@ jobs:
     with:
       repository: 'Activity-Master/WalletMaster'
       name: 'Activity Master Wallet'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1369,7 +1373,7 @@ jobs:
     with:
       repository: 'Activity-Master/ConversationMaster'
       name: 'Activity Master Conversations'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1383,7 +1387,7 @@ jobs:
     with:
       repository: 'Activity-Master/DocumentMaster'
       name: 'Activity Master Documents'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1397,7 +1401,7 @@ jobs:
     with:
       repository: 'Activity-Master/FileMaster'
       name: 'Activity Master Files'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
   # ──────────────────────────────────────────────
@@ -1411,6 +1415,6 @@ jobs:
     with:
       repository: 'Activity-Master/ForumMaster'
       name: 'Activity Master Forums'
-      publishToCentral: ${{inputs.centralRelease}}
+      publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
