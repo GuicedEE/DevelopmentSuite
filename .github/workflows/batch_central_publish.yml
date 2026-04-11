@@ -61,7 +61,7 @@ jobs:
 
       # ── Configure Maven Settings ───────────────────
       - name: Update Settings.xml
-        uses: s4u/maven-settings-action@v3
+        uses: s4u/maven-settings-action@45b6ca948aeeb205adebe97c67b26e2b50896844 # v4.0.0
         with:
           sonatypeSnapshots: true
           servers: >
