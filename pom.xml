@@ -16,6 +16,13 @@
 
     <profiles>
         <profile>
+            <id>websites</id>
+            <modules>
+                <module>GuicedEE/website</module>
+                <module>JWebMP/website</module>
+            </modules>
+        </profile>
+        <profile>
             <id>guicedee</id>
             <modules>
                 <module>GuicedEE/bom</module>
@@ -154,7 +161,6 @@
                 <module>JWebMP/core</module>
                 <module>JWebMP/vertx</module>
                 <module>JWebMP/rabbitcomms</module>
-                <module>JWebMP/website</module>
 
                 <module>JWebMP/plugins/angular-maven-plugin</module>
 

@@ -128,7 +128,7 @@ jobs:
       - name: 'Maven: Batch Deploy'
         run: >
           mvn -B -ntp source:jar javadoc:jar deploy
-          -Pguicedee,services,entityassist,jwebmp
+          -Pguicedee,services,entityassist,jwebmp,websites
           ${{ inputs.skipTests && '-DskipTests' || '' }}
           -U
           ${{ env.CENTRAL_PROFILE }}
