@@ -26,7 +26,6 @@
             <id>guicedee</id>
             <modules>
                 <module>GuicedEE/bom</module>
-                <module>GuicedEE/bom/Versioner</module>
                 <module>GuicedEE/bom/ApacheBOM</module>
                 <module>GuicedEE/bom/ApacheCXFBOM</module>
                 <module>GuicedEE/bom/FasterXMLBOM</module>

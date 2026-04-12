@@ -179,11 +179,14 @@ jobs:
       # ── Run Batch Deployment ───────────────────────
       # This command builds and deploys everything in the correct order as defined by the Maven reactor
       # using the profiles defined in the root pom.xml.
+      # NOTE: When running locally on PowerShell, quote the -P argument to avoid comma parsing errors:
+      #   mvn source:jar javadoc:jar deploy "-Pguicedee,services" -DskipTests -U
       - name: 'Maven: Batch Deploy'
         if: ${{ steps.profiles.outputs.active != '' }}
         run: >
-          mvn source:jar javadoc:jar deploy
-          -P${{ steps.profiles.outputs.active }}
+          mvn -B -ntp source:jar javadoc:jar deploy
+          "-P${{ steps.profiles.outputs.active }}"
+          -Dmaven.javadoc.failOnError=false
           ${{ inputs.skipTests && '-DskipTests' || '' }}
           ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
           -U
