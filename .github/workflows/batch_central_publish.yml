@@ -182,7 +182,7 @@ jobs:
       - name: 'Maven: Batch Deploy'
         if: ${{ steps.profiles.outputs.active != '' }}
         run: >
-          mvn -B -ntp source:jar javadoc:jar deploy
+          mvn source:jar javadoc:jar deploy
           -P${{ steps.profiles.outputs.active }}
           ${{ inputs.skipTests && '-DskipTests' || '' }}
           ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
