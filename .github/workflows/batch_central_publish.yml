@@ -11,6 +11,34 @@ on:
         type: boolean
         description: Skip tests during the build
         default: true
+      deployVersioner:
+        type: boolean
+        description: Deploy the Versioner BOM (foundation for all other BOMs)
+        default: true
+      profileGuicedee:
+        type: boolean
+        description: Include the 'guicedee' profile
+        default: true
+      profileServices:
+        type: boolean
+        description: Include the 'services' profile
+        default: true
+      profileEntityassist:
+        type: boolean
+        description: Include the 'entityassist' profile
+        default: true
+      profileJwebmp:
+        type: boolean
+        description: Include the 'jwebmp' profile
+        default: true
+      profileWebsites:
+        type: boolean
+        description: Include the 'websites' profile
+        default: true
+      profileActivityMaster:
+        type: boolean
+        description: Include the 'activity-master' profile
+        default: true
 
 permissions:
   contents: read
@@ -123,9 +151,24 @@ jobs:
               }
             ]
 
+      # ── Build Active Profiles String ─────────────────
+      - name: Build profiles list
+        id: profiles
+        run: |
+          PROFILES=""
+          if [ "${{ inputs.profileGuicedee }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}guicedee"; fi
+          if [ "${{ inputs.profileServices }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}services"; fi
+          if [ "${{ inputs.profileEntityassist }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}entityassist"; fi
+          if [ "${{ inputs.profileJwebmp }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}jwebmp"; fi
+          if [ "${{ inputs.profileWebsites }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}websites"; fi
+          if [ "${{ inputs.profileActivityMaster }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}activity-master"; fi
+          echo "active=$PROFILES" >> "$GITHUB_OUTPUT"
+          echo "Resolved profiles: $PROFILES"
+
       # ── Deploy Versioner BOM ──────────────────────
       # The Versioner BOM is the foundation for all other BOMs and must be deployed first.
       - name: 'Maven: Deploy Versioner'
+        if: ${{ inputs.deployVersioner }}
         run: >
           mvn -B -ntp deploy
           --file GuicedEE/bom/Versioner/pom.xml
@@ -137,9 +180,10 @@ jobs:
       # This command builds and deploys everything in the correct order as defined by the Maven reactor
       # using the profiles defined in the root pom.xml.
       - name: 'Maven: Batch Deploy'
+        if: ${{ steps.profiles.outputs.active != '' }}
         run: >
           mvn -B -ntp source:jar javadoc:jar deploy
-          -Pguicedee,services,entityassist,jwebmp,websites
+          -P${{ steps.profiles.outputs.active }}
           ${{ inputs.skipTests && '-DskipTests' || '' }}
           ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
           -U

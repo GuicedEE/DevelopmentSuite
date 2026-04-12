@@ -208,6 +208,9 @@ jobs:
       - name: 'Build: EHCache'
         run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/JCache/ehcache/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
+      - name: 'Build: Cache Annotations RI Common'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/JCache/cache-annotations-ri-common/pom.xml -U ${{ env.CENTRAL_PROFILE }}
+
       # ══════════════════════════════════════════════
       # Layer 5 – Guice Core (depends on AOP)
       # ══════════════════════════════════════════════
@@ -231,6 +234,24 @@ jobs:
       # ══════════════════════════════════════════════
       - name: 'Build: Guice Inject Client'
         run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/client/pom.xml -U ${{ env.CENTRAL_PROFILE }}
+
+      # ══════════════════════════════════════════════
+      # Layer 6b – Cache Annotations RI Guice (depends on Cache RI Common, Guice, Client)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Cache Annotations RI Guice'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/JCache/cache-annotations-ri-guice/pom.xml -U ${{ env.CENTRAL_PROFILE }}
+
+      # ══════════════════════════════════════════════
+      # Layer 6c – Hazelcast (depends on Cache API, Hibernate Core)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Hazelcast'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/JCache/hazelcast/pom.xml -U ${{ env.CENTRAL_PROFILE }}
+
+      # ══════════════════════════════════════════════
+      # Layer 6d – Hazelcast Hibernate (depends on Hazelcast, Hibernate Core)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Hazelcast Hibernate'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/JCache/hazelcast-hibernate/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
       # ══════════════════════════════════════════════
       # Layer 7 – Representations (depend on Client)

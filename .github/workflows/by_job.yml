@@ -393,6 +393,18 @@ jobs:
       publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
+  Cache-Annotations-RI-Common:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Cache-API
+    if: ${{ !failure() && needs.Cache-API.result == 'success' }}
+    with:
+      repository: 'GuicedEE/Services'
+      baseDir: 'JCache/cache-annotations-ri-common/'
+      name: 'Cache Annotations RI Common'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets: inherit
+
   # ──────────────────────────────────────────────
   # Layer 5 – Guice Core (depends on AOP)
   # ──────────────────────────────────────────────
@@ -450,6 +462,56 @@ jobs:
     with:
       repository: 'GuicedEE/Client'
       name: 'Guice Inject Client'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 6b – Cache Annotations RI Guice (depends on Cache-Annotations-RI-Common, Guice, Guice-Inject-Client)
+  # ──────────────────────────────────────────────
+  Cache-Annotations-RI-Guice:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Cache-Annotations-RI-Common
+      - Guice
+      - Guice-Inject-Client
+    if: ${{ !failure() && needs.Cache-Annotations-RI-Common.result == 'success' && needs.Guice.result == 'success' && needs.Guice-Inject-Client.result == 'success' }}
+    with:
+      repository: 'GuicedEE/Services'
+      baseDir: 'JCache/cache-annotations-ri-guice/'
+      name: 'Cache Annotations RI Guice'
+      publishToCentral: ${{ inputs.centralRelease }}
+      skipDeploy: 'false'
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 6c – Hazelcast (depends on Cache-API, Hibernate-Core)
+  # ──────────────────────────────────────────────
+  Hazelcast:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Cache-API
+      - Hibernate-Core
+    if: ${{ !failure() && needs.Cache-API.result == 'success' && needs.Hibernate-Core.result == 'success' }}
+    with:
+      repository: 'GuicedEE/Services'
+      baseDir: 'JCache/hazelcast/'
+      name: 'Hazelcast'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 6d – Hazelcast Hibernate (depends on Hazelcast, Hibernate-Core)
+  # ──────────────────────────────────────────────
+  Hazelcast-Hibernate:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Hazelcast
+      - Hibernate-Core
+    if: ${{ !failure() && needs.Hazelcast.result == 'success' && needs.Hibernate-Core.result == 'success' }}
+    with:
+      repository: 'GuicedEE/Services'
+      baseDir: 'JCache/hazelcast-hibernate/'
+      name: 'Hazelcast Hibernate'
       publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 

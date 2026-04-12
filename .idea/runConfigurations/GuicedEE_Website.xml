@@ -11,7 +11,6 @@
           </option>
           <option name="goals">
             <list>
-              <option value="compile" />
               <option value="jwebmp-angular:build" />
             </list>
           </option>
@@ -28,6 +27,8 @@
         </MavenRunnerParameters>
       </option>
     </MavenSettings>
-    <method v="2" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
   </configuration>
 </component>

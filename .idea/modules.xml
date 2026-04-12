@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GuicedEE/services/JCache/cache-annotations-ri-guice/cache-annotations-ri-guice.iml" filepath="$PROJECT_DIR$/GuicedEE/services/JCache/cache-annotations-ri-guice/cache-annotations-ri-guice.iml" />
       <module fileurl="file://$PROJECT_DIR$/GuicedEE/services/Google/guice-core/guice.iml" filepath="$PROJECT_DIR$/GuicedEE/services/Google/guice-core/guice.iml" />
       <module fileurl="file://$PROJECT_DIR$/GuicedEE/website/website.iml" filepath="$PROJECT_DIR$/GuicedEE/website/website.iml" />
     </modules>
