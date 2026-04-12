@@ -179,14 +179,16 @@ jobs:
       # ── Run Batch Deployment ───────────────────────
       # This command builds and deploys everything in the correct order as defined by the Maven reactor
       # using the profiles defined in the root pom.xml.
+      # NOTE: source:jar and javadoc:jar are NOT passed as CLI goals — they are already bound to
+      #   lifecycle phases in the parent POM (verify). Invoking them as CLI goals runs them in
+      #   aggregator mode across the reactor, which fails with mixed named/unnamed JPMS modules.
       # NOTE: When running locally on PowerShell, quote the -P argument to avoid comma parsing errors:
-      #   mvn source:jar javadoc:jar deploy "-Pguicedee,services" -DskipTests -U
+      #   mvn deploy "-Pguicedee,services" -DskipTests -U
       - name: 'Maven: Batch Deploy'
         if: ${{ steps.profiles.outputs.active != '' }}
         run: >
-          mvn -B -ntp source:jar javadoc:jar deploy
+          mvn -B -ntp deploy
           "-P${{ steps.profiles.outputs.active }}"
-          -Dmaven.javadoc.failOnError=false
           ${{ inputs.skipTests && '-DskipTests' || '' }}
           ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
           -U
