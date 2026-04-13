@@ -188,26 +188,6 @@
         </processorPath>
         <module name="xml-representation" />
       </profile>
-      <profile name="Annotation profile for javax.cache.guice" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
-        </processorPath>
-        <module name="image-master" />
-        <module name="rest" />
-        <module name="rest-client" />
-        <module name="profile-master" />
-        <module name="health" />
-        <module name="json-representation" />
-        <module name="activity-master-client" />
-        <module name="session-master" />
-        <module name="client" />
-        <module name="metrics" />
-        <module name="cache-annotations-ri-guice" />
-        <module name="cerial-master-client" />
-      </profile>
       <profile name="Annotation profile for guiced-swagger-ui" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -247,6 +227,61 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="web" />
+      </profile>
+      <profile name="Annotation profile for aggrid-enterprise" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <option name="mapstruct.generatedAnnotationClass" value="jakarta.annotation.Generated" />
+        <option name="mapstruct.suppressGeneratorAnnotation" value="true" />
+        <option name="mapstruct.suppressGeneratorTimestamp" value="true" />
+        <option name="mapstruct.suppressGeneratorVersionInfoComment" value="true" />
+        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
+        <processor name="org.mapstruct.ap.MappingProcessor" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+        </processorPath>
+        <module name="aggrid-enterprise" />
+      </profile>
+      <profile name="Annotation profile for angular" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <option name="mapstruct.generatedAnnotationClass" value="jakarta.annotation.Generated" />
+        <option name="mapstruct.suppressGeneratorAnnotation" value="true" />
+        <option name="mapstruct.suppressGeneratorTimestamp" value="true" />
+        <option name="mapstruct.suppressGeneratorVersionInfoComment" value="true" />
+        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
+        <processor name="org.mapstruct.ap.MappingProcessor" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+        </processorPath>
+        <module name="angular" />
+      </profile>
+      <profile name="Annotation profile for javax.cache.guice" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
+        </processorPath>
+        <module name="fault-tolerance" />
+        <module name="rest-client" />
+        <module name="session-master" />
+        <module name="client" />
+        <module name="image-master" />
+        <module name="rest" />
+        <module name="profile-master" />
+        <module name="health" />
+        <module name="json-representation" />
+        <module name="activity-master-client" />
+        <module name="metrics" />
+        <module name="cache-annotations-ri-guice" />
+        <module name="cerial-master-client" />
       </profile>
       <profile name="Annotation profile for websockets" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -301,40 +336,6 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="aggrid" />
-      </profile>
-      <profile name="Annotation profile for aggrid-enterprise" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <option name="mapstruct.generatedAnnotationClass" value="jakarta.annotation.Generated" />
-        <option name="mapstruct.suppressGeneratorAnnotation" value="true" />
-        <option name="mapstruct.suppressGeneratorTimestamp" value="true" />
-        <option name="mapstruct.suppressGeneratorVersionInfoComment" value="true" />
-        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
-        <processor name="org.mapstruct.ap.MappingProcessor" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
-        </processorPath>
-        <module name="aggrid-enterprise" />
-      </profile>
-      <profile name="Annotation profile for angular" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <option name="mapstruct.generatedAnnotationClass" value="jakarta.annotation.Generated" />
-        <option name="mapstruct.suppressGeneratorAnnotation" value="true" />
-        <option name="mapstruct.suppressGeneratorTimestamp" value="true" />
-        <option name="mapstruct.suppressGeneratorVersionInfoComment" value="true" />
-        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
-        <processor name="org.mapstruct.ap.MappingProcessor" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
-        </processorPath>
-        <module name="angular" />
       </profile>
       <profile name="Annotation profile for chartjs" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />

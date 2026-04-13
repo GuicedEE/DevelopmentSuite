@@ -297,6 +297,18 @@ jobs:
       publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
+  Fault-Tolerance-Core:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Parent
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
+    with:
+      repository: 'GuicedEE/Services'
+      baseDir: 'MicroProfile/fault-tolerance-core/'
+      name: 'Fault Tolerance Core'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets: inherit
+
   Jandex:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
@@ -797,7 +809,23 @@ jobs:
     secrets: inherit
 
   # ──────────────────────────────────────────────
-  # Layer 11c – Guiced Persistence (depends on Guiced Config, Guiced Vertx, Guice-Inject-Client, JSON Representation, Guiced Inject, Guiced Rest, Hibernate Reactive)
+  # Layer 11d – Guiced Fault Tolerance (depends on Guice-Inject-Client, Guiced Inject, Fault Tolerance Core)
+  # ──────────────────────────────────────────────
+  Guiced-Fault-Tolerance:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Guice-Inject-Client
+      - Guiced-Inject
+      - Fault-Tolerance-Core
+    if: ${{ !failure() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Inject.result == 'success' && needs.Fault-Tolerance-Core.result == 'success' }}
+    with:
+      repository: 'GuicedEE/FaultTolerance'
+      name: 'Guiced Fault Tolerance'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 11c – Guiced Persistence
   # ──────────────────────────────────────────────
   Guiced-Persistence:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master

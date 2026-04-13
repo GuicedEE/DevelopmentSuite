@@ -187,6 +187,9 @@ jobs:
       - name: 'Build: Telemetry Core'
         run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/MicroProfile/telemetry-core/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
+      - name: 'Build: Fault Tolerance Core'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/MicroProfile/fault-tolerance-core/pom.xml -U ${{ env.CENTRAL_PROFILE }}
+
       - name: 'Build: Jandex'
         run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/services/Libraries/jandex/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
@@ -339,6 +342,12 @@ jobs:
       # ══════════════════════════════════════════════
       - name: 'Build: Guiced Metrics'
         run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/metrics/pom.xml -U ${{ env.CENTRAL_PROFILE }}
+
+      # ══════════════════════════════════════════════
+      # Layer 11d – Guiced Fault Tolerance (depends on Client, Inject, Fault Tolerance Core)
+      # ══════════════════════════════════════════════
+      - name: 'Build: Guiced Fault Tolerance'
+        run: mvn -B source:jar javadoc:jar deploy --file GuicedEE/fault-tolerance/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
       # ══════════════════════════════════════════════
       # Layer 11c – Guiced Persistence (depends on Config, Vertx, Client, JSON, Inject, Rest, Hibernate Reactive)

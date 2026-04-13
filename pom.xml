@@ -40,6 +40,7 @@
                 <module>GuicedEE/parent</module>
                 <module>GuicedEE/client</module>
                 <module>GuicedEE/inject</module>
+                <module>GuicedEE/fault-tolerance</module>
                 <module>GuicedEE/representations/json</module>
                 <module>GuicedEE/representations/excel</module>
                 <module>GuicedEE/representations/xml</module>
@@ -113,6 +114,7 @@
                <!-- <module>GuicedEE/services/Libraries/scram</module>-->
                 <module>GuicedEE/services/MicroProfile/config-core</module>
                 <module>GuicedEE/services/MicroProfile/metrics-core</module>
+                <module>GuicedEE/services/MicroProfile/fault-tolerance-core</module>
                 <module>GuicedEE/services/MicroProfile/health-core</module>
                 <module>GuicedEE/services/MicroProfile/telemetry-core</module>
                 <module>GuicedEE/services/Vert.x/vertx-rabbitmq</module>
