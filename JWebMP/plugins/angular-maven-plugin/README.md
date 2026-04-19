@@ -8,7 +8,7 @@ It discovers `@NgApp` implementations on the project classpath, generates TypeSc
 ```xml
 <groupId>com.jwebmp.plugins</groupId>
 <artifactId>angular-maven-plugin</artifactId>
-<version>2.0.0-RC5</version>
+<version>2.0.0-RC6</version>
 <packaging>maven-plugin</packaging>
 ```
 
@@ -33,7 +33,7 @@ Add the plugin to your project's `<build>` section:
 <plugin>
   <groupId>com.jwebmp.plugins</groupId>
   <artifactId>angular-maven-plugin</artifactId>
-  <version>2.0.0-RC5</version>
+  <version>2.0.0-RC6</version>
   <executions>
     <execution>
       <goals>
@@ -60,7 +60,7 @@ Dependency installation, toolchain provisioning, and the Angular production buil
 <plugin>
   <groupId>com.jwebmp.plugins</groupId>
   <artifactId>angular-maven-plugin</artifactId>
-  <version>2.0.0-RC5</version>
+  <version>2.0.0-RC6</version>
   <executions>
     <execution>
       <goals>
@@ -532,7 +532,7 @@ All transitive versions are managed by the `com.guicedee:guicedee-bom` (imported
 <plugin>
   <groupId>com.jwebmp.plugins</groupId>
   <artifactId>angular-maven-plugin</artifactId>
-  <version>2.0.0-RC5</version>
+  <version>2.0.0-RC6</version>
   <executions>
     <execution>
       <goals><goal>build</goal></goals>
@@ -547,7 +547,7 @@ All transitive versions are managed by the `com.guicedee:guicedee-bom` (imported
 <plugin>
   <groupId>com.jwebmp.plugins</groupId>
   <artifactId>angular-maven-plugin</artifactId>
-  <version>2.0.0-RC5</version>
+  <version>2.0.0-RC6</version>
   <executions>
     <execution>
       <goals><goal>build</goal></goals>
@@ -570,7 +570,7 @@ All transitive versions are managed by the `com.guicedee:guicedee-bom` (imported
 <plugin>
   <groupId>com.jwebmp.plugins</groupId>
   <artifactId>angular-maven-plugin</artifactId>
-  <version>2.0.0-RC5</version>
+  <version>2.0.0-RC6</version>
   <executions>
     <execution>
       <goals><goal>build</goal></goals>
@@ -593,7 +593,7 @@ All transitive versions are managed by the `com.guicedee:guicedee-bom` (imported
 <plugin>
   <groupId>com.jwebmp.plugins</groupId>
   <artifactId>angular-maven-plugin</artifactId>
-  <version>2.0.0-RC5</version>
+  <version>2.0.0-RC6</version>
   <executions>
     <execution>
       <goals><goal>build</goal></goals>
@@ -618,7 +618,7 @@ All transitive versions are managed by the `com.guicedee:guicedee-bom` (imported
 <plugin>
   <groupId>com.jwebmp.plugins</groupId>
   <artifactId>angular-maven-plugin</artifactId>
-  <version>2.0.0-RC5</version>
+  <version>2.0.0-RC6</version>
   <executions>
     <execution>
       <goals><goal>build</goal></goals>
