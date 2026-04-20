@@ -189,7 +189,6 @@ jobs:
         run: >
           mvn -B -ntp deploy
           "-P${{ steps.profiles.outputs.active }}"
-          -Dmaven.javadoc.failOnError=true
           ${{ inputs.skipTests && '-DskipTests' || '' }}
           ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
           -U

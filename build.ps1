@@ -1,4 +1,4 @@
-mvn clean source:jar install `
+mvn source:jar install `
   "-DskipTests" `
   "-Dmaven.javadoc.skip=true" `
   "-Pguicedee,services,entityassist,jwebmp,activity-master" `
