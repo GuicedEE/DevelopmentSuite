@@ -208,15 +208,36 @@ jobs:
           -U
 
       # ── Deploy GuicedEE BOMs ────────────────────────
-      # POM-only artifacts deployed separately to avoid staging issues with Central
+      # Each BOM must be deployed individually because the central-publishing plugin
+      # uses a shared staging directory in reactor builds, causing POM-only modules
+      # to lose their primary .pom artifact (only .asc and checksums survive).
       - name: 'Maven: Deploy GuicedEE BOMs'
         if: ${{ inputs.deployGuicedeeBoms }}
-        run: >
-          mvn -B -ntp deploy
-          "-Pguicedee-boms"
-          -DskipTests
-          ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
-          -U
+        run: |
+          CENTRAL_FLAGS="${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}"
+
+          BOM_POMS=(
+            GuicedEE/bom/StandaloneBOM/pom.xml
+            GuicedEE/bom/TestLayoutBOM/pom.xml
+            GuicedEE/bom/SwaggerBOM/pom.xml
+            GuicedEE/bom/JBossBOM/pom.xml
+            GuicedEE/bom/JakartaBOM/pom.xml
+            GuicedEE/bom/HibernateBOM/pom.xml
+            GuicedEE/bom/GoogleBOM/pom.xml
+            GuicedEE/bom/FasterXMLBOM/pom.xml
+            GuicedEE/bom/ApacheBOM/pom.xml
+            GuicedEE/bom/ApacheCXFBOM/pom.xml
+            GuicedEE/bom/SmallRyeBOM/pom.xml
+            GuicedEE/bom/pom.xml
+            GuicedEE/parent/pom.xml
+          )
+
+          for pom in "${BOM_POMS[@]}"; do
+            echo "──── Deploying $pom ────"
+            mvn -B -ntp deploy \
+              --file "$pom" \
+              -DskipTests $CENTRAL_FLAGS -U
+          done
 
       # ── Deploy GuicedEE Modules ─────────────────────
       - name: 'Maven: Deploy GuicedEE Modules'
@@ -231,12 +252,20 @@ jobs:
       # ── Deploy JWebMP BOMs ──────────────────────────
       - name: 'Maven: Deploy JWebMP BOMs'
         if: ${{ inputs.deployJwebmpBoms }}
-        run: >
-          mvn -B -ntp deploy
-          "-Pjwebmp-boms"
-          -DskipTests
-          ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
-          -U
+        run: |
+          CENTRAL_FLAGS="${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}"
+
+          BOM_POMS=(
+            JWebMP/bom/pom.xml
+            JWebMP/parent/pom.xml
+          )
+
+          for pom in "${BOM_POMS[@]}"; do
+            echo "──── Deploying $pom ────"
+            mvn -B -ntp deploy \
+              --file "$pom" \
+              -DskipTests $CENTRAL_FLAGS -U
+          done
 
       # ── Deploy JWebMP Modules ───────────────────────
       - name: 'Maven: Deploy JWebMP Modules'
