@@ -11,17 +11,21 @@ on:
         type: boolean
         description: Skip tests during the build
         default: true
-      deployVersioner:
+
+      # ── BOM Deployments ─────────────────────────────
+      deployBoms:
         type: boolean
-        description: Deploy the Versioner BOM (foundation for all other BOMs)
+        description: Deploy all BOMs and Parent POMs (Versioner, GuicedEE sub-BOMs, GuicedEE Parent, JWebMP BOM/Parent, Activity Master BOM/Parent)
         default: true
+
+      # ── Project Profiles ────────────────────────────
       profileGuicedee:
         type: boolean
-        description: Include the 'guicedee' profile
+        description: Include the 'guicedee' profile (GuicedEE modules)
         default: true
       profileServices:
         type: boolean
-        description: Include the 'services' profile
+        description: Include the 'services' profile (service wrappers)
         default: true
       profileEntityassist:
         type: boolean
@@ -29,7 +33,7 @@ on:
         default: true
       profileJwebmp:
         type: boolean
-        description: Include the 'jwebmp' profile
+        description: Include the 'jwebmp' profile (JWebMP modules)
         default: true
       profileWebsites:
         type: boolean
@@ -165,16 +169,41 @@ jobs:
           echo "active=$PROFILES" >> "$GITHUB_OUTPUT"
           echo "Resolved profiles: $PROFILES"
 
-      # ── Deploy Versioner BOM ──────────────────────
-      # The Versioner BOM is the foundation for all other BOMs and must be deployed first.
-      - name: 'Maven: Deploy Versioner'
-        if: ${{ inputs.deployVersioner }}
-        run: >
-          mvn -B -ntp deploy
-          --file GuicedEE/bom/Versioner/pom.xml
-          -DskipTests
-          ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
-          -U
+      # ── Deploy All BOMs and Parent POMs ─────────────
+      # Deploys in dependency order: Versioner → GuicedEE sub-BOMs → GuicedEE aggregate BOM →
+      # GuicedEE Parent → JWebMP BOM → JWebMP Parent → Activity Master BOM → Activity Master Parent
+      - name: 'Maven: Deploy BOMs'
+        if: ${{ inputs.deployBoms }}
+        run: |
+          CENTRAL_FLAGS="${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}"
+
+          BOM_POMS=(
+            GuicedEE/bom/Versioner/pom.xml
+            GuicedEE/bom/StandaloneBOM/pom.xml
+            GuicedEE/bom/TestLayoutBOM/pom.xml
+            GuicedEE/bom/SwaggerBOM/pom.xml
+            GuicedEE/bom/JBossBOM/pom.xml
+            GuicedEE/bom/JakartaBOM/pom.xml
+            GuicedEE/bom/HibernateBOM/pom.xml
+            GuicedEE/bom/GoogleBOM/pom.xml
+            GuicedEE/bom/FasterXMLBOM/pom.xml
+            GuicedEE/bom/ApacheBOM/pom.xml
+            GuicedEE/bom/ApacheCXFBOM/pom.xml
+            GuicedEE/bom/SmallRyeBOM/pom.xml
+            GuicedEE/bom/pom.xml
+            GuicedEE/parent/pom.xml
+            JWebMP/bom/pom.xml
+            JWebMP/parent/pom.xml
+            ActivityMaster/bom/pom.xml
+            ActivityMaster/parent/pom.xml
+          )
+
+          for pom in "${BOM_POMS[@]}"; do
+            echo "──── Deploying $pom ────"
+            mvn -B -ntp deploy \
+              --file "$pom" \
+              -DskipTests $CENTRAL_FLAGS -U
+          done
 
       # ── Run Batch Deployment ───────────────────────
       # This command builds and deploys everything in the correct order as defined by the Maven reactor

@@ -7,6 +7,10 @@ on:
         type: boolean
         description: Run a release to Maven Central (requires secrets)
         default: false
+      skipVersioner:
+        type: boolean
+        description: Skip the Versioner step (use when Versioner is already published)
+        default: false
 
 permissions:
   contents: read
@@ -20,6 +24,7 @@ jobs:
   # Layer 0 – Versioner (root of all BOMs)
   # ──────────────────────────────────────────────
   Versioner:
+    if: ${{ !inputs.skipVersioner }}
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     with:
       repository: 'GuicedEE/BOM'
@@ -1219,7 +1224,7 @@ jobs:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
     needs:
       - Versioner
-    if: ${{ !failure() && needs.Versioner.result == 'success' }}
+    if: ${{ !failure() }}
     with:
       repository: 'Activity-Master/BOM'
       name: 'Activity Master BOM'
