@@ -4,7 +4,7 @@ Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction S
 # Deploy Versioner BOM first (foundation for all other BOMs)
 mvn -B -ntp clean deploy `
   --file GuicedEE/bom/Versioner/pom.xml `
-  -DskipTests `
+  -DskipTests "-Dmaven.consumer.pom=false" `
   "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
   "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
   -U `
@@ -37,7 +37,7 @@ foreach ($pom in $guicedeeBoms) {
   Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
   mvn -B -ntp deploy `
     --file $pom `
-    -DskipTests `
+    -DskipTests "-Dmaven.consumer.pom=false" `
     "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
     "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
     -U @args
@@ -50,7 +50,7 @@ Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction S
 # Batch deploy GuicedEE modules namespace (modules + services + entityassist)
 mvn -B -ntp deploy `
   "-Pguicedee,services,entityassist" `
-  -DskipTests `
+  -DskipTests "-Dmaven.consumer.pom=false" `
   "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
   "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
   -U `
@@ -72,7 +72,7 @@ foreach ($pom in $jwebmpBoms) {
   Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
   mvn -B -ntp deploy `
     --file $pom `
-    -DskipTests `
+    -DskipTests "-Dmaven.consumer.pom=false" `
     "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
     "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
     -U @args
@@ -85,7 +85,7 @@ Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction S
 # Batch deploy JWebMP modules namespace
 mvn -B -ntp deploy `
   "-Pjwebmp" `
-  -DskipTests `
+  -DskipTests "-Dmaven.consumer.pom=false" `
   "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
   "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
   -U `
@@ -99,7 +99,7 @@ Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction S
 # Batch deploy Activity Master namespace (bom + parent + modules)
 mvn -B -ntp deploy `
   "-Pactivity-master" `
-  -DskipTests `
+  -DskipTests "-Dmaven.consumer.pom=false" `
   "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
   "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
   -U `

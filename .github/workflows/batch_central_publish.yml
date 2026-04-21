@@ -203,7 +203,7 @@ jobs:
         run: >
           mvn -B -ntp deploy
           --file GuicedEE/bom/Versioner/pom.xml
-          -DskipTests
+          -DskipTests -Dmaven.consumer.pom=false
           ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
           -U
 
@@ -236,7 +236,7 @@ jobs:
             echo "──── Deploying $pom ────"
             mvn -B -ntp deploy \
               --file "$pom" \
-              -DskipTests $CENTRAL_FLAGS -U
+              -DskipTests -Dmaven.consumer.pom=false $CENTRAL_FLAGS -U
           done
 
       # ── Deploy GuicedEE Modules ─────────────────────
@@ -246,6 +246,7 @@ jobs:
           mvn -B -ntp deploy
           "-P${{ steps.profiles.outputs.guicedee_modules }}"
           ${{ inputs.skipTests && '-DskipTests' || '' }}
+          -Dmaven.consumer.pom=false
           ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
           -U
 
@@ -264,7 +265,7 @@ jobs:
             echo "──── Deploying $pom ────"
             mvn -B -ntp deploy \
               --file "$pom" \
-              -DskipTests $CENTRAL_FLAGS -U
+              -DskipTests -Dmaven.consumer.pom=false $CENTRAL_FLAGS -U
           done
 
       # ── Deploy JWebMP Modules ───────────────────────
@@ -274,6 +275,7 @@ jobs:
           mvn -B -ntp deploy
           "-P${{ steps.profiles.outputs.jwebmp_modules }}"
           ${{ inputs.skipTests && '-DskipTests' || '' }}
+          -Dmaven.consumer.pom=false
           ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
           -U
 
@@ -285,6 +287,7 @@ jobs:
           mvn -B -ntp deploy
           "-P${{ steps.profiles.outputs.activitymaster }}"
           ${{ inputs.skipTests && '-DskipTests' || '' }}
+          -Dmaven.consumer.pom=false
           ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
           -U
 
@@ -295,5 +298,6 @@ jobs:
           mvn -B -ntp deploy
           "-P${{ steps.profiles.outputs.websites }}"
           ${{ inputs.skipTests && '-DskipTests' || '' }}
+          -Dmaven.consumer.pom=false
           ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
           -U
