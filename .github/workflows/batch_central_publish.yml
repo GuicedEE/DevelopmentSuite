@@ -17,9 +17,13 @@ on:
         type: boolean
         description: Deploy the Versioner BOM (foundation for all other BOMs)
         default: true
-      deployBoms:
+      deployGuicedeeBoms:
         type: boolean
-        description: Deploy all BOMs and Parent POMs (GuicedEE sub-BOMs, GuicedEE Parent, JWebMP BOM/Parent)
+        description: Deploy GuicedEE BOMs and Parent POM
+        default: true
+      deployJwebmpBoms:
+        type: boolean
+        description: Deploy JWebMP BOM and Parent POM
         default: true
 
       # ── Project Profiles ────────────────────────────
@@ -159,20 +163,37 @@ jobs:
               }
             ]
 
-      # ── Build Active Profiles String ─────────────────
-      - name: Build profiles list
+      # ── Build Active Profiles per Namespace ──────────
+      # Central Publishing requires one namespace per deployment, so we split
+      # GuicedEE (com.guicedee), JWebMP (com.jwebmp), and Activity Master into separate runs.
+      - name: Build profiles lists
         id: profiles
         run: |
-          PROFILES=""
-          if [ "${{ inputs.deployBoms }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}boms"; fi
-          if [ "${{ inputs.profileGuicedee }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}guicedee"; fi
-          if [ "${{ inputs.profileServices }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}services"; fi
-          if [ "${{ inputs.profileEntityassist }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}entityassist"; fi
-          if [ "${{ inputs.profileJwebmp }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}jwebmp"; fi
-          if [ "${{ inputs.profileWebsites }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}websites"; fi
-          if [ "${{ inputs.profileActivityMaster }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}activity-master"; fi
-          echo "active=$PROFILES" >> "$GITHUB_OUTPUT"
-          echo "Resolved profiles: $PROFILES"
+          GUICEDEE=""
+          if [ "${{ inputs.deployGuicedeeBoms }}" = "true" ]; then GUICEDEE="${GUICEDEE:+$GUICEDEE,}guicedee-boms"; fi
+          if [ "${{ inputs.profileGuicedee }}" = "true" ]; then GUICEDEE="${GUICEDEE:+$GUICEDEE,}guicedee"; fi
+          if [ "${{ inputs.profileServices }}" = "true" ]; then GUICEDEE="${GUICEDEE:+$GUICEDEE,}services"; fi
+          if [ "${{ inputs.profileEntityassist }}" = "true" ]; then GUICEDEE="${GUICEDEE:+$GUICEDEE,}entityassist"; fi
+
+          JWEBMP=""
+          if [ "${{ inputs.deployJwebmpBoms }}" = "true" ]; then JWEBMP="${JWEBMP:+$JWEBMP,}jwebmp-boms"; fi
+          if [ "${{ inputs.profileJwebmp }}" = "true" ]; then JWEBMP="${JWEBMP:+$JWEBMP,}jwebmp"; fi
+
+          ACTIVITYMASTER=""
+          if [ "${{ inputs.profileActivityMaster }}" = "true" ]; then ACTIVITYMASTER="activity-master"; fi
+
+          WEBSITES=""
+          if [ "${{ inputs.profileWebsites }}" = "true" ]; then WEBSITES="websites"; fi
+
+          echo "guicedee=$GUICEDEE" >> "$GITHUB_OUTPUT"
+          echo "jwebmp=$JWEBMP" >> "$GITHUB_OUTPUT"
+          echo "activitymaster=$ACTIVITYMASTER" >> "$GITHUB_OUTPUT"
+          echo "websites=$WEBSITES" >> "$GITHUB_OUTPUT"
+
+          echo "GuicedEE profiles: $GUICEDEE"
+          echo "JWebMP profiles: $JWEBMP"
+          echo "Activity Master profiles: $ACTIVITYMASTER"
+          echo "Websites profiles: $WEBSITES"
 
       # ── Deploy Versioner BOM ─────────────────────────
       # The Versioner BOM is the foundation for all other BOMs and must be deployed first.
@@ -185,19 +206,45 @@ jobs:
             --file GuicedEE/bom/Versioner/pom.xml \
             -DskipTests $CENTRAL_FLAGS -U
 
-      # ── Run Batch Deployment ───────────────────────
-      # This command builds and deploys everything in the correct order as defined by the Maven reactor
-      # using the profiles defined in the root pom.xml.
-      # NOTE: source:jar and javadoc:jar are NOT passed as CLI goals — they are already bound to
-      #   lifecycle phases in the parent POM (verify). Invoking them as CLI goals runs them in
-      #   aggregator mode across the reactor, which fails with mixed named/unnamed JPMS modules.
-      # NOTE: When running locally on PowerShell, quote the -P argument to avoid comma parsing errors:
-      #   mvn deploy "-Pguicedee,services" -DskipTests -U
-      - name: 'Maven: Batch Deploy'
-        if: ${{ steps.profiles.outputs.active != '' }}
+      # ── Deploy GuicedEE namespace ───────────────────
+      # Includes: guicedee-boms, guicedee, services, entityassist (all com.guicedee)
+      - name: 'Maven: Deploy GuicedEE'
+        if: ${{ steps.profiles.outputs.guicedee != '' }}
         run: >
           mvn -B -ntp deploy
-          "-P${{ steps.profiles.outputs.active }}"
+          "-P${{ steps.profiles.outputs.guicedee }}"
+          ${{ inputs.skipTests && '-DskipTests' || '' }}
+          ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
+          -U
+
+      # ── Deploy JWebMP namespace ─────────────────────
+      # Includes: jwebmp-boms, jwebmp (all com.jwebmp)
+      - name: 'Maven: Deploy JWebMP'
+        if: ${{ steps.profiles.outputs.jwebmp != '' }}
+        run: >
+          mvn -B -ntp deploy
+          "-P${{ steps.profiles.outputs.jwebmp }}"
+          ${{ inputs.skipTests && '-DskipTests' || '' }}
+          ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
+          -U
+
+      # ── Deploy Activity Master namespace ────────────
+      # Includes: activity-master (bom + parent + modules)
+      - name: 'Maven: Deploy Activity Master'
+        if: ${{ steps.profiles.outputs.activitymaster != '' }}
+        run: >
+          mvn -B -ntp deploy
+          "-P${{ steps.profiles.outputs.activitymaster }}"
+          ${{ inputs.skipTests && '-DskipTests' || '' }}
+          ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
+          -U
+
+      # ── Deploy Websites ─────────────────────────────
+      - name: 'Maven: Deploy Websites'
+        if: ${{ steps.profiles.outputs.websites != '' }}
+        run: >
+          mvn -B -ntp deploy
+          "-P${{ steps.profiles.outputs.websites }}"
           ${{ inputs.skipTests && '-DskipTests' || '' }}
           ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
           -U

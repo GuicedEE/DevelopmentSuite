@@ -16,7 +16,7 @@
 
     <profiles>
         <profile>
-            <id>boms</id>
+            <id>guicedee-boms</id>
             <modules>
                 <module>GuicedEE/bom</module>
                 <module>GuicedEE/bom/StandaloneBOM</module>
@@ -31,6 +31,11 @@
                 <module>GuicedEE/bom/ApacheCXFBOM</module>
                 <module>GuicedEE/bom/SmallRyeBOM</module>
                 <module>GuicedEE/parent</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jwebmp-boms</id>
+            <modules>
                 <module>JWebMP/bom</module>
                 <module>JWebMP/parent</module>
             </modules>
