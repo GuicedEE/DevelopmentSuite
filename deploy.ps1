@@ -17,7 +17,7 @@ Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction S
 
 # Batch deploy all profiles
 mvn -B -ntp clean deploy `
-  "-Pguicedee,services,entityassist,jwebmp" `
+  "-Pboms,guicedee,services,entityassist,jwebmp,activity-master" `
   -DskipTests `
   "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
   "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `

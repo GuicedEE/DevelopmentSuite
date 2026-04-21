@@ -33,8 +33,6 @@
                 <module>GuicedEE/parent</module>
                 <module>JWebMP/bom</module>
                 <module>JWebMP/parent</module>
-                <module>ActivityMaster/bom</module>
-                <module>ActivityMaster/parent</module>
             </modules>
         </profile>
         <profile>
@@ -139,6 +137,8 @@
         <profile>
             <id>activity-master</id>
             <modules>
+                <module>ActivityMaster/bom</module>
+                <module>ActivityMaster/parent</module>
                 <module>ActivityMaster/core</module>
                 <module>ActivityMaster/cerial</module>
                 <module>ActivityMaster/cerial-client</module>

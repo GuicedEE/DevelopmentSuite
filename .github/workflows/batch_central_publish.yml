@@ -19,7 +19,7 @@ on:
         default: true
       deployBoms:
         type: boolean
-        description: Deploy all BOMs and Parent POMs (GuicedEE sub-BOMs, GuicedEE Parent, JWebMP BOM/Parent, Activity Master BOM/Parent)
+        description: Deploy all BOMs and Parent POMs (GuicedEE sub-BOMs, GuicedEE Parent, JWebMP BOM/Parent)
         default: true
 
       # ── Project Profiles ────────────────────────────
