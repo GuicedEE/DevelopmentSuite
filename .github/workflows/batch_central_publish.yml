@@ -13,9 +13,13 @@ on:
         default: true
 
       # ── BOM Deployments ─────────────────────────────
+      deployVersioner:
+        type: boolean
+        description: Deploy the Versioner BOM (foundation for all other BOMs)
+        default: true
       deployBoms:
         type: boolean
-        description: Deploy all BOMs and Parent POMs (Versioner, GuicedEE sub-BOMs, GuicedEE Parent, JWebMP BOM/Parent, Activity Master BOM/Parent)
+        description: Deploy all BOMs and Parent POMs (GuicedEE sub-BOMs, GuicedEE Parent, JWebMP BOM/Parent, Activity Master BOM/Parent)
         default: true
 
       # ── Project Profiles ────────────────────────────
@@ -160,6 +164,7 @@ jobs:
         id: profiles
         run: |
           PROFILES=""
+          if [ "${{ inputs.deployBoms }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}boms"; fi
           if [ "${{ inputs.profileGuicedee }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}guicedee"; fi
           if [ "${{ inputs.profileServices }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}services"; fi
           if [ "${{ inputs.profileEntityassist }}" = "true" ]; then PROFILES="${PROFILES:+$PROFILES,}entityassist"; fi
@@ -169,41 +174,16 @@ jobs:
           echo "active=$PROFILES" >> "$GITHUB_OUTPUT"
           echo "Resolved profiles: $PROFILES"
 
-      # ── Deploy All BOMs and Parent POMs ─────────────
-      # Deploys in dependency order: Versioner → GuicedEE sub-BOMs → GuicedEE aggregate BOM →
-      # GuicedEE Parent → JWebMP BOM → JWebMP Parent → Activity Master BOM → Activity Master Parent
-      - name: 'Maven: Deploy BOMs'
-        if: ${{ inputs.deployBoms }}
+      # ── Deploy Versioner BOM ─────────────────────────
+      # The Versioner BOM is the foundation for all other BOMs and must be deployed first.
+      # It is deployed separately because it is the root parent of all BOMs.
+      - name: 'Maven: Deploy Versioner'
+        if: ${{ inputs.deployVersioner }}
         run: |
           CENTRAL_FLAGS="${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}"
-
-          BOM_POMS=(
-            GuicedEE/bom/Versioner/pom.xml
-            GuicedEE/bom/StandaloneBOM/pom.xml
-            GuicedEE/bom/TestLayoutBOM/pom.xml
-            GuicedEE/bom/SwaggerBOM/pom.xml
-            GuicedEE/bom/JBossBOM/pom.xml
-            GuicedEE/bom/JakartaBOM/pom.xml
-            GuicedEE/bom/HibernateBOM/pom.xml
-            GuicedEE/bom/GoogleBOM/pom.xml
-            GuicedEE/bom/FasterXMLBOM/pom.xml
-            GuicedEE/bom/ApacheBOM/pom.xml
-            GuicedEE/bom/ApacheCXFBOM/pom.xml
-            GuicedEE/bom/SmallRyeBOM/pom.xml
-            GuicedEE/bom/pom.xml
-            GuicedEE/parent/pom.xml
-            JWebMP/bom/pom.xml
-            JWebMP/parent/pom.xml
-            ActivityMaster/bom/pom.xml
-            ActivityMaster/parent/pom.xml
-          )
-
-          for pom in "${BOM_POMS[@]}"; do
-            echo "──── Deploying $pom ────"
-            mvn -B -ntp deploy \
-              --file "$pom" \
-              -DskipTests $CENTRAL_FLAGS -U
-          done
+          mvn -B -ntp deploy \
+            --file GuicedEE/bom/Versioner/pom.xml \
+            -DskipTests $CENTRAL_FLAGS -U
 
       # ── Run Batch Deployment ───────────────────────
       # This command builds and deploys everything in the correct order as defined by the Maven reactor

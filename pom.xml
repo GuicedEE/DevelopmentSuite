@@ -16,6 +16,28 @@
 
     <profiles>
         <profile>
+            <id>boms</id>
+            <modules>
+                <module>GuicedEE/bom</module>
+                <module>GuicedEE/bom/StandaloneBOM</module>
+                <module>GuicedEE/bom/TestLayoutBOM</module>
+                <module>GuicedEE/bom/SwaggerBOM</module>
+                <module>GuicedEE/bom/JBossBOM</module>
+                <module>GuicedEE/bom/JakartaBOM</module>
+                <module>GuicedEE/bom/HibernateBOM</module>
+                <module>GuicedEE/bom/GoogleBOM</module>
+                <module>GuicedEE/bom/FasterXMLBOM</module>
+                <module>GuicedEE/bom/ApacheBOM</module>
+                <module>GuicedEE/bom/ApacheCXFBOM</module>
+                <module>GuicedEE/bom/SmallRyeBOM</module>
+                <module>GuicedEE/parent</module>
+                <module>JWebMP/bom</module>
+                <module>JWebMP/parent</module>
+                <module>ActivityMaster/bom</module>
+                <module>ActivityMaster/parent</module>
+            </modules>
+        </profile>
+        <profile>
             <id>websites</id>
             <modules>
                 <module>GuicedEE/website</module>
@@ -25,19 +47,6 @@
         <profile>
             <id>guicedee</id>
             <modules>
-                <module>GuicedEE/bom</module>
-                <module>GuicedEE/bom/ApacheBOM</module>
-                <module>GuicedEE/bom/ApacheCXFBOM</module>
-                <module>GuicedEE/bom/FasterXMLBOM</module>
-                <module>GuicedEE/bom/GoogleBOM</module>
-                <module>GuicedEE/bom/HibernateBOM</module>
-                <module>GuicedEE/bom/JakartaBOM</module>
-                <module>GuicedEE/bom/JBossBOM</module>
-                <module>GuicedEE/bom/StandaloneBOM</module>
-                <module>GuicedEE/bom/SwaggerBOM</module>
-                <module>GuicedEE/bom/SmallRyeBOM</module>
-                <module>GuicedEE/bom/TestLayoutBOM</module>
-                <module>GuicedEE/parent</module>
                 <module>GuicedEE/client</module>
                 <module>GuicedEE/inject</module>
                 <module>GuicedEE/fault-tolerance</module>
@@ -130,8 +139,6 @@
         <profile>
             <id>activity-master</id>
             <modules>
-                <module>ActivityMaster/parent</module>
-                <module>ActivityMaster/bom</module>
                 <module>ActivityMaster/core</module>
                 <module>ActivityMaster/cerial</module>
                 <module>ActivityMaster/cerial-client</module>
@@ -155,8 +162,6 @@
         <profile>
             <id>jwebmp</id>
             <modules>
-                <module>JWebMP/bom</module>
-                <module>JWebMP/parent</module>
                 <module>JWebMP/client</module>
                 <module>JWebMP/testlib</module>
                 <module>JWebMP/core</module>
