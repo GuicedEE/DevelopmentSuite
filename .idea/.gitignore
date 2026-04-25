@@ -2,3 +2,10 @@ compiler.xml
 workspace.xml
 modules.xml
 shelf
+vcs.xml
+misc.xml
+jarRepositories.xml
+encodings.xml
+copilot.data.migration.ask2agent.xml
+copilotDiffState.xml
+inspectionProfiles/

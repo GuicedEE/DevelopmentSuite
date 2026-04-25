@@ -38,3 +38,11 @@ build.ps1
 /.idea/workspace.xml
 /.idea/shelf/
 /logs/
+/JWebMP/plugins/angular-maven-plugin/.idea/vcs.xml
+/JWebMP/plugins/angular-maven-plugin/.idea/misc.xml
+/JWebMP/plugins/angular-maven-plugin/.idea/jarRepositories.xml
+/JWebMP/plugins/angular-maven-plugin/.idea/encodings.xml
+/.idea/copilotDiffState.xml
+/JWebMP/plugins/angular-maven-plugin/.idea/compiler.xml
+/JWebMP/plugins/angular-maven-plugin/.idea/copilot.data.migration.ask2agent.xml
+/JWebMP/plugins/angular-maven-plugin/.idea/inspectionProfiles/Project_Default.xml

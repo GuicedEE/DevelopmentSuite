@@ -2,6 +2,21 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/GuicedEE/bom/ApacheBOM/apache-bom.iml" filepath="$PROJECT_DIR$/GuicedEE/bom/ApacheBOM/apache-bom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GuicedEE/bom/ApacheCXFBOM/apache-cxf-bom.iml" filepath="$PROJECT_DIR$/GuicedEE/bom/ApacheCXFBOM/apache-cxf-bom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GuicedEE/bom/FasterXMLBOM/fasterxml-bom.iml" filepath="$PROJECT_DIR$/GuicedEE/bom/FasterXMLBOM/fasterxml-bom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GuicedEE/bom/GoogleBOM/google-bom.iml" filepath="$PROJECT_DIR$/GuicedEE/bom/GoogleBOM/google-bom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GuicedEE/bom/guicedee-bom.iml" filepath="$PROJECT_DIR$/GuicedEE/bom/guicedee-bom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GuicedEE/bom/HibernateBOM/hibernate-bom.iml" filepath="$PROJECT_DIR$/GuicedEE/bom/HibernateBOM/hibernate-bom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GuicedEE/bom/JakartaBOM/jakarta-bom.iml" filepath="$PROJECT_DIR$/GuicedEE/bom/JakartaBOM/jakarta-bom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GuicedEE/bom/JBossBOM/jboss-bom.iml" filepath="$PROJECT_DIR$/GuicedEE/bom/JBossBOM/jboss-bom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JWebMP/bom/jwebmp-bom.iml" filepath="$PROJECT_DIR$/JWebMP/bom/jwebmp-bom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GuicedEE/parent/parent (1) (com.guicedee).iml" filepath="$PROJECT_DIR$/GuicedEE/parent/parent (1) (com.guicedee).iml" />
+      <module fileurl="file://$PROJECT_DIR$/JWebMP/parent/parent (2) (com.jwebmp).iml" filepath="$PROJECT_DIR$/JWebMP/parent/parent (2) (com.jwebmp).iml" />
+      <module fileurl="file://$PROJECT_DIR$/GuicedEE/bom/SmallRyeBOM/smallrye-bom.iml" filepath="$PROJECT_DIR$/GuicedEE/bom/SmallRyeBOM/smallrye-bom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GuicedEE/bom/StandaloneBOM/standalone-bom.iml" filepath="$PROJECT_DIR$/GuicedEE/bom/StandaloneBOM/standalone-bom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GuicedEE/bom/SwaggerBOM/swagger-bom.iml" filepath="$PROJECT_DIR$/GuicedEE/bom/SwaggerBOM/swagger-bom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GuicedEE/bom/TestLayoutBOM/tests-bom.iml" filepath="$PROJECT_DIR$/GuicedEE/bom/TestLayoutBOM/tests-bom.iml" />
       <module fileurl="file://$PROJECT_DIR$/GuicedEE/bom/Versioner/versioner.iml" filepath="$PROJECT_DIR$/GuicedEE/bom/Versioner/versioner.iml" />
       <module fileurl="file://$PROJECT_DIR$/GuicedEE/website/website.iml" filepath="$PROJECT_DIR$/GuicedEE/website/website.iml" />
     </modules>

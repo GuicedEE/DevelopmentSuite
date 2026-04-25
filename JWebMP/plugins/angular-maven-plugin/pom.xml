@@ -108,6 +108,10 @@
                 <artifactId>flatten-maven-plugin</artifactId>
                 <version>${flatten.plugin.version}</version>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 </project>

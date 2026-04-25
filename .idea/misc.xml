@@ -11,7 +11,13 @@
         <option value="$PROJECT_DIR$/JWebMP/website/pom.xml" />
         <option value="$PROJECT_DIR$/JWebMP/plugins/prism/pom.xml" />
         <option value="$PROJECT_DIR$/JWebMP/plugins/markdown/pom.xml" />
+        <option value="$PROJECT_DIR$/GuicedEE/services/Libraries/json/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/GuicedEE/services/Libraries/json/pom.xml" />
+      </set>
     </option>
     <option name="enabledProfiles">
       <list>

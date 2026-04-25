@@ -1,12 +1,16 @@
 # Clean .locks directories from project-local-repo (Maven 4 artifact)
 Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
+# Maven 4 file-locking creates .locks dirs inside central-staging which corrupts Central bundles
+$noLocks = "-Daether.syncContext.named.factory=noop"
+
 # Deploy Versioner BOM first (foundation for all other BOMs)
 mvn -B -ntp clean deploy `
   --file GuicedEE/bom/Versioner/pom.xml `
   -DskipTests "-Dmaven.consumer.pom=false" `
   "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
   "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
+  $noLocks `
   -U `
   @args
 
@@ -15,34 +19,17 @@ if ($LASTEXITCODE -ne 0) { Write-Host "Versioner deploy failed"; exit $LASTEXITC
 # Clean .locks again before batch deploy
 Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
-# Deploy GuicedEE BOMs individually (reactor staging breaks POM-only modules)
-$guicedeeBoms = @(
-  "GuicedEE/bom/StandaloneBOM/pom.xml",
-  "GuicedEE/bom/TestLayoutBOM/pom.xml",
-  "GuicedEE/bom/SwaggerBOM/pom.xml",
-  "GuicedEE/bom/JBossBOM/pom.xml",
-  "GuicedEE/bom/JakartaBOM/pom.xml",
-  "GuicedEE/bom/HibernateBOM/pom.xml",
-  "GuicedEE/bom/GoogleBOM/pom.xml",
-  "GuicedEE/bom/FasterXMLBOM/pom.xml",
-  "GuicedEE/bom/ApacheBOM/pom.xml",
-  "GuicedEE/bom/ApacheCXFBOM/pom.xml",
-  "GuicedEE/bom/SmallRyeBOM/pom.xml",
-  "GuicedEE/bom/pom.xml",
-  "GuicedEE/parent/pom.xml"
-)
+# Deploy all GuicedEE BOMs + parent in a single reactor (single Central deployment bundle)
+Write-Host "──── Deploying GuicedEE BOMs + Parent (single bundle) ────"
+mvn -B -ntp deploy `
+  --file GuicedEE/deploy-boms.xml `
+  -DskipTests "-Dmaven.consumer.pom=false" `
+  "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
+  "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
+  $noLocks `
+  -U @args
 
-foreach ($pom in $guicedeeBoms) {
-  Write-Host "──── Deploying $pom ────"
-  Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
-  mvn -B -ntp deploy `
-    --file $pom `
-    -DskipTests "-Dmaven.consumer.pom=false" `
-    "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
-    "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
-    -U @args
-  if ($LASTEXITCODE -ne 0) { Write-Host "$pom deploy failed"; exit $LASTEXITCODE }
-}
+if ($LASTEXITCODE -ne 0) { Write-Host "GuicedEE BOMs deploy failed"; exit $LASTEXITCODE }
 
 # Clean .locks before GuicedEE modules deploy
 Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
@@ -53,6 +40,7 @@ mvn -B -ntp deploy `
   -DskipTests "-Dmaven.consumer.pom=false" `
   "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
   "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
+  $noLocks `
   -U `
   @args
 
@@ -75,6 +63,7 @@ foreach ($pom in $jwebmpBoms) {
     -DskipTests "-Dmaven.consumer.pom=false" `
     "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
     "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
+    $noLocks `
     -U @args
   if ($LASTEXITCODE -ne 0) { Write-Host "$pom deploy failed"; exit $LASTEXITCODE }
 }
@@ -83,11 +72,12 @@ foreach ($pom in $jwebmpBoms) {
 Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
 # Batch deploy JWebMP modules namespace
-mvn -B -ntp deploy `
+mvn -B -ntp clean deploy `
   "-Pjwebmp" `
   -DskipTests "-Dmaven.consumer.pom=false" `
   "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
   "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
+  $noLocks `
   -U `
   @args
 
@@ -102,5 +92,6 @@ mvn -B -ntp deploy `
   -DskipTests "-Dmaven.consumer.pom=false" `
   "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
   "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
+  $noLocks `
   -U `
   @args

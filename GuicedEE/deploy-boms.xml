@@ -1,0 +1,36 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.guicedee</groupId>
+    <artifactId>guicedee-bom-aggregator</artifactId>
+    <version>2.0.0-RC9</version>
+    <packaging>pom</packaging>
+
+    <name>GuicedEE BOM Deploy Aggregator</name>
+    <description>Aggregator to deploy all GuicedEE BOMs and parent in a single Central deployment bundle.</description>
+
+    <properties>
+        <!-- The aggregator itself produces no artifact -->
+        <maven.install.skip>true</maven.install.skip>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
+    <modules>
+        <module>bom/StandaloneBOM</module>
+        <module>bom/TestLayoutBOM</module>
+        <module>bom/SwaggerBOM</module>
+        <module>bom/JBossBOM</module>
+        <module>bom/JakartaBOM</module>
+        <module>bom/HibernateBOM</module>
+        <module>bom/GoogleBOM</module>
+        <module>bom/FasterXMLBOM</module>
+        <module>bom/ApacheBOM</module>
+        <module>bom/ApacheCXFBOM</module>
+        <module>bom/SmallRyeBOM</module>
+        <module>bom</module>
+        <module>parent</module>
+    </modules>
+
+</project>
+
