@@ -4,7 +4,7 @@
 
     <groupId>com.guicedee</groupId>
     <artifactId>builder</artifactId>
-    <version>2.0.0-RC10</version>
+    <version>2.0.0-RC11</version>
     <packaging>pom</packaging>
 
     <description>A base builder for the entire reactive stack of GuicedEE, JWebMP, EntityAssist, and ActivityMaster</description>
@@ -126,6 +126,7 @@
                 <module>GuicedEE/services/Libraries/rabbitmq-client</module>
                 <module>GuicedEE/services/Libraries/swagger</module>
                 <module>GuicedEE/services/Libraries/uadetector-core</module>
+                <module>GuicedEE/services/Libraries/uadetector-resources</module>
                 <module>GuicedEE/services/Libraries/testcontainers</module>
                 <module>GuicedEE/services/MicroProfile/config-core</module>
                 <module>GuicedEE/services/MicroProfile/jwt-auth-api</module>
