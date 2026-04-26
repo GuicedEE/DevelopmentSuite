@@ -102,7 +102,6 @@
                 <module>GuicedEE/services/Google/guice-grapher</module>
                 <module>GuicedEE/services/Google/guice-jmx</module>
                 <module>GuicedEE/services/Google/guice-jndi</module>
-                <module>GuicedEE/services/Hibernate/hibernate-c3p0</module>
                 <module>GuicedEE/services/Hibernate/hibernate-core</module>
                 <module>GuicedEE/services/Hibernate/hibernate-jcache</module>
                 <module>GuicedEE/services/Hibernate/hibernate-validator</module>
