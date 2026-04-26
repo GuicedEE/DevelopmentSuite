@@ -109,6 +109,16 @@
     <file url="file://$PROJECT_DIR$/GuicedEE/inject/src/jre11/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/inject/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/inject/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/kafka/src/jre11/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/kafka/src/jre11/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/kafka/src/jre11/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/kafka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/kafka/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/mailclient/src/jre11/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/mailclient/src/jre11/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/mailclient/src/jre11/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/mailclient/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/mailclient/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/metrics/src/jre11/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/metrics/src/jre11/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/metrics/src/jre11/webapp" charset="UTF-8" />
@@ -194,6 +204,11 @@
     <file url="file://$PROJECT_DIR$/GuicedEE/web/src/jre11/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/web/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/web/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/webservices/src/jre11/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/webservices/src/jre11/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/webservices/src/jre11/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/webservices/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/webservices/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/website/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/website/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/websockets/src/jre11/java" charset="UTF-8" />

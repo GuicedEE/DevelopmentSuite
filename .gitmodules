@@ -294,3 +294,19 @@
 	path = GuicedEE/intellij-plugin
 	url = https://github.com/GuicedEE/GuicedEEIntelliJPlugin.git
 	branch = master
+[submodule "GuicedEE/examples"]
+	path = GuicedEE/examples
+	url = https://github.com/GuicedEE/Examples.git
+	branch = master
+[submodule "GuicedEE/kafka"]
+	path = GuicedEE/kafka
+	url = https://github.com/GuicedEE/GuicedKafka.git
+	branch = master
+[submodule "GuicedEE/mailclient"]
+	path = GuicedEE/mailclient
+	url = https://github.com/GuicedEE/MailClient.git
+    branch = master
+[submodule "GuicedEE/hazelcast"]
+	path = GuicedEE/hazelcast
+	url = https://github.com/GuicedEE/Hazelcast.git
+	branch = master

@@ -13,7 +13,7 @@ on:
         default: false
 
 permissions:
-  contents: read
+  contents: write
   packages: write
   checks: write
   pull-requests: write
@@ -350,6 +350,18 @@ jobs:
       publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
+  Kafka-Client:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Parent
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
+    with:
+      repository: 'GuicedEE/Services'
+      baseDir: 'Libraries/kafka-client/'
+      name: 'Kafka Client'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets: inherit
+
   UADetector-Core:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
@@ -383,6 +395,18 @@ jobs:
       repository: 'GuicedEE/Services'
       baseDir: 'Vert.x/vertx-rabbitmq/'
       name: 'Vert.x RabbitMQ'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets: inherit
+
+  Vertx-Kafka:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Kafka-Client
+    if: ${{ !failure() && needs.Kafka-Client.result == 'success' }}
+    with:
+      repository: 'GuicedEE/Services'
+      baseDir: 'Vert.x/vertx-kafka/'
+      name: 'Vert.x Kafka'
       publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
@@ -624,6 +648,40 @@ jobs:
     with:
       repository: 'GuicedEE/GuicedRabbit'
       name: 'Guiced Rabbit'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 9a2 – Guiced Kafka (depends on Guice-Inject-Client, JSON Representation, Guiced Vert.x, Vertx-Kafka, Kafka-Client)
+  # ──────────────────────────────────────────────
+  Guiced-Kafka:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Guice-Inject-Client
+      - JSON-Representation
+      - Guiced-Vertx
+      - Vertx-Kafka
+      - Kafka-Client
+    if: ${{ !failure() && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.Vertx-Kafka.result == 'success' && needs.Kafka-Client.result == 'success' }}
+    with:
+      repository: 'GuicedEE/GuicedKafka'
+      name: 'Guiced Kafka'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 9a3 – Guiced Mail Client (depends on Guice-Inject-Client, JSON Representation, Guiced Vert.x)
+  # ──────────────────────────────────────────────
+  Guiced-Mail-Client:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Guice-Inject-Client
+      - JSON-Representation
+      - Guiced-Vertx
+    if: ${{ !failure() && needs.Guice-Inject-Client.result == 'success' && needs.JSON-Representation.result == 'success' && needs.Guiced-Vertx.result == 'success' }}
+    with:
+      repository: 'GuicedEE/GuicedMailClient'
+      name: 'Guiced Mail Client'
       publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
@@ -1519,3 +1577,70 @@ jobs:
       publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
+  # ──────────────────────────────────────────────
+  # Final – Create Git Tag & GitHub Release
+  # ──────────────────────────────────────────────
+  create-release:
+    runs-on: ubuntu-latest
+    if: ${{ always() && inputs.centralRelease && !failure() }}
+    needs:
+      - AM-Cerial
+      - AM-Conversations
+      - AM-Documents
+      - AM-Files
+      - AM-Forums
+      - AM-Images
+      - AM-Mail
+      - AM-Notifications
+      - AM-Payments
+      - AM-Realtor
+      - AM-ToDo
+      - AM-Wallet
+      - Cache-Annotations-RI-Guice
+      - Guiced-CDI
+      - Guiced-Fault-Tolerance
+      - Guiced-Kafka
+      - Guiced-Metrics
+      - Guiced-OpenAPI
+      - Guiced-Rest-Client
+      - Guiced-Swagger-UI
+      - Guiced-Websockets
+      - Hazelcast-Hibernate
+      - JWebMP-AgGrid-Enterprise
+      - JWebMP-Angular-Maven-Plugin
+      - JWebMP-ChartJS
+      - JWebMP-FullCalendar-Pro
+      - JWebMP-Markdown
+      - JWebMP-RabbitComms
+      - JWebMP-WebAwesome-Pro
+    name: Create Release Tag
+    steps:
+      - uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.BUILD_TOKEN }}
+      - name: Create Release
+        env:
+          GH_TOKEN: ${{ secrets.BUILD_TOKEN }}
+        run: |
+          VERSION=$(grep -m1 '<version>' pom.xml | sed 's/.*<version>\(.*\)<\/version>.*/\1/')
+          if echo "$VERSION" | grep -q "SNAPSHOT"; then
+            echo "SNAPSHOT version ($VERSION) – skipping tag/release"
+            exit 0
+          fi
+          TAG="v${VERSION}"
+          if git tag -l "$TAG" | grep -q "$TAG"; then
+            echo "Tag $TAG already exists, skipping release creation"
+            exit 0
+          fi
+          echo "Creating tag $TAG"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG" -m "Release $VERSION"
+          git push origin "$TAG"
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -n "$PREV_TAG" ]; then
+            gh release create "$TAG" --title "Release $VERSION" --generate-notes --notes-start-tag "$PREV_TAG"
+          else
+            gh release create "$TAG" --title "Release $VERSION" --notes "Initial release $VERSION"
+          fi

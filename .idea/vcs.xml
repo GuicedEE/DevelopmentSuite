@@ -30,10 +30,14 @@
     <mapping directory="$PROJECT_DIR$/GuicedEE/cerial" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/client" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/config" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/examples" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/fault-tolerance" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/hazelcast" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/health" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/inject" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/intellij-plugin" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/kafka" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/mailclient" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/mcp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/metrics" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/openapi" vcs="Git" />

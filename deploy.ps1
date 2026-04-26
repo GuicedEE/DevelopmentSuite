@@ -95,3 +95,38 @@ mvn -B -ntp deploy `
   $noLocks `
   -U `
   @args
+
+if ($LASTEXITCODE -ne 0) { Write-Host "Activity Master deploy failed"; exit $LASTEXITCODE }
+
+# ── Create Git Tag & Release (non-SNAPSHOT only) ──────────
+$version = (Select-Xml -Path "pom.xml" -XPath "//*[local-name()='project']/*[local-name()='version']").Node.InnerText
+if ($version -notmatch "SNAPSHOT") {
+  $tag = "v$version"
+  $existingTag = git tag -l $tag
+  if (-not $existingTag) {
+    Write-Host "──── Creating tag $tag ────"
+
+    # Build release notes from previous tag
+    $prevTag = git describe --tags --abbrev=0 2>$null
+    if ($prevTag) {
+      $notes = git --no-pager log "$prevTag..HEAD" --pretty=format:"- %s (%h)" | Out-String
+      if (-not $notes.Trim()) { $notes = "Release $version" }
+    } else {
+      $notes = "Initial release $version"
+    }
+
+    git tag -a $tag -m "Release $version"
+    git push origin $tag
+
+    # Create GitHub release if gh CLI is available
+    if (Get-Command gh -ErrorAction SilentlyContinue) {
+      gh release create $tag --title "Release $version" --notes $notes
+    } else {
+      Write-Host "gh CLI not found – tag pushed but GitHub Release not created"
+    }
+  } else {
+    Write-Host "Tag $tag already exists, skipping release creation"
+  }
+} else {
+  Write-Host "SNAPSHOT version ($version) – skipping tag/release"
+}

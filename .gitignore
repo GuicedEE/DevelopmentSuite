@@ -46,3 +46,5 @@ build.ps1
 /JWebMP/plugins/angular-maven-plugin/.idea/compiler.xml
 /JWebMP/plugins/angular-maven-plugin/.idea/copilot.data.migration.ask2agent.xml
 /JWebMP/plugins/angular-maven-plugin/.idea/inspectionProfiles/Project_Default.xml
+/ActivityMaster/bom/target/
+/GuicedEE/mailclient/logs/
