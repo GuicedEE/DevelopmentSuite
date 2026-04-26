@@ -310,3 +310,11 @@
 	path = GuicedEE/hazelcast
 	url = https://github.com/GuicedEE/Hazelcast.git
 	branch = master
+[submodule "GuicedEE/jwt"]
+	path = GuicedEE/jwt
+	url = https://github.com/GuicedEE/microprofile-jwt.git
+    branch = master
+[submodule "GuicedEE/ibmmq"]
+	path = GuicedEE/ibmmq
+	url = https://github.com/GuicedEE/GuicedIBMMQ.git
+	branch = master

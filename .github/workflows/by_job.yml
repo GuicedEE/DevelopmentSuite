@@ -314,6 +314,18 @@ jobs:
       publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
+  JWT-Auth-API:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Parent
+    if: ${{ !failure() && needs.Parent.result == 'success' }}
+    with:
+      repository: 'GuicedEE/Services'
+      baseDir: 'MicroProfile/jwt-auth-api/'
+      name: 'JWT Auth API'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets: inherit
+
   Jandex:
     uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
     needs:
@@ -778,6 +790,22 @@ jobs:
     secrets: inherit
 
   # ──────────────────────────────────────────────
+  # Layer 10d2 – Guiced JWT (depends on Guice-Inject-Client, Guiced Vert.x, JWT Auth API)
+  # ──────────────────────────────────────────────
+  Guiced-JWT:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Guice-Inject-Client
+      - Guiced-Vertx
+      - JWT-Auth-API
+    if: ${{ !failure() && needs.Guice-Inject-Client.result == 'success' && needs.Guiced-Vertx.result == 'success' && needs.JWT-Auth-API.result == 'success' }}
+    with:
+      repository: 'GuicedEE/microprofile-jwt'
+      name: 'Guiced JWT'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
   # Layer 10e – Guiced OpenAPI (depends on Guiced Web, Swagger Services)
   # ──────────────────────────────────────────────
   Guiced-OpenAPI:
@@ -957,6 +985,23 @@ jobs:
     with:
       repository: 'GedMarc/GuicedCerial'
       name: 'Guiced Cerial'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets: inherit
+
+  # ──────────────────────────────────────────────
+  # Layer 13b – Guiced Hazelcast (depends on Guiced Vertx, Guice-Inject-Client, Hazelcast Services, Cache-Annotations-RI-Guice)
+  # ──────────────────────────────────────────────
+  Guiced-Hazelcast:
+    uses: GuicedEE/Workflows/.github/workflows/projects.yml@master
+    needs:
+      - Guiced-Vertx
+      - Guice-Inject-Client
+      - Hazelcast
+      - Cache-Annotations-RI-Guice
+    if: ${{ !failure() && needs.Guiced-Vertx.result == 'success' && needs.Guice-Inject-Client.result == 'success' && needs.Hazelcast.result == 'success' && needs.Cache-Annotations-RI-Guice.result == 'success' }}
+    with:
+      repository: 'GuicedEE/GuicedHazelcast'
+      name: 'Guiced Hazelcast'
       publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
@@ -1599,7 +1644,10 @@ jobs:
       - Cache-Annotations-RI-Guice
       - Guiced-CDI
       - Guiced-Fault-Tolerance
+      - Guiced-JWT
+      - Guiced-Hazelcast
       - Guiced-Kafka
+      - Guiced-Mail-Client
       - Guiced-Metrics
       - Guiced-OpenAPI
       - Guiced-Rest-Client

@@ -66,8 +66,10 @@
                 <module>GuicedEE/metrics</module>
                 <module>GuicedEE/health</module>
                 <module>GuicedEE/cdi</module>
+                <module>GuicedEE/ibmmq</module>
                 <module>GuicedEE/rabbitmq</module>
                 <module>GuicedEE/kafka</module>
+                <module>GuicedEE/jwt</module>
                 <module>GuicedEE/mailclient</module>
                 <module>GuicedEE/openapi</module>
                 <module>GuicedEE/swagger-ui</module>
@@ -118,16 +120,16 @@
                 <module>GuicedEE/services/Libraries/cloudevents</module>
                 <module>GuicedEE/services/Libraries/javassist</module>
                 <module>GuicedEE/services/Libraries/json</module>
+                <module>GuicedEE/services/Libraries/ibm-mq</module>
                 <module>GuicedEE/services/Libraries/kafka-client</module>
                 <module>GuicedEE/services/Libraries/mapstruct</module>
                 <module>GuicedEE/services/Libraries/openpdf</module>
                 <module>GuicedEE/services/Libraries/rabbitmq-client</module>
                 <module>GuicedEE/services/Libraries/swagger</module>
                 <module>GuicedEE/services/Libraries/uadetector-core</module>
-                <module>GuicedEE/services/Libraries/uadetector-resources</module>
                 <module>GuicedEE/services/Libraries/testcontainers</module>
-               <!-- <module>GuicedEE/services/Libraries/scram</module>-->
                 <module>GuicedEE/services/MicroProfile/config-core</module>
+                <module>GuicedEE/services/MicroProfile/jwt-auth-api</module>
                 <module>GuicedEE/services/MicroProfile/metrics-core</module>
                 <module>GuicedEE/services/MicroProfile/fault-tolerance-core</module>
                 <module>GuicedEE/services/MicroProfile/health-core</module>
