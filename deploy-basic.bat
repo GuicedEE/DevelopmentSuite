@@ -1,1 +1,1 @@
- mvn -B -ntp clean deploy -DskipTests -Dcentral.publishing.skip=false -Dmaven.deploy.skip=true -P%1,%2,%3,%4,%5,%6,%7
+ mvn -B -ntp deploy -DskipTests -Dmaven.consumer.pom=false -Dcentral.publishing.skip=false -Dmaven.deploy.skip=true -Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE -Daether.syncContext.named.factory=noop -U -P%1,%2,%3,%4,%5,%6,%7

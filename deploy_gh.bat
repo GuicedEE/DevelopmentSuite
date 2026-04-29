@@ -1,0 +1,1 @@
+ mvn -B -ntp deploy -DskipTests -Dmaven.consumer.pom=false -Dcentral.publishing.skip=true -Dmaven.deploy.skip=false -Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE -Daether.syncContext.named.factory=noop -U -Pguicedee-boms,guicedee,jwebmp-boms,jwebmp

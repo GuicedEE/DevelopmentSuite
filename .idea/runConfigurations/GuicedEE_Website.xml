@@ -28,7 +28,7 @@
       </option>
     </MavenSettings>
     <method v="2">
-      <option name="MakeProject" enabled="true" />
+      <option name="Maven.BeforeRunTask" enabled="true" file="C:\Java\DevSuite\GuicedEE\website/pom.xml" goal="compile" />
     </method>
   </configuration>
 </component>
