@@ -6,7 +6,6 @@
 ![Java 25+](https://img.shields.io/badge/Java-25%2B-green)
 ![Guice 7](https://img.shields.io/badge/Guice-7%2B-green)
 ![Vert.X 5](https://img.shields.io/badge/Vert.x-5%2B-green)
-![Maven 4](https://img.shields.io/badge/Maven-4%2B-green)
 ![JPMS](https://img.shields.io/badge/JPMS-Level%203-green)
 
 **A modular, Guice-first application platform for building reactive Java services on Vert.x 5.**
@@ -39,7 +38,7 @@ GuicedEE wires together [Google Guice](https://github.com/google/guice), [Vert.x
         <dependency>
             <groupId>com.guicedee</groupId>
             <artifactId>guicedee-bom</artifactId>
-            <version>2.0.1-SNAPSHOT</version>
+            <version>2.0.1</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>

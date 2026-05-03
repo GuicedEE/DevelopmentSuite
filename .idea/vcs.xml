@@ -15,20 +15,19 @@
     <mapping directory="$PROJECT_DIR$/ActivityMaster/tasks" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/todo" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ActivityMaster/wallet" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/GuicedEE/bom" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/client" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/examples" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/GuicedEE/hazelcast" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GuicedEE/inject" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/intellij-plugin" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/mcp" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/GuicedEE/parent" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/representations" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/services" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/website" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/GuicedEE/workflows" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/JWebMP/bom" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/JWebMP/parent" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/plugins/angular" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/markdown" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/prism" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JWebMP/plugins/tsclient" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/webawesome" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/plugins/webawesome-pro" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JWebMP/website" vcs="Git" />

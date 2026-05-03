@@ -15,6 +15,11 @@
         <option value="$PROJECT_DIR$/JWebMP/plugins/prism/pom.xml" />
         <option value="$PROJECT_DIR$/JWebMP/plugins/markdown/pom.xml" />
         <option value="$PROJECT_DIR$/GuicedEE/services/Libraries/json/pom.xml" />
+        <option value="$PROJECT_DIR$/JWebMP/plugins/angular/pom.xml" />
+        <option value="$PROJECT_DIR$/JWebMP/plugins/tsclient/pom.xml" />
+        <option value="$PROJECT_DIR$/GuicedEE/inject/pom.xml" />
+        <option value="$PROJECT_DIR$/GuicedEE/client/pom.xml" />
+        <option value="$PROJECT_DIR$/GuicedEE/graphql/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -24,9 +29,11 @@
     </option>
     <option name="enabledProfiles">
       <list>
+        <option value="guicedee-boms" />
         <option value="entityassist" />
         <option value="jwebmp" />
         <option value="activity-master" />
+        <option value="jwebmp-boms" />
         <option value="guicedee" />
         <option value="websites" />
       </list>

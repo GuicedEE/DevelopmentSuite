@@ -99,6 +99,16 @@
     <file url="file://$PROJECT_DIR$/GuicedEE/fault-tolerance/src/jre11/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/fault-tolerance/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/fault-tolerance/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/graphql/src/jre11/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/graphql/src/jre11/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/graphql/src/jre11/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/graphql/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/graphql/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/hazelcast/src/jre11/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/hazelcast/src/jre11/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/hazelcast/src/jre11/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/hazelcast/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GuicedEE/hazelcast/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/health/src/jre11/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/health/src/jre11/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GuicedEE/health/src/jre11/webapp" charset="UTF-8" />
@@ -320,5 +330,9 @@
     <file url="file://$PROJECT_DIR$/JWebMP/website/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../../Windows/System32/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../../Windows/System32/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../../Windows/System32/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../../Windows/System32/src/main/webapp" charset="UTF-8" />
   </component>
 </project>

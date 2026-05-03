@@ -3,11 +3,24 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
-      <profile name="Maven default annotation processors profile" enabled="true">
+      <profile name="Annotation profile for client" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="angular-maven-plugin" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+        </processorPath>
+        <module name="client" />
+      </profile>
+      <profile name="Annotation profile for inject" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+        </processorPath>
+        <module name="inject" />
       </profile>
       <profile name="Annotation profile for website" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -17,10 +30,78 @@
         <processor name="org.mapstruct.ap.MappingProcessor" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="website" />
+      </profile>
+      <profile name="Annotation profile for angular" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <option name="mapstruct.generatedAnnotationClass" value="jakarta.annotation.Generated" />
+        <option name="mapstruct.suppressGeneratorAnnotation" value="true" />
+        <option name="mapstruct.suppressGeneratorTimestamp" value="true" />
+        <option name="mapstruct.suppressGeneratorVersionInfoComment" value="true" />
+        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
+        <processor name="org.mapstruct.ap.MappingProcessor" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+        </processorPath>
+        <module name="angular" />
+      </profile>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="angular-maven-plugin" />
+      </profile>
+      <profile name="Annotation profile for ngx-markdown" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
+        </processorPath>
+        <module name="ngx-markdown" />
+      </profile>
+      <profile name="Annotation profile for prism" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
+        </processorPath>
+        <module name="prism" />
+      </profile>
+      <profile name="Annotation profile for typescript-client" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
+        </processorPath>
+        <module name="typescript-client" />
+      </profile>
+      <profile name="Annotation profile for web-awesome" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
+        </processorPath>
+        <module name="web-awesome" />
+      </profile>
+      <profile name="Annotation profile for web-awesome-pro" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
+        </processorPath>
+        <module name="web-awesome-pro" />
       </profile>
       <profile name="Annotation profile for website (1) (com.jwebmp)" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -30,46 +111,19 @@
         <processor name="org.mapstruct.ap.MappingProcessor" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="website (1) (com.jwebmp)" />
       </profile>
-      <profile name="Annotation profile for ngx-markdown" enabled="true">
+      <profile name="Annotation profile for graphql" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
-        <module name="ngx-markdown" />
-      </profile>
-      <profile name="Annotation profile for prism" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-        </processorPath>
-        <module name="prism" />
-      </profile>
-      <profile name="Annotation profile for web-awesome" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-        </processorPath>
-        <module name="web-awesome" />
-      </profile>
-      <profile name="Annotation profile for web-awesome-pro" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-        </processorPath>
-        <module name="web-awesome-pro" />
+        <module name="graphql" />
       </profile>
       <profile name="Annotation profile for builder" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -80,15 +134,15 @@
         <processor name="org.mapstruct.ap.MappingProcessor" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/hibernate/orm/hibernate-processor/7.2.4.Final/hibernate-processor-7.2.4.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/glassfish/jaxb/txw2/4.0.6/txw2-4.0.6.jar" />
           <entry name="$MAVEN_REPOSITORY$/jakarta/persistence/jakarta.persistence-api/3.2.0/jakarta.persistence-api-3.2.0.jar" />
-          <entry name="$MAVEN_REPOSITORY$/jakarta/xml/bind/jakarta.xml.bind-api/4.0.4/jakarta.xml.bind-api-4.0.4.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/hibernate/orm/hibernate-core/7.2.4.Final/hibernate-core-7.2.4.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/glassfish/jaxb/txw2/4.0.6/txw2-4.0.6.jar" />
           <entry name="$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/3.0.0/jakarta.annotation-api-3.0.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/hibernate/orm/hibernate-core/7.2.4.Final/hibernate-core-7.2.4.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/jakarta/xml/bind/jakarta.xml.bind-api/4.0.4/jakarta.xml.bind-api-4.0.4.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/glassfish/jaxb/jaxb-runtime/4.0.6/jaxb-runtime-4.0.6.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/net/bytebuddy/byte-buddy/1.17.8/byte-buddy-1.17.8.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/glassfish/jaxb/jaxb-core/4.0.6/jaxb-core-4.0.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/net/bytebuddy/byte-buddy/1.17.8/byte-buddy-1.17.8.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/antlr/antlr4-runtime/4.13.2/antlr4-runtime-4.13.2.jar" />
@@ -159,10 +213,10 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/hibernate/orm/hibernate-core/7.3.2.Final/hibernate-core-7.3.2.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/jakarta/xml/bind/jakarta.xml.bind-api/4.0.5/jakarta.xml.bind-api-4.0.5.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/glassfish/jaxb/txw2/4.0.6/txw2-4.0.6.jar" />
           <entry name="$MAVEN_REPOSITORY$/jakarta/persistence/jakarta.persistence-api/3.2.0/jakarta.persistence-api-3.2.0.jar" />
-          <entry name="$MAVEN_REPOSITORY$/jakarta/xml/bind/jakarta.xml.bind-api/4.0.4/jakarta.xml.bind-api-4.0.4.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/glassfish/jaxb/txw2/4.0.6/txw2-4.0.6.jar" />
           <entry name="$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/3.0.0/jakarta.annotation-api-3.0.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/jakarta/xml/bind/jakarta.xml.bind-api/4.0.4/jakarta.xml.bind-api-4.0.4.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/glassfish/jaxb/jaxb-runtime/4.0.6/jaxb-runtime-4.0.6.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/net/bytebuddy/byte-buddy/1.18.8/byte-buddy-1.18.8.jar" />
@@ -199,15 +253,6 @@
         </processorPath>
         <module name="cerial" />
       </profile>
-      <profile name="Annotation profile for client" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-        </processorPath>
-        <module name="client" />
-      </profile>
       <profile name="Annotation profile for config" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -227,6 +272,16 @@
         </processorPath>
         <module name="fault-tolerance" />
       </profile>
+      <profile name="Annotation profile for hazelcast" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+        </processorPath>
+        <module name="hazelcast" />
+      </profile>
       <profile name="Annotation profile for health" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -245,16 +300,6 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
         <module name="ibmmq" />
-      </profile>
-      <profile name="Annotation profile for inject" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-        </processorPath>
-        <module name="inject" />
       </profile>
       <profile name="Annotation profile for jwt" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -434,7 +479,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="jwebmp-client" />
       </profile>
@@ -443,7 +488,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="jwebmp-core" />
       </profile>
@@ -452,7 +497,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="agcharts" />
       </profile>
@@ -461,7 +506,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="agcharts-enterprise" />
       </profile>
@@ -470,7 +515,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="aggrid" />
       </profile>
@@ -486,34 +531,17 @@
         <processor name="org.mapstruct.ap.MappingProcessor" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="aggrid-enterprise" />
-      </profile>
-      <profile name="Annotation profile for angular" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <option name="mapstruct.generatedAnnotationClass" value="jakarta.annotation.Generated" />
-        <option name="mapstruct.suppressGeneratorAnnotation" value="true" />
-        <option name="mapstruct.suppressGeneratorTimestamp" value="true" />
-        <option name="mapstruct.suppressGeneratorVersionInfoComment" value="true" />
-        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
-        <processor name="org.mapstruct.ap.MappingProcessor" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
-        </processorPath>
-        <module name="angular" />
       </profile>
       <profile name="Annotation profile for chartjs" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="chartjs" />
       </profile>
@@ -522,7 +550,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="easing-effects" />
       </profile>
@@ -531,7 +559,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="font-awesome" />
       </profile>
@@ -540,7 +568,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="font-awesome-pro" />
       </profile>
@@ -549,7 +577,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="full-calendar" />
       </profile>
@@ -558,25 +586,16 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="full-calendar-pro" />
-      </profile>
-      <profile name="Annotation profile for typescript-client" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-        </processorPath>
-        <module name="typescript-client" />
       </profile>
       <profile name="Annotation profile for jwebmp-rabbitmq" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="jwebmp-rabbitmq" />
       </profile>
@@ -585,7 +604,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="testlib" />
       </profile>
@@ -594,31 +613,16 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="jwebmp-vertx" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="apache-bom" target="1.5" />
-      <module name="apache-cxf-bom" target="1.5" />
       <module name="cache-annotations-ri-guice" target="25" />
-      <module name="fasterxml-bom" target="1.5" />
-      <module name="google-bom" target="1.5" />
       <module name="guice" target="17" />
-      <module name="guicedee-bom" target="1.5" />
-      <module name="hibernate-bom" target="1.5" />
-      <module name="jakarta-bom" target="1.5" />
-      <module name="jboss-bom" target="1.5" />
       <module name="json" target="25" />
-      <module name="jwebmp-bom" target="1.5" />
       <module name="jwebmp-testlib" target="25" />
-      <module name="parent (1) (com.guicedee)" target="1.5" />
-      <module name="parent (2) (com.jwebmp)" target="1.5" />
-      <module name="smallrye-bom" target="1.5" />
-      <module name="standalone-bom" target="1.5" />
-      <module name="swagger-bom" target="1.5" />
-      <module name="tests-bom" target="1.5" />
       <module name="versioner" target="1.5" />
     </bytecodeTargetLevel>
   </component>

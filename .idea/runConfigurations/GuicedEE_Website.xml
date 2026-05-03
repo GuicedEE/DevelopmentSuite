@@ -11,6 +11,7 @@
           </option>
           <option name="goals">
             <list>
+              <option value="compile" />
               <option value="jwebmp-angular:build" />
             </list>
           </option>
@@ -27,8 +28,6 @@
         </MavenRunnerParameters>
       </option>
     </MavenSettings>
-    <method v="2">
-      <option name="Maven.BeforeRunTask" enabled="true" file="C:\Java\DevSuite\GuicedEE\website/pom.xml" goal="compile" />
-    </method>
+    <method v="2" />
   </configuration>
 </component>
