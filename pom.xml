@@ -4,7 +4,7 @@
 
     <groupId>com.guicedee</groupId>
     <artifactId>builder</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <description>A base builder for the entire reactive stack of GuicedEE, JWebMP, EntityAssist, and ActivityMaster</description>
@@ -177,6 +177,8 @@
         <profile>
             <id>jwebmp</id>
             <modules>
+                <module>JWebMP/bom</module>
+                <module>JWebMP/parent</module>
                 <module>JWebMP/client</module>
                 <module>JWebMP/testlib</module>
                 <module>JWebMP/core</module>
@@ -186,6 +188,7 @@
                 <module>JWebMP/plugins/angular-maven-plugin</module>
 
                 <module>JWebMP/plugins/angular</module>
+                <module>JWebMP/plugins/angular-forms</module>
                 <module>JWebMP/plugins/agcharts</module>
                 <module>JWebMP/plugins/agcharts-enterprise</module>
                 <module>JWebMP/plugins/aggrid</module>
@@ -202,6 +205,14 @@
 
                 <module>JWebMP/plugins/prism</module>
                 <module>JWebMP/plugins/markdown</module>
+
+                <module>JWebMP/plugins/globalize</module>
+                <module>JWebMP/plugins/jquery</module>
+                <module>JWebMP/plugins/jquery-ui</module>
+                <module>JWebMP/plugins/bootstrap</module>
+                <module>JWebMP/plugins/waves-effect</module>
+                <module>JWebMP/plugins/datatables</module>
+                <module>JWebMP/plugins/angular-material</module>
             </modules>
         </profile>
     </profiles>

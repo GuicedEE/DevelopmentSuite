@@ -322,3 +322,28 @@
 	path = GuicedEE/graphql
 	url = https://github.com/GuicedEE/GraphQL.git
 	branch = master
+[submodule "JWebMP/plugins/jquery"]
+	path = JWebMP/plugins/jquery
+	url = https://github.com/JWebMP/JQuery
+	branch = master
+[submodule "JWebMP/plugins/jquery-ui"]
+	path = JWebMP/plugins/jquery-ui
+	url = https://github.com/JWebMP/JQueryUI.git
+[submodule "JWebMP/plugins/bootstrap"]
+	path = JWebMP/plugins/bootstrap
+	url = https://github.com/JWebMP/Bootstrap
+[submodule "JWebMP/plugins/globalize"]
+	path = JWebMP/plugins/globalize
+	url = https://github.com/JWebMP/Globalize
+[submodule "JWebMP/plugins/waves-effect"]
+	path = JWebMP/plugins/waves-effect
+	url = https://github.com/JWebMP/WavesEffect.git
+[submodule "JWebMP/plugins/datatables"]
+	path = JWebMP/plugins/datatables
+	url = https://github.com/JWebMP/DataTables
+[submodule "JWebMP/plugins/angular-material"]
+	path = JWebMP/plugins/angular-material
+	url = https://github.com/JWebMP/AngularMaterial.git
+[submodule "JWebMP/plugins/angular-forms"]
+	path = JWebMP/plugins/angular-forms
+	url = https://github.com/JWebMP/AngularForms.git
