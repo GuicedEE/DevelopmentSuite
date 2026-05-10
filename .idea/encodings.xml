@@ -282,10 +282,18 @@
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/bootstrap/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/bootstrap/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/bootstrap/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/c3/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/c3/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/c3/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/c3/src/main/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/chartjs/jar-resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/chartjs/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/chartjs/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/chartjs/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/d3/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/d3/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/d3/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/d3/src/main/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/datatables/jar-resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/datatables/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/datatables/src/main/resources" charset="UTF-8" />
@@ -294,6 +302,10 @@
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/easing/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/easing/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/easing/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/easy-pie-chart/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/easy-pie-chart/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/easy-pie-chart/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/easy-pie-chart/src/main/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/fontawesome-pro/jar-resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/fontawesome-pro/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/fontawesome-pro/src/main/resources" charset="UTF-8" />
@@ -314,6 +326,14 @@
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/globalize/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/globalize/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/globalize/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/glyph-icons/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/glyph-icons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/glyph-icons/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/glyph-icons/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/jqplot/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/jqplot/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/jqplot/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/jqplot/src/main/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/jquery-ui/jar-resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/jquery-ui/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/jquery-ui/src/main/resources" charset="UTF-8" />
@@ -322,14 +342,50 @@
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/jquery/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/jquery/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/jquery/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/local-storage/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/local-storage/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/local-storage/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/local-storage/src/main/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/markdown/jar-resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/markdown/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/markdown/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/markdown/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/material-design-icons/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/material-design-icons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/material-design-icons/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/material-design-icons/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/material-icons/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/material-icons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/material-icons/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/material-icons/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/plus-as-tab/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/plus-as-tab/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/plus-as-tab/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/plus-as-tab/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/prettify/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/prettify/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/prettify/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/prettify/src/main/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/prism/jar-resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/prism/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/prism/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/prism/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/session-storage/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/session-storage/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/session-storage/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/session-storage/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/skycons/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/skycons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/skycons/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/skycons/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/themify-icons/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/themify-icons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/themify-icons/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/themify-icons/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/toastr/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/toastr/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/toastr/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/toastr/src/main/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/tsclient/jar-resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/tsclient/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/tsclient/src/main/resources" charset="UTF-8" />
@@ -338,6 +394,14 @@
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/waves-effect/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/waves-effect/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/waves-effect/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/waypoints/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/waypoints/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/waypoints/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/waypoints/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/weather-icons/jar-resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/weather-icons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/weather-icons/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JWebMP/plugins/weather-icons/src/main/webapp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/webawesome-pro/jar-resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/webawesome-pro/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JWebMP/plugins/webawesome-pro/src/main/resources" charset="UTF-8" />

@@ -64,7 +64,7 @@
 	branch = master
 [submodule "GuicedEE/cerial"]
 	path = GuicedEE/cerial
-	url = https://github.com/GedMarc/GuicedCerial.git
+	url = https://github.com/GuicedEE/GuicedCerial.git
 	branch = master
 [submodule "GuicedEE/telemetry"]
 	path = GuicedEE/telemetry
@@ -72,7 +72,7 @@
 	branch = master
 [submodule "GuicedEE/webservices"]
 	path = GuicedEE/webservices
-	url = https://github.com/GedMarc/Guiced-WebServices.git
+	url = https://github.com/GuicedEE/WebServices.git
 	branch = master
 [submodule "EntityAssist"]
 	path = EntityAssist
@@ -329,21 +329,86 @@
 [submodule "JWebMP/plugins/jquery-ui"]
 	path = JWebMP/plugins/jquery-ui
 	url = https://github.com/JWebMP/JQueryUI.git
+	branch = master
 [submodule "JWebMP/plugins/bootstrap"]
 	path = JWebMP/plugins/bootstrap
 	url = https://github.com/JWebMP/Bootstrap
+	branch = master
 [submodule "JWebMP/plugins/globalize"]
 	path = JWebMP/plugins/globalize
 	url = https://github.com/JWebMP/Globalize
+	branch = master
 [submodule "JWebMP/plugins/waves-effect"]
 	path = JWebMP/plugins/waves-effect
 	url = https://github.com/JWebMP/WavesEffect.git
+	branch = master
 [submodule "JWebMP/plugins/datatables"]
 	path = JWebMP/plugins/datatables
 	url = https://github.com/JWebMP/DataTables
+	branch = master
 [submodule "JWebMP/plugins/angular-material"]
 	path = JWebMP/plugins/angular-material
 	url = https://github.com/JWebMP/AngularMaterial.git
+	branch = master
 [submodule "JWebMP/plugins/angular-forms"]
 	path = JWebMP/plugins/angular-forms
 	url = https://github.com/JWebMP/AngularForms.git
+	branch = master
+[submodule "JWebMP/plugins/weather-icons"]
+	path = JWebMP/plugins/weather-icons
+	url = https://github.com/JWebMP/WeatherIcons.git
+	branch = master
+[submodule "JWebMP/plugins/themify-icons"]
+	path = JWebMP/plugins/themify-icons
+	url = https://github.com/JWebMP/Themify-Icons.git
+	branch = master
+[submodule "JWebMP/plugins/material-icons"]
+	path = JWebMP/plugins/material-icons
+	url = https://github.com/JWebMP/MaterialIcons.git
+	branch = master
+[submodule "JWebMP/plugins/material-design-icons"]
+	path = JWebMP/plugins/material-design-icons
+	url = https://github.com/JWebMP/MaterialDesignIcons.git
+	branch = master
+[submodule "JWebMP/plugins/c3"]
+	path = JWebMP/plugins/c3
+	url = https://github.com/JWebMP/C3.git
+	branch = master
+[submodule "JWebMP/plugins/d3"]
+	path = JWebMP/plugins/d3
+	url = https://github.com/JWebMP/D3.git
+	branch = master
+[submodule "JWebMP/plugins/glyph-icons"]
+	path = JWebMP/plugins/glyph-icons
+	url = https://github.com/JWebMP/Glyphicons.git
+	branch = master
+[submodule "JWebMP/plugins/easy-pie-chart"]
+	path = JWebMP/plugins/easy-pie-chart
+	url = https://github.com/JWebMP/Easy-Pie-Chart.git
+	branch = master
+[submodule "JWebMP/plugins/skycons"]
+	path = JWebMP/plugins/skycons
+	url = https://github.com/JWebMP/Skycons.git
+	branch = master
+[submodule "JWebMP/plugins/jqplot"]
+	path = JWebMP/plugins/jqplot
+	url = https://github.com/JWebMP/JQPlot.git
+	branch = master
+[submodule "JWebMP/plugins/toastr"]
+	path = JWebMP/plugins/toastr
+	url = https://github.com/JWebMP/Toastr.git
+[submodule "JWebMP/plugins/prettify"]
+	path = JWebMP/plugins/prettify
+	url = https://github.com/JWebMP/Prettify.git
+[submodule "JWebMP/plugins/waypoints"]
+	path = JWebMP/plugins/waypoints
+	url = https://github.com/JWebMP/WayPoints.git
+[submodule "JWebMP/plugins/plus-as-tab"]
+	path = JWebMP/plugins/plus-as-tab
+	url = https://github.com/JWebMP/PlusAsTab.git
+[submodule "JWebMP/plugins/local-storage"]
+	path = JWebMP/plugins/local-storage
+	url = https://github.com/JWebMP/LocalStorage.git
+[submodule "JWebMP/plugins/session-storage"]
+	path = JWebMP/plugins/session-storage
+	url = https://github.com/JWebMP/SessionStorage

@@ -213,6 +213,29 @@
                 <module>JWebMP/plugins/waves-effect</module>
                 <module>JWebMP/plugins/datatables</module>
                 <module>JWebMP/plugins/angular-material</module>
+
+                <module>JWebMP/plugins/themify-icons</module>
+                <module>JWebMP/plugins/material-icons</module>
+                <module>JWebMP/plugins/material-design-icons</module>
+                <module>JWebMP/plugins/weather-icons</module>
+                <module>JWebMP/plugins/glyph-icons</module>
+                <module>JWebMP/plugins/skycons</module>
+
+                <module>JWebMP/plugins/c3</module>
+                <module>JWebMP/plugins/d3</module>
+                <module>JWebMP/plugins/easy-pie-chart</module>
+                <module>JWebMP/plugins/jqplot</module>
+                <module>JWebMP/plugins/toastr</module>
+                <module>JWebMP/plugins/prettify</module>
+                <module>JWebMP/plugins/waypoints</module>
+                <module>JWebMP/plugins/plus-as-tab</module>
+
+
+                <module>JWebMP/plugins/local-storage</module>
+                <module>JWebMP/plugins/session-storage</module>
+
+
+
             </modules>
         </profile>
     </profiles>
