@@ -149,6 +149,25 @@ Dependency installation, toolchain provisioning, and the Angular production buil
          Set to your domain or _ for a catch-all. -->
     <!-- <nginxServerName>example.com</nginxServerName> -->
 
+    <!-- Enable Let's Encrypt support (default: false).
+         Implies HTTPS, installs certbot in the generated image, and uses
+         /etc/letsencrypt/live/<domain>/fullchain.pem + privkey.pem. -->
+    <!-- <nginxLetsEncrypt>true</nginxLetsEncrypt> -->
+
+    <!-- Optional explicit Let's Encrypt domains. When omitted, nginxServerName is used. -->
+    <!--
+    <nginxLetsEncryptDomains>
+      <domain>example.com</domain>
+      <domain>www.example.com</domain>
+    </nginxLetsEncryptDomains>
+    -->
+
+    <!-- Optional Let's Encrypt registration email. -->
+    <!-- <nginxLetsEncryptEmail>admin@example.com</nginxLetsEncryptEmail> -->
+
+    <!-- Use Let's Encrypt staging for test deployments (default: false). -->
+    <!-- <nginxLetsEncryptStaging>false</nginxLetsEncryptStaging> -->
+
     <!-- Additional raw nginx directives injected into the server block.
          Each entry is written as-is with full nginx syntax. -->
     <!--
@@ -199,10 +218,15 @@ Dependency installation, toolchain provisioning, and the Angular production buil
 | `dockerfilePath` | `jwebmp.angular.docker.dockerfile` | `String` | *(none)* | Path to a custom Dockerfile. When set, the plugin uses this file instead of generating one. Relative paths are resolved against the project base directory. |
 | `dockerBuildArgs` | `jwebmp.angular.docker.args` | `List<String>` | *(none)* | Additional arguments passed to `docker build` (e.g. `--no-cache`, `--build-arg KEY=VAL`). |
 | `nginxHttps` | `jwebmp.angular.nginx.https` | `boolean` | `false` | Enable HTTPS in the generated nginx configuration. Adds an SSL server block on port 443. |
+| `nginxHttpPort` | `jwebmp.angular.nginx.httpPort` | `int` | `80` | HTTP port exposed by the generated Docker image and used by the generated nginx HTTP server block. |
 | `nginxSslCertificate` | `jwebmp.angular.nginx.sslCertificate` | `String` | `/etc/nginx/ssl/server.crt` | Path to the SSL certificate *inside the container*. Only used when `nginxHttps` is `true`. |
 | `nginxSslCertificateKey` | `jwebmp.angular.nginx.sslCertificateKey` | `String` | `/etc/nginx/ssl/server.key` | Path to the SSL private key *inside the container*. Only used when `nginxHttps` is `true`. |
-| `nginxHttpRedirect` | `jwebmp.angular.nginx.httpRedirect` | `boolean` | `true` | When `nginxHttps` is enabled, redirect HTTP (port 80) to HTTPS with a 301. Set to `false` to serve over both. |
+| `nginxHttpRedirect` | `jwebmp.angular.nginx.httpRedirect` | `boolean` | `true` | When `nginxHttps` is enabled, redirect HTTP to HTTPS with a 301. Let's Encrypt always redirects application traffic to HTTPS while keeping ACME challenge paths available. |
 | `nginxServerName` | `jwebmp.angular.nginx.serverName` | `String` | `localhost` | The `server_name` directive in the generated nginx configuration. Use a domain name or `_` for a catch-all. |
+| `nginxLetsEncrypt` | `jwebmp.angular.nginx.letsencrypt` | `boolean` | `false` | Enable Let's Encrypt support. Implies HTTPS and uses certbot in the generated image. |
+| `nginxLetsEncryptDomains` | `jwebmp.angular.nginx.letsencrypt.domains` | `List<String>` | `nginxServerName` | Domain names requested from Let's Encrypt. |
+| `nginxLetsEncryptEmail` | `jwebmp.angular.nginx.letsencrypt.email` | `String` | *(none)* | Email address for Let's Encrypt registration and expiry notices. |
+| `nginxLetsEncryptStaging` | `jwebmp.angular.nginx.letsencrypt.staging` | `boolean` | `false` | Use the Let's Encrypt staging endpoint for testing. |
 | `nginxCustomEntries` | `jwebmp.angular.nginx.customEntries` | `List<String>` | *(none)* | Additional raw nginx directives injected into the primary server block. Each entry is written as-is. |
 | `nginxConfigFile` | `jwebmp.angular.nginx.configFile` | `String` | *(none)* | Path to an existing nginx configuration file used verbatim instead of generating one. Relative paths are resolved against the project base directory. |
 | `jpmsEnabled` | `jwebmp.angular.jpms.enabled` | `boolean` | `true` | Attempt JPMS `ModuleLayer` classloading. When modules are detected on the classpath, a `ModuleLayer` is built so `ServiceLoader` / provider discovery works for `module-info` declarations. Falls back to a flat `URLClassLoader` when no modules are found or initialisation fails. |
@@ -231,6 +255,9 @@ mvn process-classes \
   -Djwebmp.angular.nginx.sslCertificateKey=/etc/nginx/ssl/server.key \
   -Djwebmp.angular.nginx.httpRedirect=true \
   -Djwebmp.angular.nginx.serverName=example.com \
+  -Djwebmp.angular.nginx.letsencrypt=true \
+  -Djwebmp.angular.nginx.letsencrypt.email=admin@example.com \
+  -Djwebmp.angular.nginx.letsencrypt.staging=false \
   -Djwebmp.angular.nginx.configFile=src/main/docker/nginx.conf \
   -Djwebmp.angular.apps=com.example.App1,com.example.App2 \
   -Djwebmp.angular.outputDirectory=/path/to/output \
@@ -367,7 +394,8 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-When `nginxHttps` is enabled, the `EXPOSE` line becomes `EXPOSE 80 443`.
+When `nginxHttps` is enabled, the `EXPOSE` line becomes `EXPOSE <nginxHttpPort> 443`.
+When `nginxLetsEncrypt` is enabled, the generated image remains Alpine-based but also installs `certbot` and `openssl`, copies a generated `docker-entrypoint.sh`, exposes `<nginxHttpPort>` and 443, and starts through that entrypoint so certificates can be requested before nginx starts.
 
 The base image can be changed with `<dockerBaseImage>`.
 
@@ -386,11 +414,20 @@ server {
 
     location / {
         try_files $uri $uri/ /index.html;
+        add_header Cache-Control "no-store, no-cache, must-revalidate, max-age=0" always;
+        add_header Pragma "no-cache" always;
+        add_header Expires "0" always;
     }
 
-    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+    location = /index.html {
+        add_header Cache-Control "no-store, no-cache, must-revalidate, max-age=0" always;
+        add_header Pragma "no-cache" always;
+        add_header Expires "0" always;
+    }
+
+    location ~* \.(js|mjs|css|map|json|txt|xml|png|jpg|jpeg|gif|webp|avif|ico|svg|woff|woff2|ttf|eot|otf)$ {
         expires 1y;
-        add_header Cache-Control "public, immutable";
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
     }
 
     add_header X-Frame-Options "SAMEORIGIN" always;
@@ -401,7 +438,7 @@ server {
 
 #### HTTPS enabled (`nginxHttps=true`)
 
-When HTTPS is enabled, the primary server block listens on 443 with TLS and a secondary block on port 80 performs a 301 redirect (unless `nginxHttpRedirect` is set to `false`):
+When HTTPS is enabled, the primary server block listens on 443 with TLS and a secondary block on `nginxHttpPort` performs a 301 redirect (unless `nginxHttpRedirect` is set to `false`). When Let's Encrypt is enabled, HTTP application traffic always redirects to HTTPS while ACME challenge paths remain available:
 
 ```nginx
 server {
@@ -421,7 +458,10 @@ server {
 server {
     listen 80;
     server_name localhost;
-    return 301 https://$host$request_uri;
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
 }
 ```
 
@@ -445,6 +485,38 @@ Or use custom paths via plugin configuration:
   <nginxServerName>app.example.com</nginxServerName>
 </configuration>
 ```
+
+#### Let's Encrypt enabled (`nginxLetsEncrypt=true`)
+
+When Let's Encrypt is enabled, HTTPS is implied and the generated nginx configuration points to the standard certbot paths:
+
+```nginx
+ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+```
+
+The generated HTTP server keeps `/.well-known/acme-challenge/` available for renewals and redirects other traffic to HTTPS when `nginxHttpRedirect` is `true`.
+
+```xml
+<configuration>
+  <buildAngular>true</buildAngular>
+  <buildDockerImage>true</buildDockerImage>
+  <dockerBaseImage>nginx:alpine</dockerBaseImage>
+  <nginxServerName>example.com www.example.com</nginxServerName>
+  <nginxLetsEncrypt>true</nginxLetsEncrypt>
+  <nginxLetsEncryptEmail>admin@example.com</nginxLetsEncryptEmail>
+</configuration>
+```
+
+Run the container with ports 80 and 443 reachable from the public internet. Persist `/etc/letsencrypt` so certificates survive image upgrades and container restarts:
+
+```shell
+docker run -p 80:80 -p 443:443 \
+  -v letsencrypt:/etc/letsencrypt \
+  my-app:1.0.0
+```
+
+Use `<nginxLetsEncryptStaging>true</nginxLetsEncryptStaging>` for test deployments before requesting production certificates.
 
 ### Custom nginx entries
 
