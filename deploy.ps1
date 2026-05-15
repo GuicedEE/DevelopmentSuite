@@ -19,15 +19,37 @@ if ($LASTEXITCODE -ne 0) { Write-Host "Versioner deploy failed"; exit $LASTEXITC
 # Clean .locks again before batch deploy
 Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
-# Deploy all GuicedEE BOMs + parent in a single reactor (single Central deployment bundle)
-Write-Host "──── Deploying GuicedEE BOMs + Parent (single bundle) ────"
-mvn -B -ntp deploy `
-  --file GuicedEE/deploy-boms.xml `
-  -DskipTests "-Dmaven.consumer.pom=false" `
-  "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
-  "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
-  $noLocks `
-  -U @args
+# Deploy all GuicedEE BOMs + parent individually (avoids reactor staging issues)
+Write-Host "──── Deploying GuicedEE BOMs + Parent ────"
+
+$guicedeeBoms = @(
+  "GuicedEE/bom/StandaloneBOM/pom.xml",
+  "GuicedEE/bom/TestLayoutBOM/pom.xml",
+  "GuicedEE/bom/SwaggerBOM/pom.xml",
+  "GuicedEE/bom/JBossBOM/pom.xml",
+  "GuicedEE/bom/JakartaBOM/pom.xml",
+  "GuicedEE/bom/HibernateBOM/pom.xml",
+  "GuicedEE/bom/GoogleBOM/pom.xml",
+  "GuicedEE/bom/FasterXMLBOM/pom.xml",
+  "GuicedEE/bom/ApacheBOM/pom.xml",
+  "GuicedEE/bom/ApacheCXFBOM/pom.xml",
+  "GuicedEE/bom/SmallRyeBOM/pom.xml",
+  "GuicedEE/bom/pom.xml",
+  "GuicedEE/parent/pom.xml"
+)
+
+foreach ($pom in $guicedeeBoms) {
+  Write-Host "──── Deploying $pom ────"
+  Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+  mvn -B -ntp clean deploy `
+    --file $pom `
+    -DskipTests "-Dmaven.consumer.pom=false" `
+    "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
+    "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
+    $noLocks `
+    -U @args
+  if ($LASTEXITCODE -ne 0) { Write-Host "$pom deploy failed"; exit $LASTEXITCODE }
+}
 
 if ($LASTEXITCODE -ne 0) { Write-Host "GuicedEE BOMs deploy failed"; exit $LASTEXITCODE }
 

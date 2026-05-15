@@ -208,17 +208,44 @@ jobs:
           -U
 
       # ── Deploy GuicedEE BOMs ────────────────────────
-      # Each BOM must be deployed individually because the central-publishing plugin
-      # uses a shared staging directory in reactor builds, causing POM-only modules
-      # to lose their primary .pom artifact (only .asc and checksums survive).
+      # Each BOM is deployed individually because the central-publishing plugin
+      # shares a single staging directory in reactor builds. For POM-only modules
+      # the primary .pom can be lost, leaving orphaned .asc/.md5/.sha1 files that
+      # Central rejects with "Failed to associate file with coordinates".
       - name: 'Maven: Deploy GuicedEE BOMs'
         if: ${{ inputs.deployGuicedeeBoms }}
-        run: >
-          mvn -B -ntp deploy
-          "-Pguicedee-boms"
-          -DskipTests
-          ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
-          -U
+        run: |
+          set -e
+          CENTRAL_ARGS=""
+          if [ "${{ inputs.centralRelease }}" = "true" ]; then
+            CENTRAL_ARGS="-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true"
+          fi
+
+          BOMS=(
+            "GuicedEE/bom/StandaloneBOM/pom.xml"
+            "GuicedEE/bom/TestLayoutBOM/pom.xml"
+            "GuicedEE/bom/SwaggerBOM/pom.xml"
+            "GuicedEE/bom/JBossBOM/pom.xml"
+            "GuicedEE/bom/JakartaBOM/pom.xml"
+            "GuicedEE/bom/HibernateBOM/pom.xml"
+            "GuicedEE/bom/GoogleBOM/pom.xml"
+            "GuicedEE/bom/FasterXMLBOM/pom.xml"
+            "GuicedEE/bom/ApacheBOM/pom.xml"
+            "GuicedEE/bom/ApacheCXFBOM/pom.xml"
+            "GuicedEE/bom/SmallRyeBOM/pom.xml"
+            "GuicedEE/bom/pom.xml"
+            "GuicedEE/parent/pom.xml"
+          )
+
+          for pom in "${BOMS[@]}"; do
+            echo "──── Deploying $pom ────"
+            find . -type d -name ".locks" -exec rm -rf {} + 2>/dev/null || true
+            mvn -B -ntp clean deploy \
+              --file "$pom" \
+              -DskipTests -Dmaven.consumer.pom=false \
+              $CENTRAL_ARGS \
+              -U
+          done
 
       # ── Deploy GuicedEE Modules ─────────────────────
       - name: 'Maven: Deploy GuicedEE Modules'
@@ -234,12 +261,27 @@ jobs:
       # ── Deploy JWebMP BOMs ──────────────────────────
       - name: 'Maven: Deploy JWebMP BOMs'
         if: ${{ inputs.deployJwebmpBoms }}
-        run: >
-          mvn -B -ntp deploy
-          "-Pjwebmp-boms"
-          -DskipTests
-          ${{ inputs.centralRelease && '-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true' || '' }}
-          -U
+        run: |
+          set -e
+          CENTRAL_ARGS=""
+          if [ "${{ inputs.centralRelease }}" = "true" ]; then
+            CENTRAL_ARGS="-Dcentral.publishing.skip=false -Dmaven.deploy.skip=true"
+          fi
+
+          BOMS=(
+            "JWebMP/bom/pom.xml"
+            "JWebMP/parent/pom.xml"
+          )
+
+          for pom in "${BOMS[@]}"; do
+            echo "──── Deploying $pom ────"
+            find . -type d -name ".locks" -exec rm -rf {} + 2>/dev/null || true
+            mvn -B -ntp clean deploy \
+              --file "$pom" \
+              -DskipTests -Dmaven.consumer.pom=false \
+              $CENTRAL_ARGS \
+              -U
+          done
 
       # ── Deploy JWebMP Modules ───────────────────────
       - name: 'Maven: Deploy JWebMP Modules'

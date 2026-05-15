@@ -64,7 +64,7 @@
 	branch = master
 [submodule "GuicedEE/cerial"]
 	path = GuicedEE/cerial
-	url = https://github.com/GuicedEE/GuicedCerial.git
+	url = https://github.com/GuicedEE/Cerial.git
 	branch = master
 [submodule "GuicedEE/telemetry"]
 	path = GuicedEE/telemetry
@@ -397,18 +397,24 @@
 [submodule "JWebMP/plugins/toastr"]
 	path = JWebMP/plugins/toastr
 	url = https://github.com/JWebMP/Toastr.git
+	branch = master
 [submodule "JWebMP/plugins/prettify"]
 	path = JWebMP/plugins/prettify
 	url = https://github.com/JWebMP/Prettify.git
+	branch = master
 [submodule "JWebMP/plugins/waypoints"]
 	path = JWebMP/plugins/waypoints
 	url = https://github.com/JWebMP/WayPoints.git
+	branch = master
 [submodule "JWebMP/plugins/plus-as-tab"]
 	path = JWebMP/plugins/plus-as-tab
 	url = https://github.com/JWebMP/PlusAsTab.git
+	branch = master
 [submodule "JWebMP/plugins/local-storage"]
 	path = JWebMP/plugins/local-storage
 	url = https://github.com/JWebMP/LocalStorage.git
+	branch = master
 [submodule "JWebMP/plugins/session-storage"]
 	path = JWebMP/plugins/session-storage
 	url = https://github.com/JWebMP/SessionStorage
+	branch = master
