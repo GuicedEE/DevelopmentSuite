@@ -48,3 +48,6 @@ build.ps1
 /JWebMP/plugins/angular-maven-plugin/.idea/inspectionProfiles/Project_Default.xml
 /ActivityMaster/bom/target/
 /GuicedEE/mailclient/logs/
+/.mvn/wrapper/plexus-classworlds-2.7.0.jar
+/.mvn/wrapper/maven-wrapper.jar
+/.mvn/wrapper/META-INF/
