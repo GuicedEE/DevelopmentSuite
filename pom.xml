@@ -177,8 +177,6 @@
         <profile>
             <id>jwebmp</id>
             <modules>
-                <module>JWebMP/bom</module>
-                <module>JWebMP/parent</module>
                 <module>JWebMP/client</module>
                 <module>JWebMP/testlib</module>
                 <module>JWebMP/core</module>
