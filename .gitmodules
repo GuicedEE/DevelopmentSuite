@@ -421,3 +421,4 @@
 [submodule "ActivityMaster/website"]
 	path = ActivityMaster/website
 	url = https://github.com/Activity-Master/website.git
+	branch = master

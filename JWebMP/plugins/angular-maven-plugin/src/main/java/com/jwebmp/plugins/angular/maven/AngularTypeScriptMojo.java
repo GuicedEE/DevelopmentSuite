@@ -12,6 +12,8 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
+import io.vertx.core.Vertx;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.BufferedReader;
@@ -27,7 +29,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Mojo(
         name = "build",
@@ -252,32 +256,57 @@ public class AngularTypeScriptMojo extends AbstractMojo {
                 return;
             }
 
-            for (INgApp<?> app : apps) {
-                try {
-                    TypeScriptCompiler compiler = new TypeScriptCompiler(app);
-                    compiler.compileApp();
-                    if (ensureToolchain) {
-                        compiler.ensureToolchain(downloadNpm, nodeVersion, angularCliVersion, installForce);
+            // Run compilation on a Vert.x context to satisfy CallScoper requirements
+            Vertx vertx = Vertx.vertx();
+            try {
+                for (INgApp<?> app : apps) {
+                    CountDownLatch latch = new CountDownLatch(1);
+                    AtomicReference<Throwable> error = new AtomicReference<>();
+                    vertx.runOnContext(v -> {
+                        try {
+                            TypeScriptCompiler compiler = new TypeScriptCompiler(app);
+                            compiler.compileApp();
+                            if (ensureToolchain) {
+                                compiler.ensureToolchain(downloadNpm, nodeVersion, angularCliVersion, installForce);
+                            }
+                            if (installDependencies) {
+                                compiler.installDependencies(installForce);
+                            }
+                            if (buildAngular) {
+                                compiler.buildAngularApp();
+                            }
+                            if (buildDockerImage) {
+                                buildDockerImage(app);
+                            }
+                        } catch (Throwable e) {
+                            error.set(e);
+                        } finally {
+                            latch.countDown();
+                        }
+                    });
+                    if (!latch.await(30, TimeUnit.MINUTES)) {
+                        throw new MojoExecutionException("Timeout waiting for Angular TypeScript build for app: " + app.getClass().getName());
                     }
-                    if (installDependencies) {
-                        compiler.installDependencies(installForce);
+                    Throwable t = error.get();
+                    if (t != null) {
+                        if (t instanceof NoClassDefFoundError e) {
+                            throw new MojoExecutionException(
+                                    "Failed to load a required class while building Angular TypeScript for app: " + app.getClass().getName()
+                                    + ". Missing class: " + e.getMessage()
+                                    + ". This usually means a dependency (e.g. log4j-api for @Log4j2) is not on the resolved classpath."
+                                    + " Try setting jwebmp.angular.classpathScope=compile or adding the missing dependency to this project.",
+                                    e);
+                        } else if (t instanceof Exception e) {
+                            throw new MojoExecutionException("Failed to build Angular TypeScript for app: " + app.getClass().getName(), e);
+                        } else {
+                            throw new MojoExecutionException("Failed to build Angular TypeScript for app: " + app.getClass().getName(), new RuntimeException(t));
+                        }
                     }
-                    if (buildAngular) {
-                        compiler.buildAngularApp();
-                    }
-                    if (buildDockerImage) {
-                        buildDockerImage(app);
-                    }
-                } catch (NoClassDefFoundError e) {
-                    throw new MojoExecutionException(
-                            "Failed to load a required class while building Angular TypeScript for app: " + app.getClass().getName()
-                            + ". Missing class: " + e.getMessage()
-                            + ". This usually means a dependency (e.g. log4j-api for @Log4j2) is not on the resolved classpath."
-                            + " Try setting jwebmp.angular.classpathScope=compile or adding the missing dependency to this project.",
-                            e);
-                } catch (Exception e) {
-                    throw new MojoExecutionException("Failed to build Angular TypeScript for app: " + app.getClass().getName(), e);
                 }
+            } finally {
+                CountDownLatch closeLatch = new CountDownLatch(1);
+                vertx.close().onComplete(ar -> closeLatch.countDown());
+                closeLatch.await(10, TimeUnit.SECONDS);
             }
         } catch (MojoExecutionException e) {
             throw e;
