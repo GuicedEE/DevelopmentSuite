@@ -344,7 +344,7 @@ GuicedEE is part of a larger ecosystem:
 
 | Project | Description |
 |---------|-------------|
-| [**EntityAssist**](../EntityAssist/) | Reactive entity CRUD framework built on GuicedEE Persistence |
+| [**EntityAssist**](../EntityAssist/EntityAssist/) | Reactive entity CRUD framework built on GuicedEE Persistence |
 | [**JWebMP**](../JWebMP/) | Server-side web component framework with Vert.x rendering |
 | [**ActivityMaster**](../ActivityMaster/) | Domain-driven application modules (profiles, tasks, payments, etc.) |
 | [**AIRules**](../AIRules/) | AI agent rules, prompts, and workspace policies |

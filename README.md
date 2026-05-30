@@ -131,8 +131,9 @@ DevSuite/
 │       ├── webawesome-pro/ # Web Awesome Pro
 │       └── angular-maven-plugin/# Angular build integration
 │
-├── EntityAssist/       # CRTP-based reactive persistence toolkit
-│   └── ...            # See EntityAssist/README.md
+├── EntityAssist/       # EntityAssist project group
+│   ├── EntityAssist/   # CRTP-based reactive persistence toolkit (submodule)
+│   └── Website/        # EntityAssist project website (submodule)
 │
 └── ActivityMaster/     # Complete activity and content management platform
     ├── bom/            # ActivityMaster BOM
@@ -232,7 +233,7 @@ See individual component READMEs for specific quickstart guides:
 
 - **GuicedEE**: `GuicedEE/README.md`
 - **JWebMP**: `JWebMP/README.md`
-- **EntityAssist**: `EntityAssist/README.md`
+- **EntityAssist**: `EntityAssist/EntityAssist/README.md`
 - **ActivityMaster**: `ActivityMaster/README.md`
 
 ## 📐 Module Profiles
@@ -329,7 +330,7 @@ Server-side rendering framework for Angular applications with TypeScript client 
 
 CRTP-based reactive persistence toolkit providing fluent query builder DSL on top of Hibernate Reactive 7 and Mutiny. Supports reactive CRUD, aggregates, joins, pagination, and bulk operations.
 
-**Documentation**: `EntityAssist/README.md`
+**Documentation**: `EntityAssist/EntityAssist/README.md`
 
 ### ActivityMaster
 
@@ -395,7 +396,7 @@ For details on the latest reactive messaging behavior (per-address consumer vert
 
 - **GuicedEE**: [`GuicedEE/README.md`](GuicedEE/README.md)
 - **JWebMP**: [`JWebMP/README.md`](JWebMP/README.md)
-- **EntityAssist**: [`EntityAssist/README.md`](EntityAssist/README.md)
+- **EntityAssist**: [`EntityAssist/EntityAssist/README.md`](EntityAssist/EntityAssist/README.md)
 - **ActivityMaster**: [`ActivityMaster/README.md`](ActivityMaster/README.md)
 
 ### Specialized Documentation
@@ -449,7 +450,7 @@ DevSuite/
 ├── .idea/              # IntelliJ IDEA project configuration
 ├── ActivityMaster/     # Activity management platform (git submodules)
 ├── AIRules/            # Enterprise AI skills repository (git submodule)
-├── EntityAssist/       # Reactive persistence toolkit (git submodule)
+├── EntityAssist/       # EntityAssist submodules parent directory
 ├── GuicedEE/           # Reactive backend framework (git submodules)
 ├── JWebMP/             # Server-side Angular rendering (git submodules)
 ├── logs/               # Application logs
