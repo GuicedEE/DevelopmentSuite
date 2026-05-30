@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="GuicedEE Website" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="Entity Assist Website" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -23,7 +23,7 @@
             <list />
           </option>
           <option name="resolveToWorkspace" value="false" />
-          <option name="workingDirPath" value="$PROJECT_DIR$/GuicedEE/website" />
+          <option name="workingDirPath" value="$PROJECT_DIR$/EntityAssist/Website" />
         </MavenRunnerParameters>
       </option>
     </MavenSettings>

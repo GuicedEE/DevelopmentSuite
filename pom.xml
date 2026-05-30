@@ -45,6 +45,7 @@
             <modules>
                 <module>GuicedEE/website</module>
                 <module>JWebMP/website</module>
+                <module>EntityAssist/Website</module>
             </modules>
         </profile>
         <profile>
@@ -146,7 +147,7 @@
         <profile>
             <id>entityassist</id>
             <modules>
-                <module>EntityAssist</module>
+                <module>EntityAssist/EntityAssist</module>
             </modules>
         </profile>
         <profile>

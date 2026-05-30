@@ -75,7 +75,7 @@
 	url = https://github.com/GuicedEE/WebServices.git
 	branch = master
 [submodule "EntityAssist"]
-	path = EntityAssist
+	path = EntityAssist/EntityAssist
 	url = https://github.com/Entity-Assist/EntityAssistReactive.git
 	branch = master
 [submodule "JWebMP/bom"]
@@ -421,4 +421,8 @@
 [submodule "ActivityMaster/website"]
 	path = ActivityMaster/website
 	url = https://github.com/Activity-Master/website.git
+	branch = master
+[submodule "EntityAssist_Website"]
+	path = EntityAssist/Website
+	url = https://github.com/Entity-Assist/Website.git
 	branch = master
