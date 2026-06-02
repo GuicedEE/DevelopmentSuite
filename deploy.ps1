@@ -56,11 +56,12 @@ if ($LASTEXITCODE -ne 0) { Write-Host "GuicedEE BOMs deploy failed"; exit $LASTE
 # Clean .locks before GuicedEE modules deploy
 Get-ChildItem -Path . -Filter ".locks" -Recurse -Force -Directory -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
-# Batch deploy GuicedEE modules namespace (modules + services + entityassist)
+# Batch deploy GuicedEE modules namespace (modules + services) as a single bundle
 mvn -B -ntp deploy `
-  "-Pguicedee,services,entityassist" `
+  "-Pguicedee,services" `
   -DskipTests "-Dmaven.consumer.pom=false" `
   "-Dcentral.publishing.skip=false" "-Dmaven.deploy.skip=true" `
+  "-Dcentral.publishing.deploymentName=guicedee-modules" `
   "-Dgpg.passphrase=$env:MAVEN_GPG_PASSPHRASE" `
   $noLocks `
   -U `

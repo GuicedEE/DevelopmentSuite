@@ -45,7 +45,7 @@
         <flatten.plugin.version>1.5.0</flatten.plugin.version>
 
         <jwebmp.version>2.0.3-SNAPSHOT</jwebmp.version>
-        <guicedee.version>2.1.0-SNAPSHOT</guicedee.version>
+        <guicedee.version>2.1.1-SNAPSHOT</guicedee.version>
     </properties>
 
     <dependencies>
