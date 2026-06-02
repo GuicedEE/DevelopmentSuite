@@ -4,7 +4,7 @@
 
     <groupId>com.guicedee</groupId>
     <artifactId>builder</artifactId>
-    <version>2.0.3-SNAPSHOT</version>
+    <version>2.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <description>A base builder for the entire reactive stack of GuicedEE, JWebMP, EntityAssist, and ActivityMaster</description>
@@ -44,8 +44,11 @@
             <id>websites</id>
             <modules>
                 <module>GuicedEE/website</module>
+                <module>GuicedEE/website-backend</module>
+                <module>GuicedEE/website-backend-jlink</module>
                 <module>JWebMP/website</module>
-                <module>EntityAssist/Website</module>
+                <!--<module>EntityAssist/Website</module>-->
+                <module>ActivityMaster/website</module>
             </modules>
         </profile>
         <profile>
@@ -63,6 +66,8 @@
                 <module>GuicedEE/vertx</module>
                 <module>GuicedEE/cerial</module>
                 <module>GuicedEE/config</module>
+                <module>GuicedEE/consul</module>
+                <module>GuicedEE/consul-service-resolver</module>
                 <module>GuicedEE/metrics</module>
                 <module>GuicedEE/health</module>
                 <module>GuicedEE/hazelcast</module>
@@ -79,6 +84,9 @@
                 <module>GuicedEE/web</module>
                 <module>GuicedEE/webservices</module>
                 <module>GuicedEE/graphql</module>
+                <module>GuicedEE/service-discovery</module>
+                <module>GuicedEE/runtime-autoconfigure</module>
+                <module>GuicedEE/service-registry</module>
             </modules>
         </profile>
         <profile>
@@ -147,7 +155,7 @@
         <profile>
             <id>entityassist</id>
             <modules>
-                <module>EntityAssist/EntityAssist</module>
+                <module>EntityAssist</module>
             </modules>
         </profile>
         <profile>
@@ -160,11 +168,12 @@
                 <module>ActivityMaster/cerial-client</module>
                 <module>ActivityMaster/client</module>
                 <module>ActivityMaster/profiles</module>
+                <module>ActivityMaster/geography</module>
                 <!--<module>ActivityMaster/conversations</module>
                 <module>ActivityMaster/documents</module>
                 <module>ActivityMaster/files</module>
                 <module>ActivityMaster/forums</module>
-                <module>ActivityMaster/geography</module>-->
+                -->
                 <module>ActivityMaster/images</module>
                 <!--<module>ActivityMaster/mail</module>
                 <module>ActivityMaster/notifications</module>
@@ -184,7 +193,7 @@
                 <module>JWebMP/vertx</module>
                 <module>JWebMP/rabbitcomms</module>
 
-                <module>JWebMP/plugins/angular-maven-plugin</module>
+                <!--<module>JWebMP/plugins/angular-maven-plugin</module>-->
 
                 <module>JWebMP/plugins/angular</module>
                 <module>JWebMP/plugins/angular-forms</module>

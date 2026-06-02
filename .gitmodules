@@ -422,6 +422,24 @@
 	path = ActivityMaster/website
 	url = https://github.com/Activity-Master/website.git
 	branch = master
+[submodule "GuicedEE/service-discovery"]
+	path = GuicedEE/service-discovery
+	url = https://github.com/GuicedEE/ServiceDiscovery.git
+	branch = master
+[submodule "GuicedEE/service-registry"]
+	path = GuicedEE/service-registry
+	url = https://github.com/GuicedEE/ServiceRegistry.git
+	branch = master
+[submodule "GuicedEE/runtime-autoconfigure"]
+	path = GuicedEE/runtime-autoconfigure
+	url = https://github.com/GuicedEE/RuntimeAutoconfigure.git
+	branch = master
+[submodule "GuicedEE/consul-service-resolver"]
+	path = GuicedEE/consul-service-resolver
+	url = https://github.com/GuicedEE/ConsulServiceResolver.git
+[submodule "GuicedEE/website-backend"]
+	path = GuicedEE/website-backend
+	url = https://github.com/GuicedEE/WebsiteBackend.git
 [submodule "EntityAssist_Website"]
 	path = EntityAssist/Website
 	url = https://github.com/Entity-Assist/Website.git

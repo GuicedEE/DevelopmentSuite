@@ -407,12 +407,11 @@ For details on the latest reactive messaging behavior (per-address consumer vert
 - **RabbitMQ**: [`GuicedEE/rabbitmq/README.md`](GuicedEE/rabbitmq/README.md)
 - **RabbitMQ Browser Comms**: [`JWebMP/rabbitcomms/README.md`](JWebMP/rabbitcomms/README.md)
 
-### AI Skills and Guidelines
+### AI Skills
 
-DevSuite includes an enterprise AI skills repository in the `AIRules/` directory. Skills are modular, self-contained knowledge packs that extend AI agents with specialized workflows, tool integrations, and domain expertise. See [`AIRules/README.md`](AIRules/README.md) for the full skills catalog.
+DevSuite ships with domain-specific AI skills installed into the user agent directory (`~/.agents/skills/`). Skills are automatically discovered by compatible AI agents (Copilot, Codex, Cursor, Junie, Claude, Roo) and provide specialized knowledge for GuicedEE, JWebMP, EntityAssist, and ActivityMaster development.
 
-- **Curated skills** (`AIRules/skills/.curated/`): General-purpose skills — architecture, security, TDD, Terraform, Figma, AG Grid, code review, and more.
-- **System skills** (`AIRules/skills/.system/`): Project-specific skills for GuicedEE, JWebMP, EntityAssist, and ActivityMaster.
+Available skills cover: dependency injection, Vert.x integration, persistence, REST, WebSockets, RabbitMQ, config, metrics, health, telemetry, OpenAPI, CDI, web server setup, REST client, SOAP web services, serial port connectivity, authentication/authorization, and module scaffolding/installation.
 
 ## 🧰 Development Tools
 
