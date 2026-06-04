@@ -132,6 +132,9 @@
                 <module>GuicedEE/services/Libraries/json</module>
                 <module>GuicedEE/services/Libraries/ibm-mq</module>
                 <module>GuicedEE/services/Libraries/kafka-client</module>
+                <module>GuicedEE/services/Libraries/reactive-streams</module>
+                <module>GuicedEE/services/Libraries/java-dataloader</module>
+                <module>GuicedEE/services/Libraries/graphql-java</module>
                 <module>GuicedEE/services/Libraries/mapstruct</module>
                 <module>GuicedEE/services/Libraries/openpdf</module>
                 <module>GuicedEE/services/Libraries/rabbitmq-client</module>

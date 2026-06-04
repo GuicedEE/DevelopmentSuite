@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.guicedee</groupId>
+    <artifactId>website-backend-jlink</artifactId>
+    <packaging>jlink</packaging>
+    <version>2.0.0</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.guicedee</groupId>
+            <artifactId>website-backend</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jlink-plugin</artifactId>
+                <version>3.1.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <noManPages>true</noManPages>
+                    <stripDebug>true</stripDebug>
+                    <verbose>true</verbose>
+                    <compress>1</compress>
+                    <launcher>site-launcher=com.guicedee.websitebackend/com.guicedee.websitebackend.Boot</launcher>
+                    <addModules>
+                        <addModule>jdk.management.agent</addModule>
+                        <addModule>jdk.management</addModule>
+                        <addModule>java.management.rmi</addModule>
+                        <addModule>java.instrument</addModule>
+                    </addModules>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm</artifactId>
+                        <version>9.10.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

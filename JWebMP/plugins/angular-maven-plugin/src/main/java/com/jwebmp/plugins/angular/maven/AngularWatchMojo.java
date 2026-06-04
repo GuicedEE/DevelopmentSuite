@@ -198,7 +198,8 @@ public class AngularWatchMojo extends AbstractMojo {
         Runtime.getRuntime().addShutdownHook(shutdownHook);
 
         try {
-            // Initial TypeScript generation
+            // Initial TypeScript generation — use the same pattern as the build mojo:
+            // single classloader, direct compilation without rebuilding the classloader.
             Set<INgApp<?>> apps = resolveApps(projectClassLoader);
             if (apps.isEmpty()) {
                 getLog().warn("No @NgApp implementations found; nothing to watch.");
@@ -207,9 +208,41 @@ public class AngularWatchMojo extends AbstractMojo {
             this.resolvedApps = apps;
 
             getLog().info("Performing initial TypeScript generation...");
-            regenerateTypeScript(apps);
+            for (INgApp<?> app : apps) {
+                try {
+                    TypeScriptCompiler compiler = new TypeScriptCompiler(app);
+                    compiler.compileApp();
+                } catch (NoClassDefFoundError e) {
+                    throw new MojoExecutionException(
+                            "Failed to load a required class while building Angular TypeScript for app: " + app.getClass().getName()
+                            + ". Missing class: " + e.getMessage()
+                            + ". This usually means a dependency is not on the resolved classpath."
+                            + " Try setting jwebmp.angular.classpathScope=compile or adding the missing dependency.",
+                            e);
+                }
+            }
             lastGenerationEndTime = System.currentTimeMillis();
             getLog().info("Initial generation complete. Waiting for cooldown before starting watch...");
+
+            // Validate essential generated files exist before starting npm
+            for (INgApp<?> appInstance : resolvedApps) {
+                File appDir = com.jwebmp.core.base.angular.client.AppUtils
+                        .getAppPath((Class<? extends INgApp<?>>) appInstance.getClass());
+                if (appDir != null) {
+                    File indexHtml = new File(appDir, "src/index.html");
+                    if (!indexHtml.isFile()) {
+                        throw new MojoFailureException(
+                                "TypeScript generation did not produce src/index.html at " + indexHtml.getAbsolutePath()
+                                + ". Check the build log above for errors during Angular compilation.");
+                    }
+                    File angularJson = new File(appDir, "angular.json");
+                    if (!angularJson.isFile()) {
+                        throw new MojoFailureException(
+                                "TypeScript generation did not produce angular.json at " + angularJson.getAbsolutePath()
+                                + ". Check the build log above for errors during Angular compilation.");
+                    }
+                }
+            }
 
             // Start npm run watch for each app (after cooldown so npm doesn't immediately re-trigger)
             Thread.sleep(cooldownMs);
@@ -566,7 +599,7 @@ public class AngularWatchMojo extends AbstractMojo {
      */
     private String resolveMavenCommand(File baseDir) {
         boolean isWindows = System.getProperty("os.name", "").toLowerCase().contains("win");
-        String wrapperName = isWindows ? "mvn" : "mvn";
+        String wrapperName = isWindows ? "mvn.cmd" : "mvn";
 
         // Search up from project base dir
         File dir = baseDir;
@@ -849,22 +882,51 @@ public class AngularWatchMojo extends AbstractMojo {
             if (!resolved.isAbsolute() && project != null && project.getBasedir() != null) {
                 resolved = new File(project.getBasedir(), outputDirectory);
             }
-            System.setProperty("jwebmp.outputDirectory", resolved.getAbsolutePath());
-            if (System.getProperty("jwebmp") == null || System.getProperty("jwebmp").isBlank()) {
-                System.setProperty("jwebmp", resolved.getAbsolutePath());
-            }
+            setOutputDirectoryProperty(resolved.getAbsolutePath(), "configured");
             return;
         }
-        if (System.getProperty("jwebmp.outputDirectory") == null || System.getProperty("jwebmp.outputDirectory").isBlank()) {
-            String defaultDir = project != null && project.getBuild() != null ? project.getBuild().getDirectory() : null;
-            if (defaultDir != null && !defaultDir.isBlank()) {
-                File resolved = new File(defaultDir);
-                System.setProperty("jwebmp.outputDirectory", resolved.getAbsolutePath());
-                if (System.getProperty("jwebmp") == null || System.getProperty("jwebmp").isBlank()) {
-                    System.setProperty("jwebmp", resolved.getAbsolutePath());
-                }
-            }
+
+        String existingOutput = System.getProperty("jwebmp.outputDirectory");
+        if (existingOutput != null && !existingOutput.isBlank()) {
+            getLog().info("Using JWebMP output directory from system property: " + existingOutput);
+            return;
         }
+
+        String envOutput = System.getenv("jwebmp.outputDirectory");
+        if (envOutput != null && !envOutput.isBlank()) {
+            getLog().info("Using JWebMP output directory from environment: " + envOutput);
+            return;
+        }
+
+        String existing = System.getProperty("jwebmp");
+        if (existing != null && !existing.isBlank()) {
+            getLog().info("Using JWebMP base directory from system property: " + existing);
+            return;
+        }
+
+        String env = System.getenv("jwebmp");
+        if (env != null && !env.isBlank()) {
+            getLog().info("Using JWebMP base directory from environment: " + env);
+            return;
+        }
+
+        String defaultDir = project != null && project.getBuild() != null ? project.getBuild().getDirectory() : null;
+        if (defaultDir != null && !defaultDir.isBlank()) {
+            File resolved = new File(defaultDir);
+            if (!resolved.isAbsolute() && project != null && project.getBasedir() != null) {
+                resolved = new File(project.getBasedir(), defaultDir);
+            }
+            setOutputDirectoryProperty(resolved.getAbsolutePath(), "defaulted");
+        }
+    }
+
+    private void setOutputDirectoryProperty(String resolved, String source) {
+        System.setProperty("jwebmp.outputDirectory", resolved);
+        String existingBase = System.getProperty("jwebmp");
+        if (existingBase == null || existingBase.isBlank()) {
+            System.setProperty("jwebmp", resolved);
+        }
+        getLog().info("JWebMP output directory " + source + " to " + resolved);
     }
 
     private ClassLoader buildProjectClassLoader() throws Exception {
@@ -912,6 +974,18 @@ public class AngularWatchMojo extends AbstractMojo {
                     }
                 }
             }
+        }
+        // Also include paths from the boot module layer (JDK modules + any --module-path entries)
+        for (Module m : ModuleLayer.boot().modules()) {
+            m.getLayer().configuration().modules().forEach(rm -> {
+                rm.reference().location().ifPresent(uri -> {
+                    try {
+                        paths.add(Path.of(uri).normalize().toString());
+                    } catch (Exception e) {
+                        // jrt:/ or non-file URI; skip
+                    }
+                });
+            });
         }
         return paths;
     }

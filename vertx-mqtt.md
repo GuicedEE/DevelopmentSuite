@@ -1,0 +1,397 @@
+Vert.x MQTT
+Using Vert.x MQTT
+This component had officially released in the Vert.x stack, just following dependency to the dependencies section of your build descriptor:
+
+Maven (in your pom.xml):
+
+<dependency>
+    <groupId>io.vertx</groupId>
+    <artifactId>vertx-mqtt</artifactId>
+    <version>5.1.0</version>
+</dependency>
+Gradle (in your build.gradle file):
+
+compile "io.vertx:vertx-mqtt:5.1.0"
+Vert.x MQTT server
+This component provides a server which is able to handle connections, communication and messages exchange with remote MQTT clients. Its API provides a bunch of events related to raw protocol messages received by clients and exposes some features in order to send messages to them.
+
+At the moment of writing, it supports all MQTT version 5.0 features except AUTH message which is yet to be implemented.
+
+It’s not a fully featured MQTT broker but can be used for building something like that or for protocol translation.
+
+this module has the tech preview status, this means the API can change between versions.
+Handling client connection/disconnection
+This example shows how it’s possible to handle the connection request from a remote MQTT client. First, an MqttServer instance is created and the endpointHandler method is used to specify the handler called when a remote client sends a CONNECT message for connecting to the server itself. The MqttEndpoint instance, provided as parameter to the handler, brings all main information related to the CONNECT message like client identifier, username/password, "will" information, clean session flag, protocol version and, "keep alive" timeout and CONNECT message properties (for MQTT version 5.0). Inside that handler, the endpoint instance provides the accept method for replying to the remote client with the corresponding CONNACK message : in this way, the connection is established. Finally, the server is started using the listen method with the default behavior (on localhost and default MQTT port 1883). The same method allows to specify an handler in order to check if the server is started properly or not.
+
+MqttServer mqttServer = MqttServer.create(vertx);
+mqttServer.endpointHandler(endpoint -> {
+
+// shows main connect info
+System.out.println("MQTT client [" + endpoint.clientIdentifier() + "] request to connect, clean session = " + endpoint.isCleanSession());
+
+if (endpoint.auth() != null) {
+System.out.println("[username = " + endpoint.auth().getUsername() + ", password = " + endpoint.auth().getPassword() + "]");
+}
+System.out.println("[properties = " + endpoint.connectProperties() + "]");
+if (endpoint.will() != null) {
+System.out.println("[will topic = " + endpoint.will().getWillTopic() + " msg = " + new String(endpoint.will().getWillMessageBytes()) +
+" QoS = " + endpoint.will().getWillQos() + " isRetain = " + endpoint.will().isWillRetain() + "]");
+}
+
+System.out.println("[keep alive timeout = " + endpoint.keepAliveTimeSeconds() + "]");
+
+// accept connection from the remote client
+endpoint.accept(false);
+
+})
+.listen()
+.onComplete(ar -> {
+
+    if (ar.succeeded()) {
+
+      System.out.println("MQTT server is listening on port " + ar.result().actualPort());
+    } else {
+
+      System.out.println("Error on starting the server");
+      ar.cause().printStackTrace();
+    }
+});
+The same endpoint instance provides the disconnectMessageHandler for specifying the handler called when the remote client sends a DISCONNECT message in order to disconnect from the server; this handler takes MqttDisconnectMessage as a parameter.
+
+endpoint.disconnectMessageHandler(disconnectMessage -> {
+
+System.out.println("Received disconnect from client, reason code = " + disconnectMessage.code());
+});
+If MQTT version 5.0 or newer is used server can send DISCONNECT message to client with the reason code and properties using disconnect.
+
+Handling client connection/disconnection with SSL/TLS support
+The server has the support for accepting connection requests through the SSL/TLS protocol for authentication and encryption. In order to do that, the MqttServerOptions class provides the setSsl method for setting the usage of SSL/TLS (passing 'true' as value) and some other useful methods for providing server certificate and related private key (as Java key store reference, PEM or PFX format). In the following example, the setKeyCertOptions method is used in order to pass the certificates in PEM format. This method requires an instance of the possible implementations of the KeyCertOptions interface and in this case the PemKeyCertOptions class is used in order to provide the path for the server certificate and the private key with the correspondent setCertPath and setKeyPath methods. The MQTT server is started passing the Vert.x instance as usual and the above MQTT options instance to the creation method.
+
+MqttServerOptions options = new MqttServerOptions()
+.setPort(8883)
+.setKeyCertOptions(new PemKeyCertOptions()
+.setKeyPath("./src/test/resources/tls/server-key.pem")
+.setCertPath("./src/test/resources/tls/server-cert.pem"))
+.setSsl(true);
+
+MqttServer mqttServer = MqttServer.create(vertx, options);
+mqttServer.endpointHandler(endpoint -> {
+
+// shows main connect info
+System.out.println("MQTT client [" + endpoint.clientIdentifier() + "] request to connect, clean session = " + endpoint.isCleanSession());
+
+if (endpoint.auth() != null) {
+System.out.println("[username = " + endpoint.auth().getUsername() + ", password = " + endpoint.auth().getPassword() + "]");
+}
+if (endpoint.will() != null) {
+System.out.println("[will topic = " + endpoint.will().getWillTopic() + " msg = " + new String(endpoint.will().getWillMessageBytes()) +
+" QoS = " + endpoint.will().getWillQos() + " isRetain = " + endpoint.will().isWillRetain() + "]");
+}
+
+System.out.println("[keep alive timeout = " + endpoint.keepAliveTimeSeconds() + "]");
+
+// accept connection from the remote client
+endpoint.accept(false);
+
+})
+.listen()
+.onComplete(ar -> {
+
+    if (ar.succeeded()) {
+
+      System.out.println("MQTT server is listening on port " + ar.result().actualPort());
+    } else {
+
+      System.out.println("Error on starting the server");
+      ar.cause().printStackTrace();
+    }
+});
+Handling client connections via WebSocket
+If you want to support connections via WebSockets, you can enable this via MqttServerOptions, too. By passing true to setUseWebSocket, it will listen for websocket connections on the path /mqtt.
+
+As with other setup configurations, the resulting endpoint connections and related disconnection are managed the same way as regular connections.
+
+DeploymentOptions options = new DeploymentOptions().setInstances(10);
+vertx.deployVerticle("com.mycompany.MyVerticle", options);
+Handling client subscription/unsubscription request
+After a connection is established between client and server, the client can send a subscription request for a topic using the SUBSCRIBE message. The MqttEndpoint interface allows to specify a handler for the incoming subscription request using the subscribeHandler method. Such handler receives an instance of the MqttSubscribeMessage interface which brings the list of topics with the related subscription options as desired by the client. Subscription options include QoS level and related flags and for MQTT version 5.0 also additional flags, such as noLocal and retainAsPublished. Finally, the endpoint instance provides the subscribeAcknowledge method for replying to the client with the related SUBACK message containing the reason code (which is either QoS level or error code - separate per each topic or pattern) and message properties.
+
+endpoint.subscribeHandler(subscribe -> {
+
+List<MqttSubAckReasonCode> reasonCodes = new ArrayList<>();
+for (MqttTopicSubscription s: subscribe.topicSubscriptions()) {
+System.out.println("Subscription for " + s.topicName() + " with QoS " + s.qualityOfService());
+reasonCodes.add(MqttSubAckReasonCode.qosGranted(s.qualityOfService()));
+}
+// ack the subscriptions request
+endpoint.subscribeAcknowledge(subscribe.messageId(), reasonCodes, MqttProperties.NO_PROPERTIES);
+
+});
+In the same way, it’s possible to use the unsubscribeHandler method on the endpoint in order to specify the handler called when the client sends an UNSUBSCRIBE message. This handler receives an instance of the MqttUnsubscribeMessage interface as parameter with the list of topics to unsubscribe. Finally, the endpoint instance provides the unsubscribeAcknowledge and unsubscribeAcknowledge methods for replying to the client with the related UNSUBACK message - either simply acknowledging all unsubscriptions, or specifying the reasons per each topic and the properties in the UNSUBSCRIBE request (supported in MQTT v 5.0 or later).
+
+endpoint.unsubscribeHandler(unsubscribe -> {
+
+for (String t: unsubscribe.topics()) {
+System.out.println("Unsubscription for " + t);
+}
+// ack the subscriptions request
+endpoint.unsubscribeAcknowledge(unsubscribe.messageId());
+});
+Handling client published message
+In order to handle incoming messages published by the remote client, the MqttEndpoint interface provides the publishHandler method for specifying the handler called when the client sends a PUBLISH message. This handler receives an instance of the MqttPublishMessage interface as parameter with the payload, the QoS level, the duplicate and retain flags, message properties.
+
+If the QoS level is 0 (AT_MOST_ONCE), there is no need from the endpoint to reply the client.
+
+If the QoS level is 1 (AT_LEAST_ONCE), the endpoind needs to reply with a PUBACK message using the available publishAcknowledge or publishAcknowledge method.
+
+If the QoS level is 2 (EXACTLY_ONCE), the endpoint needs to reply with a PUBREC message using the available publishReceived or publishReceived method; in this case the same endpoint should handle the PUBREL message received from the client as well (the remote client sends it after receiving the PUBREC from the endpoint) and it can do that specifying the handler through the publishReleaseHandler or publishReleaseMessageHandler method - depending on whether the server needs access to MQTT version 5.0 extended capabilities (reason code, message properties). In order to close the QoS level 2 delivery, the endpoint can use the publishComplete or publishComplete method for sending the PUBCOMP message to the client.
+
+endpoint.publishHandler(message -> {
+
+System.out.println("Just received message [" + message.payload().toString(Charset.defaultCharset()) + "] with QoS [" + message.qosLevel() + "]");
+
+if (message.qosLevel() == MqttQoS.AT_LEAST_ONCE) {
+endpoint.publishAcknowledge(message.messageId());
+} else if (message.qosLevel() == MqttQoS.EXACTLY_ONCE) {
+endpoint.publishReceived(message.messageId());
+}
+
+}).publishReleaseHandler(messageId -> {
+
+endpoint.publishComplete(messageId);
+});
+Publish message to the client
+The endpoint can publish a message to the remote client (sending a PUBLISH message) using the publish method which takes the following input parameters : the topic to publish, the payload, the QoS level, the duplicate and retain flags. If you’re using MQTT version 5.0 or newer and you’d like to specify message properties you can use publish method instead which takes message ID and message properties in addition to the previously described method.
+
+If the QoS level is 0 (AT_MOST_ONCE), the endpoint won’t be receiving any feedback from the client.
+
+If the QoS level is 1 (AT_LEAST_ONCE), the endpoint needs to handle the PUBACK message received from the client in order to receive final acknowledge of delivery. It’s possible using the publishAcknowledgeHandler or publishAcknowledgeMessageHandler method specifying such a handler.
+
+If the QoS level is 2 (EXACTLY_ONCE), the endpoint needs to handle the PUBREC message received from the client. The publishReceivedHandler and publishReceivedMessageHandler methods allow to specify the handler for that. Inside that handler, the endpoint can use the publishRelease or publishRelease method for replying to the client with the PUBREL message. The last step is to handle the PUBCOMP message received from the client as final acknowledge for the published message; it’s possible using the publishCompletionHandler or publishCompletionMessageHandler for specifying the handler called when the final PUBCOMP message is received.
+
+endpoint.publish("my_topic",
+Buffer.buffer("Hello from the Vert.x MQTT server"),
+MqttQoS.EXACTLY_ONCE,
+false,
+false);
+
+// specifing handlers for handling QoS 1 and 2
+endpoint.publishAcknowledgeHandler(messageId -> {
+
+System.out.println("Received ack for message = " +  messageId);
+
+}).publishReceivedHandler(messageId -> {
+
+endpoint.publishRelease(messageId);
+
+}).publishCompletionHandler(messageId -> {
+
+System.out.println("Received ack for message = " +  messageId);
+});
+Be notified by client keep alive
+The underlying MQTT keep alive mechanism is handled by the server internally. When the CONNECT message is received, the server takes care of the keep alive timeout specified inside that message in order to check if the client doesn’t send messages in such timeout. At same time, for every PINGREQ received, the server replies with the related PINGRESP.
+
+Even if there is no need for the high level application to handle that, the MqttEndpoint interface provides the pingHandler method for specifying an handler called when a PINGREQ message is received from the client. It’s just a notification to the application that the client isn’t sending meaningful messages but only pings for keeping alive; in any case the PINGRESP is automatically sent by the server internally as described above.
+
+endpoint.pingHandler(v -> {
+
+System.out.println("Ping received from client");
+});
+Closing the server
+The MqttServer interface provides the close method that can be used for closing the server; it stops to listen for incoming connections and closes all the active connections with remote clients. This method is asynchronous and one overload provides the possibility to specify a complention handler that will be called when the server is really closed.
+
+mqttServer.close().onComplete(v -> {
+
+System.out.println("MQTT server closed");
+});
+Handling client auth packet/Sending AUTH packet to remote client(Only in MQTT version 5)
+After a connection is established between client and server, the client can send an auth packet to server using the AUTH message. The MqttEndpoint interface allows to specify a handler for the incoming auth packet using the authenticationExchangeHandler method. Such handler receives an instance of the MqttAuthenticationExchangeMessage interface which brings the reason code, the authentication method and data. The server could continue to send AUTH packet using the authenticationExchange for authentication or just passed it.
+
+endpoint.authenticationExchange(MqttAuthenticationExchangeMessage.create(MqttAuthenticateReasonCode.SUCCESS, MqttProperties.NO_PROPERTIES));
+// handling auth from client
+endpoint.authenticationExchangeHandler(auth -> {
+System.out.println("AUTH packet received from client. code: " + auth.reasonCode());
+});
+Automatic clean-up in verticles
+If you’re creating MQTT servers from inside verticles, those servers will be automatically closed when the verticle is undeployed.
+
+Scaling : sharing MQTT servers
+The handlers related to the MQTT server are always executed in the same event loop thread. It means that on a system with more cores, only one instance is deployed so only one core is used. In order to use more cores, it’s possible to deploy more instances of the MQTT server.
+
+It’s possible to do that programmatically:
+
+for (int i = 0; i < 10; i++) {
+
+MqttServer mqttServer = MqttServer.create(vertx);
+mqttServer.endpointHandler(endpoint -> {
+// handling endpoint
+})
+.listen()
+.onComplete(ar -> {
+
+      // handling start listening
+    });
+
+}
+or using a verticle specifying the number of instances:
+
+DeploymentOptions options = new DeploymentOptions().setInstances(10);
+vertx.deployVerticle("com.mycompany.MyVerticle", options);
+What’s really happen is that even only MQTT server is deployed but as incoming connections arrive, Vert.x distributes them in a round-robin fashion to any of the connect handlers executed on different cores.
+
+Vert.x MQTT client
+This component provides an MQTT client which is compliant with the 3.1.1 spec. Its API provides a bunch of methods for connecting/disconnecting to a broker, publishing messages (with all three different levels of QoS) and subscribing to topics.
+
+This module has the tech preview status, this means the API can change between versions.
+Connect/Disconnect
+The client gives you opportunity to connect to a server and disconnect from it. Also, you could specify things like the host and port of a server you would like to connect to passing instance of MqttClientOptions as a param through constructor.
+
+This example shows how you could connect to a server and disconnect from it using Vert.x MQTT client and calling connect and disconnect methods.
+
+MqttClient client = MqttClient.create(vertx);
+
+client.connect(1883, "mqtt.eclipse.org").onComplete(s -> {
+client.disconnect();
+});
+The default address of the server provided by MqttClientOptions is localhost:1883 and localhost:8883 if you are using SSL/TSL.
+Subscribe to a topic
+Now, lest go deeper and take look at this example:
+
+client.publishHandler(s -> {
+System.out.println("There are new message in topic: " + s.topicName());
+System.out.println("Content(as string) of the message: " + s.payload().toString());
+System.out.println("QoS: " + s.qosLevel());
+})
+.subscribe("rpi2/temp", 2);
+Here we have the example of usage of subscribe method. In order to receive messages from rpi2/temp topic we call subscribe method. Although, to handle received messages from server you need to provide a handler, which will be called each time you have a new messages in the topics you subscribe on. As this example shows, handler could be provided via publishHandler method.
+
+Publishing message to a topic
+If you would like to publish some message into topic then publish should be called. Let’s take a look at the example:
+
+client.publish("temperature",
+Buffer.buffer("hello"),
+MqttQoS.AT_LEAST_ONCE,
+false,
+false);
+In the example, we send message to topic with name "temperature".
+
+Handling server auth request/Sending AUTH packet to server(Only in MQTT version 5)
+After a connection is established between client and server, the client can send an auth request to server using the authenticationExchange for authentication. The Server may return an AUTH packet. The MqttClient interface allows to specify a handler for the incoming auth packet using the authenticationExchangeHandler method. Such handler receives an instance of the MqttAuthenticationExchangeMessage interface which brings the reason code, the authentication method and data.
+
+client.authenticationExchange(MqttAuthenticationExchangeMessage.create(MqttAuthenticateReasonCode.SUCCESS, MqttProperties.NO_PROPERTIES));
+client.authenticationExchangeHandler(auth -> {
+//The handler will be called time to time by default
+System.out.println("We have just received AUTH packet: " + auth.reasonCode());
+});
+Keep connection with server alive
+In order to keep connection with server you should time to time send something to server otherwise server will close the connection. The right way to keep connection alive is a ping method.
+
+By default, your client keep connections with server automatically. That means that you don’t need to call ping in order to keep connections with server. The MqttClient will do it for you.
+If you want to disable this feature then you should call setAutoKeepAlive with false as argument:
+
+options.setAutoKeepAlive(false);
+Be notified when
+publish is completed
+
+You could provide handler by calling publishCompletionHandler. The handler will be called each time publish is completed. This one is pretty useful because you could see the packetId of just received PUBACK or PUBCOMP packet.
+
+client.publishCompletionHandler(id -> {
+System.out.println("Id of just received PUBACK or PUBCOMP packet is " + id);
+});
+// The line of code below will trigger publishCompletionHandler (QoS 2)
+client.publish("hello", Buffer.buffer("hello"), MqttQoS.EXACTLY_ONCE, false, false);
+// The line of code below will trigger publishCompletionHandler (QoS is 1)
+client.publish("hello", Buffer.buffer("hello"), MqttQoS.AT_LEAST_ONCE, false, false);
+// The line of code below does not trigger because QoS value is 0
+client.publish("hello", Buffer.buffer("hello"), MqttQoS.AT_LEAST_ONCE, false, false);
+The handler WILL NOT BE CALLED if sent publish packet with QoS=0.
+subscribe completed
+
+client.subscribeCompletionHandler(mqttSubAckMessage -> {
+System.out.println("Id of just received SUBACK packet is " + mqttSubAckMessage.messageId());
+for (int s : mqttSubAckMessage.grantedQoSLevels()) {
+if (s == 0x80) {
+System.out.println("Failure");
+} else {
+System.out.println("Success. Maximum QoS is " + s);
+}
+}
+});
+client.subscribe("temp", 1);
+client.subscribe("temp2", 2);
+unsubscribe completed
+
+client
+.unsubscribeCompletionHandler(id -> {
+System.out.println("Id of just received UNSUBACK packet is " + id);
+});
+client.subscribe("temp", 1);
+client.unsubscribe("temp");
+unsubscribe sent
+
+client.subscribe("temp", 1);
+client.unsubscribe("temp").onSuccess(id -> {
+System.out.println("Id of just sent UNSUBSCRIBE packet is " + id);
+});
+PINGRESP received
+
+client.pingResponseHandler(s -> {
+//The handler will be called time to time by default
+System.out.println("We have just received PINGRESP packet");
+});
+Connecting using TLS
+You can connect to an MQTT server using TLS by configuring the client TCP options, make sure to set:
+
+the SSL flag
+
+the server certificate or the trust all flag
+
+the hostname verification algorithm to "HTTPS" if you want to verify the server identity otherwise ""
+
+MqttClientOptions options = new MqttClientOptions();
+options
+.setSsl(true)
+.setTrustOptions(new PemTrustOptions().addCertPath("/path/to/server.crt"))
+// Algo can be the empty string "" or "HTTPS" to verify the server hostname
+.setHostnameVerificationAlgorithm(algo);
+MqttClient client = MqttClient.create(vertx, options);
+client.connect(1883, "mqtt.eclipse.org").onComplete(s -> {
+client.disconnect();
+});
+More details on the TLS client config can be found here
+Use proxy protocol
+MqttServer mqttServer = MqttServer
+.create(vertx, new MqttServerOptions()
+// set true to use proxy protocol
+.setUseProxyProtocol(true));
+mqttServer.endpointHandler(endpoint -> {
+// remote address is origin real address， not proxy's address
+System.out.println(endpoint.remoteAddress());
+endpoint.accept(false);
+
+})
+.listen()
+.onComplete(ar -> {
+
+    if (ar.succeeded()) {
+
+      System.out.println("MQTT server is listening on port " + ar.result().actualPort());
+    } else {
+
+      System.out.println("Error on starting the server");
+      ar.cause().printStackTrace();
+    }
+});
+If your servers are behind haproxy or nginx and you want to get the client’s original ip and port, then you need to set setUseProxyProtocol to true
+
+To enable this feature, you need to add dependency netty-codec-haproxy, but it is not introduced by default, so you need to manually add it
+Maven (in your pom.xml):
+
+<dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-codec-haproxy</artifactId>
+    <version>5.1.0</version>
+</dependency>
+Gradle (in your build.gradle file):
+
+compile "io.netty:netty-codec-haproxy:5.1.0"

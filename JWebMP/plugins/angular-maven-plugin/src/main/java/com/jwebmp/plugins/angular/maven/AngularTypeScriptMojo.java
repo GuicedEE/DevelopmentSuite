@@ -238,6 +238,7 @@ public class AngularTypeScriptMojo extends AbstractMojo {
         }
 
         configureOutputDirectory();
+        syncResources();
 
         ClassLoader original = Thread.currentThread().getContextClassLoader();
         ClassLoader projectClassLoader = null;
@@ -434,6 +435,66 @@ public class AngularTypeScriptMojo extends AbstractMojo {
         String resolvedDefault = resolveOutputDirectory(defaultDirectory);
         if (resolvedDefault != null) {
             setOutputDirectoryProperty(resolvedDefault, "defaulted");
+        }
+    }
+
+    /**
+     * Ensures that project resources are up-to-date in the output directory (target/classes).
+     * When running the plugin goal standalone (e.g. {@code mvn jwebmp-angular:build}), Maven does
+     * not automatically execute the process-resources phase, so target/classes may contain stale
+     * resource files. This method copies resources from src/main/resources to target/classes,
+     * replacing any files that are older than their source counterparts.
+     */
+    private void syncResources() {
+        if (project == null) {
+            return;
+        }
+
+        // Collect resource directories from the project model; fall back to conventional
+        // src/main/resources if the model has none configured (common in Maven 4).
+        List<Path> resourceDirs = new ArrayList<>();
+        List<org.apache.maven.model.Resource> resources = project.getResources();
+        if (resources != null) {
+            for (org.apache.maven.model.Resource resource : resources) {
+                String directory = resource.getDirectory();
+                if (directory != null && !directory.isBlank()) {
+                    resourceDirs.add(Path.of(directory));
+                }
+            }
+        }
+        if (resourceDirs.isEmpty() && project.getBasedir() != null) {
+            resourceDirs.add(project.getBasedir().toPath().resolve("src/main/resources"));
+        }
+
+        Path outputDir = Path.of(projectOutputDirectory);
+        int[] synced = {0};
+        for (Path resourceDir : resourceDirs) {
+            if (!Files.isDirectory(resourceDir)) {
+                getLog().debug("Resource directory does not exist: " + resourceDir);
+                continue;
+            }
+            getLog().debug("Syncing resources from " + resourceDir + " to " + outputDir);
+            try (var walker = Files.walk(resourceDir)) {
+                walker.filter(Files::isRegularFile).forEach(source -> {
+                    Path relative = resourceDir.relativize(source);
+                    Path target = outputDir.resolve(relative);
+                    try {
+                        if (!Files.exists(target) ||
+                            Files.getLastModifiedTime(source).compareTo(Files.getLastModifiedTime(target)) > 0) {
+                            Files.createDirectories(target.getParent());
+                            Files.copy(source, target, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                            synced[0]++;
+                        }
+                    } catch (IOException e) {
+                        getLog().debug("Failed to sync resource " + source + ": " + e.getMessage());
+                    }
+                });
+            } catch (IOException e) {
+                getLog().warn("Unable to sync resources from " + resourceDir + ": " + e.getMessage());
+            }
+        }
+        if (synced[0] > 0) {
+            getLog().info("Synced " + synced[0] + " resource file(s) to " + outputDir);
         }
     }
 

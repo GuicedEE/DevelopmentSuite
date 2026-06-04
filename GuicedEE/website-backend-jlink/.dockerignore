@@ -1,0 +1,9 @@
+target/
+!target/maven-jlink/default/bin/
+!target/maven-jlink/default/conf/
+!target/maven-jlink/default/lib/
+!target/maven-jlink/default/release
+.git
+*.md
+
+
