@@ -437,9 +437,11 @@
 [submodule "GuicedEE/consul-service-resolver"]
 	path = GuicedEE/consul-service-resolver
 	url = https://github.com/GuicedEE/ConsulServiceResolver.git
+	branch = master
 [submodule "GuicedEE/website-backend"]
 	path = GuicedEE/website-backend
 	url = https://github.com/GuicedEE/WebsiteBackend.git
+	branch = master
 [submodule "EntityAssist_Website"]
 	path = EntityAssist/Website
 	url = https://github.com/Entity-Assist/Website.git
