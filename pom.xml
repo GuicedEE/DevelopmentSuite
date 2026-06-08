@@ -66,6 +66,7 @@
                 <module>GuicedEE/vertx</module>
                 <module>GuicedEE/cerial</module>
                 <module>GuicedEE/config</module>
+                <module>GuicedEE/consul</module>
                 <module>GuicedEE/consul-service-resolver</module>
                 <module>GuicedEE/metrics</module>
                 <module>GuicedEE/health</module>

@@ -446,3 +446,7 @@
 	path = EntityAssist/Website
 	url = https://github.com/Entity-Assist/Website.git
 	branch = master
+[submodule "GuicedEE/consul"]
+	path = GuicedEE/consul
+	url = https://github.com/GuicedEE/Consul.git
+	branch = master

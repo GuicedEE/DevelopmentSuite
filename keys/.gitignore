@@ -1,0 +1,10 @@
+# Protect secret/private keys from being committed
+*_secret.asc
+*_private.asc
+*_secret.key
+*_private.key
+# Allow public keys and info files
+!*_public.asc
+!*_public.key
+!*_KEY_INFO.txt
+!.gitignore
