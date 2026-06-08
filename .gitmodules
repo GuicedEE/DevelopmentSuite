@@ -446,3 +446,7 @@
 	path = EntityAssist/Website
 	url = https://github.com/Entity-Assist/Website.git
 	branch = master
+[submodule "JWebMP/plugins/angular-graphql"]
+	path = JWebMP/plugins/angular-graphql
+	url = https://github.com/JWebMP/AngularApollo
+	branch = master
