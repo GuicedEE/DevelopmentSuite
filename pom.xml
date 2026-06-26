@@ -157,7 +157,7 @@
         <profile>
             <id>entityassist</id>
             <modules>
-                <module>EntityAssist/EntityAssist</module>
+                <module>EntityAssist</module>
             </modules>
         </profile>
         <profile>
