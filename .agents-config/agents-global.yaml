@@ -1,0 +1,940 @@
+---
+# Global Agent Configuration for AIRules Enterprise Skills
+# Location: ~/.agents/agents-global.yaml
+#
+# This file aggregates all available agents and skills from the AIRules repository
+# and configures them for use across all AI development tools (GitHub Copilot, Claude, etc.)
+#
+# Last updated: 2026-06-08
+# Version: 1.0
+
+version: "1.0"
+repository: "https://github.com/GuicedEE/ai-rules"
+description: "Enterprise-wide AI skills catalog and agent registry"
+
+# Global Configuration
+global:
+  skills_root: "${AIRULES_HOME}/skills"
+  cache_enabled: true
+  discovery_enabled: true
+  auto_reload: true
+  catalogs:
+    - id: "curated"
+      name: "Curated Skills"
+      path: "${AIRULES_HOME}/skills/.curated"
+      description: "General-purpose, community-quality skills suitable for any project"
+      count: 39+
+      public: true
+    - id: "system"
+      name: "System Skills"
+      path: "${AIRULES_HOME}/skills/.system"
+      description: "Project-specific skills for GuicedEE, JWebMP, and ActivityMaster ecosystems"
+      count: 70+
+      public: true
+
+# Environment Setup
+environment:
+  AIRULES_HOME: "${AIRULES_HOME:-/home/gedmarc/java/devsuite/AIRules}"
+  GUICEDEE_HOME: "${GUICEDEE_HOME:-/home/gedmarc/java/devsuite/GuicedEE}"
+  JWEBMP_HOME: "${JWEBMP_HOME:-/home/gedmarc/java/devsuite/JWebMP}"
+  ACTIVITYMASTER_HOME: "${ACTIVITYMASTER_HOME:-/home/gedmarc/java/devsuite/ActivityMaster}"
+
+# Agent Registry (100+ agents indexed for discovery)
+agents:
+  # ============================================================================
+  # CURATED SKILLS (General Purpose)
+  # ============================================================================
+
+  - id: "aggrid"
+    name: "AG Grid Integration"
+    category: ["UI", "Data Grid"]
+    skill_path: "skills/.curated/aggrid/SKILL.md"
+    description: "AG Grid MCP integration for React, Angular, Vue, vanilla JS"
+    tags: ["data-grid", "ui-components", "mcp"]
+
+  - id: "api-integration-specialist"
+    name: "API Integration Specialist"
+    category: ["Backend", "Integration"]
+    skill_path: "skills/.curated/api-integration-specialist/SKILL.md"
+    description: "API integration design and implementation"
+    tags: ["api", "integration", "rest"]
+
+  - id: "arm-to-terraform-migration"
+    name: "ARM to Terraform Migration"
+    category: ["Infrastructure", "Cloud", "IaC"]
+    skill_path: "skills/.curated/arm-to-terraform-migration/SKILL.md"
+    description: "Azure ARM template → Terraform migration workflows"
+    tags: ["terraform", "azure", "migration"]
+
+  - id: "changelog-generator"
+    name: "Changelog Generator"
+    category: ["DevOps", "Documentation"]
+    skill_path: "skills/.curated/changelog-generator/SKILL.md"
+    description: "Automated changelog generation from commits"
+    tags: ["git", "changelog", "automation"]
+
+  - id: "code-reviewer"
+    name: "Code Reviewer"
+    category: ["QA", "Development"]
+    skill_path: "skills/.curated/code-reviewer/SKILL.md"
+    description: "Structured code review with checklists and diff analysis"
+    tags: ["code-review", "qa", "git"]
+
+  - id: "dispatching-parallel-agents"
+    name: "Parallel Agent Dispatcher"
+    category: ["Architecture", "Automation"]
+    skill_path: "skills/.curated/dispatching-parallel-agents/SKILL.md"
+    description: "Parallel agent orchestration and dispatch patterns"
+    tags: ["agents", "orchestration", "async"]
+
+  - id: "figma"
+    name: "Figma Integration"
+    category: ["Design", "Frontend"]
+    skill_path: "skills/.curated/figma/SKILL.md"
+    description: "Figma MCP integration for design-to-code workflows"
+    tags: ["figma", "design", "mcp"]
+
+  - id: "finishing-a-development-branch"
+    name: "Development Branch Completion"
+    category: ["Git", "DevOps"]
+    skill_path: "skills/.curated/finishing-a-development-branch/SKILL.md"
+    description: "Branch completion, cleanup, and merge workflows"
+    tags: ["git", "workflow", "branch"]
+
+  - id: "gh-address-comments"
+    name: "GitHub Comment Handler"
+    category: ["GitHub", "DevOps"]
+    skill_path: "skills/.curated/gh-address-comments/SKILL.md"
+    description: "GitHub PR comment resolution"
+    tags: ["github", "pr", "workflow"]
+
+  - id: "gh-fix-ci"
+    name: "GitHub CI Fixer"
+    category: ["CI/CD", "DevOps"]
+    skill_path: "skills/.curated/gh-fix-ci/SKILL.md"
+    description: "GitHub CI failure diagnosis and repair"
+    tags: ["github", "ci", "troubleshooting"]
+
+  - id: "git-commit-helper"
+    name: "Git Commit Helper"
+    category: ["Git", "Development"]
+    skill_path: "skills/.curated/git-commit-helper/SKILL.md"
+    description: "Conventional commit message crafting"
+    tags: ["git", "commit", "conventional"]
+
+  - id: "git-commit-signing"
+    name: "Git Commit Signing"
+    category: ["Git", "Security"]
+    skill_path: "skills/.curated/git-commit-signing/SKILL.md"
+    description: "GPG commit signing and verification"
+    tags: ["git", "gpg", "security"]
+
+  - id: "information-architect"
+    name: "Information Architect"
+    category: ["Documentation", "Architecture"]
+    skill_path: "skills/.curated/information-architect/SKILL.md"
+    description: "Information architecture and content strategy"
+    tags: ["ia", "documentation", "architecture"]
+
+  - id: "playwright"
+    name: "Playwright"
+    category: ["Testing", "QA"]
+    skill_path: "skills/.curated/playwright/SKILL.md"
+    description: "Playwright end-to-end test authoring"
+    tags: ["e2e", "testing", "playwright"]
+
+  - id: "screenshot"
+    name: "Screenshot Capture"
+    category: ["Testing", "Automation"]
+    skill_path: "skills/.curated/screenshot/SKILL.md"
+    description: "Screenshot capture and visual comparison"
+    tags: ["testing", "screenshot", "automation"]
+
+  - id: "security-best-practices"
+    name: "Security Best Practices"
+    category: ["Security", "Development"]
+    skill_path: "skills/.curated/security-best-practices/SKILL.md"
+    description: "Language/framework-specific security reviews"
+    tags: ["security", "best-practices"]
+
+  - id: "security-compliance"
+    name: "Security Compliance"
+    category: ["Security", "Compliance"]
+    skill_path: "skills/.curated/security-compliance/SKILL.md"
+    description: "Security compliance auditing"
+    tags: ["security", "compliance", "audit"]
+
+  - id: "security-ownership-map"
+    name: "Security Ownership Map"
+    category: ["Security", "Architecture"]
+    skill_path: "skills/.curated/security-ownership-map/SKILL.md"
+    description: "Security ownership and accountability mapping"
+    tags: ["security", "ownership", "architecture"]
+
+  - id: "senior-architect"
+    name: "Senior Architect"
+    category: ["Architecture", "Design"]
+    skill_path: "skills/.curated/senior-architect/SKILL.md"
+    description: "System design, ADRs, trade-off analysis, architecture diagrams"
+    tags: ["architecture", "design", "adr"]
+
+  - id: "senior-backend"
+    name: "Senior Backend Engineer"
+    category: ["Backend", "Development"]
+    skill_path: "skills/.curated/senior-backend/SKILL.md"
+    description: "Backend engineering workflows and patterns"
+    tags: ["backend", "engineering", "development"]
+
+  - id: "senior-devops"
+    name: "Senior DevOps Engineer"
+    category: ["DevOps", "Infrastructure"]
+    skill_path: "skills/.curated/senior-devops/SKILL.md"
+    description: "DevOps and infrastructure workflows"
+    tags: ["devops", "infrastructure", "deployment"]
+
+  - id: "senior-prompt-engineer"
+    name: "Senior Prompt Engineer"
+    category: ["AI/ML", "Development"]
+    skill_path: "skills/.curated/senior-prompt-engineer/SKILL.md"
+    description: "Prompt engineering and optimization techniques"
+    tags: ["ai", "prompts", "optimization"]
+
+  - id: "senior-qa"
+    name: "Senior QA Engineer"
+    category: ["QA", "Testing"]
+    skill_path: "skills/.curated/senior-qa/SKILL.md"
+    description: "Quality assurance and test strategy"
+    tags: ["qa", "testing", "strategy"]
+
+  - id: "senior-secops"
+    name: "Senior SecOps Engineer"
+    category: ["Security", "DevOps"]
+    skill_path: "skills/.curated/senior-secops/SKILL.md"
+    description: "Security operations workflows"
+    tags: ["security", "secops", "devops"]
+
+  - id: "skill-adopter"
+    name: "Skill Adopter"
+    category: ["Automation", "Configuration"]
+    skill_path: "skills/.curated/skill-adopter/SKILL.md"
+    description: "Adopt and wire enterprise skills into projects"
+    tags: ["skills", "adoption", "configuration"]
+
+  - id: "structured-skill-creator"
+    name: "Structured Skill Creator"
+    category: ["Documentation", "Development"]
+    skill_path: "skills/.curated/structured-skill-creator/SKILL.md"
+    description: "Structured skill authoring and creation guide"
+    tags: ["skill-creation", "documentation"]
+
+  - id: "systematic-debugging"
+    name: "Systematic Debugging"
+    category: ["Development", "Debugging"]
+    skill_path: "skills/.curated/systematic-debugging/SKILL.md"
+    description: "Systematic debugging methodology and techniques"
+    tags: ["debugging", "troubleshooting"]
+
+  - id: "terraform-code-generator"
+    name: "Terraform Code Generator"
+    category: ["Infrastructure", "IaC"]
+    skill_path: "skills/.curated/terraform-code-generator/SKILL.md"
+    description: "Generate Terraform code from specifications"
+    tags: ["terraform", "iac", "code-gen"]
+
+  - id: "terraform-doc-generator"
+    name: "Terraform Doc Generator"
+    category: ["Infrastructure", "Documentation"]
+    skill_path: "skills/.curated/terraform-doc-generator/SKILL.md"
+    description: "Generate Terraform documentation"
+    tags: ["terraform", "documentation"]
+
+  - id: "terraform-module-scaffold"
+    name: "Terraform Module Scaffold"
+    category: ["Infrastructure", "IaC"]
+    skill_path: "skills/.curated/terraform-module-scaffold/SKILL.md"
+    description: "Scaffold Terraform modules with best practices"
+    tags: ["terraform", "modules", "scaffolding"]
+
+  - id: "terraform-plan-analyzer"
+    name: "Terraform Plan Analyzer"
+    category: ["Infrastructure", "DevOps"]
+    skill_path: "skills/.curated/terraform-plan-analyzer/SKILL.md"
+    description: "Analyze and validate Terraform plans"
+    tags: ["terraform", "plan", "analysis"]
+
+  - id: "terraform-project-generator"
+    name: "Terraform Project Generator"
+    category: ["Infrastructure", "IaC"]
+    skill_path: "skills/.curated/terraform-project-generator/SKILL.md"
+    description: "Generate complete Terraform projects"
+    tags: ["terraform", "project", "scaffolding"]
+
+  - id: "terraform-resource-fetch"
+    name: "Terraform Resource Fetcher"
+    category: ["Infrastructure", "IaC"]
+    skill_path: "skills/.curated/terraform-resource-fetch/SKILL.md"
+    description: "Fetch and import Terraform resources"
+    tags: ["terraform", "resources", "import"]
+
+  - id: "terraform-security-scanner"
+    name: "Terraform Security Scanner"
+    category: ["Infrastructure", "Security"]
+    skill_path: "skills/.curated/terraform-security-scanner/SKILL.md"
+    description: "Scan Terraform for security vulnerabilities"
+    tags: ["terraform", "security", "scanning"]
+
+  - id: "terraform-state-manager"
+    name: "Terraform State Manager"
+    category: ["Infrastructure", "DevOps"]
+    skill_path: "skills/.curated/terraform-state-manager/SKILL.md"
+    description: "Manage Terraform state files and backends"
+    tags: ["terraform", "state", "management"]
+
+  - id: "terraform-validator"
+    name: "Terraform Validator"
+    category: ["Infrastructure", "QA"]
+    skill_path: "skills/.curated/terraform-validator/SKILL.md"
+    description: "Validate Terraform configurations"
+    tags: ["terraform", "validation", "qa"]
+
+  - id: "test-driven-development"
+    name: "Test Driven Development"
+    category: ["Testing", "Development"]
+    skill_path: "skills/.curated/test-driven-development/SKILL.md"
+    description: "Red → green → refactor TDD workflow"
+    tags: ["tdd", "testing", "development"]
+
+  - id: "using-git-worktrees"
+    name: "Git Worktrees"
+    category: ["Git", "Development"]
+    skill_path: "skills/.curated/using-git-worktrees/SKILL.md"
+    description: "Git worktree workflows and best practices"
+    tags: ["git", "worktrees", "workflow"]
+
+  # ============================================================================
+  # SYSTEM SKILLS - Platform & Tooling
+  # ============================================================================
+
+  - id: "skill-creator"
+    name: "Skill Creator"
+    category: ["System", "Development"]
+    skill_path: "skills/.system/skill-creator/SKILL.md"
+    description: "Create and update skills with proper anatomy"
+    tags: ["skills", "creation", "system"]
+
+  - id: "skill-installer"
+    name: "Skill Installer"
+    category: ["System", "DevOps"]
+    skill_path: "skills/.system/skill-installer/SKILL.md"
+    description: "Install skills from curated lists or GitHub"
+    tags: ["skills", "installation", "system"]
+
+  # ============================================================================
+  # SYSTEM SKILLS - ActivityMaster & EntityAssist
+  # ============================================================================
+
+  - id: "activitymaster"
+    name: "ActivityMaster"
+    category: ["ActivityMaster", "Backend", "FSDM"]
+    skill_path: "skills/.system/activitymaster/SKILL.md"
+    description: "FSDM domain services, enterprise resource management"
+    tags: ["fsdm", "erm", "backend"]
+
+  - id: "entityassist"
+    name: "EntityAssist"
+    category: ["EntityAssist", "Backend", "Persistence"]
+    skill_path: "skills/.system/entityassist/SKILL.md"
+    description: "CRTP entities, fluent query builder, reactive CRUD"
+    tags: ["crtp", "persistence", "reactive"]
+
+  # ============================================================================
+  # SYSTEM SKILLS - GuicedEE
+  # ============================================================================
+
+  - id: "guicedee-auth"
+    name: "GuicedEE Authentication"
+    category: ["GuicedEE", "Security"]
+    skill_path: "skills/.system/guicedee-auth/SKILL.md"
+    description: "OAuth2, JWT, ABAC, OTP, LDAP, property file auth"
+    tags: ["guicedee", "auth", "security"]
+
+  - id: "guicedee-cdi"
+    name: "GuicedEE CDI"
+    category: ["GuicedEE", "Backend"]
+    skill_path: "skills/.system/guicedee-cdi/SKILL.md"
+    description: "CDI integration and dependency injection"
+    tags: ["guicedee", "cdi", "di"]
+
+  - id: "guicedee-cerial"
+    name: "GuicedEE Serialization"
+    category: ["GuicedEE", "Serialization"]
+    skill_path: "skills/.system/guicedee-cerial/SKILL.md"
+    description: "Cerial serialization framework"
+    tags: ["guicedee", "serialization"]
+
+  - id: "guicedee-client"
+    name: "GuicedEE HTTP Client"
+    category: ["GuicedEE", "Client"]
+    skill_path: "skills/.system/guicedee-client/SKILL.md"
+    description: "HTTP client integration"
+    tags: ["guicedee", "http", "client"]
+
+  - id: "guicedee-cloud-app"
+    name: "GuicedEE Cloud App"
+    category: ["GuicedEE", "Cloud"]
+    skill_path: "skills/.system/guicedee-cloud-app/SKILL.md"
+    description: "Multi-module cloud app scaffolding with observability"
+    tags: ["guicedee", "cloud", "scaffolding"]
+
+  - id: "guicedee-config"
+    name: "GuicedEE Configuration"
+    category: ["GuicedEE", "Configuration"]
+    skill_path: "skills/.system/guicedee-config/SKILL.md"
+    description: "MicroProfile Config integration"
+    tags: ["guicedee", "config", "microprofile"]
+
+  - id: "guicedee-creator"
+    name: "GuicedEE Project Creator"
+    category: ["GuicedEE", "Development"]
+    skill_path: "skills/.system/guicedee-creator/SKILL.md"
+    description: "GuicedEE project scaffolding and verification"
+    tags: ["guicedee", "scaffolding", "creation"]
+
+  - id: "guicedee-health"
+    name: "GuicedEE Health Checks"
+    category: ["GuicedEE", "DevOps"]
+    skill_path: "skills/.system/guicedee-health/SKILL.md"
+    description: "MicroProfile Health integration"
+    tags: ["guicedee", "health", "microprofile"]
+
+  - id: "guicedee-inject"
+    name: "GuicedEE Dependency Injection"
+    category: ["GuicedEE", "Backend"]
+    skill_path: "skills/.system/guicedee-inject/SKILL.md"
+    description: "Guice DI with classpath scanning"
+    tags: ["guicedee", "guice", "di"]
+
+  - id: "guicedee-installer"
+    name: "GuicedEE Module Installer"
+    category: ["GuicedEE", "DevOps"]
+    skill_path: "skills/.system/guicedee-installer/SKILL.md"
+    description: "Module installation and retrofit"
+    tags: ["guicedee", "modules", "installation"]
+
+  - id: "guicedee-jpms-shade"
+    name: "GuicedEE JPMS Shading"
+    category: ["GuicedEE", "Build"]
+    skill_path: "skills/.system/guicedee-jpms-shade/SKILL.md"
+    description: "Shade JARs into JPMS service modules"
+    tags: ["guicedee", "jpms", "shade"]
+
+  - id: "guicedee-jwt"
+    name: "GuicedEE JWT"
+    category: ["GuicedEE", "Security"]
+    skill_path: "skills/.system/guicedee-jwt/SKILL.md"
+    description: "JWT token integration"
+    tags: ["guicedee", "jwt", "security"]
+
+  - id: "guicedee-kafka"
+    name: "GuicedEE Kafka"
+    category: ["GuicedEE", "Messaging"]
+    skill_path: "skills/.system/guicedee-kafka/SKILL.md"
+    description: "Kafka messaging integration"
+    tags: ["guicedee", "kafka", "messaging"]
+
+  - id: "guicedee-hazelcast"
+    name: "GuicedEE Hazelcast"
+    category: ["GuicedEE", "Clustering"]
+    skill_path: "skills/.system/guicedee-hazelcast/SKILL.md"
+    description: "Hazelcast clustering and caching"
+    tags: ["guicedee", "hazelcast", "clustering"]
+
+  - id: "guicedee-ibmmq"
+    name: "GuicedEE IBM MQ"
+    category: ["GuicedEE", "Messaging"]
+    skill_path: "skills/.system/guicedee-ibmmq/SKILL.md"
+    description: "IBM MQ messaging with JMS 3.0"
+    tags: ["guicedee", "ibmmq", "messaging"]
+
+  - id: "guicedee-mail-client"
+    name: "GuicedEE Mail Client"
+    category: ["GuicedEE", "Integration"]
+    skill_path: "skills/.system/guicedee-mail-client/SKILL.md"
+    description: "SMTP mail client integration"
+    tags: ["guicedee", "mail", "smtp"]
+
+  - id: "guicedee-metrics"
+    name: "GuicedEE Metrics"
+    category: ["GuicedEE", "Monitoring"]
+    skill_path: "skills/.system/guicedee-metrics/SKILL.md"
+    description: "MicroProfile Metrics integration"
+    tags: ["guicedee", "metrics", "monitoring"]
+
+  - id: "guicedee-openapi"
+    name: "GuicedEE OpenAPI"
+    category: ["GuicedEE", "Documentation"]
+    skill_path: "skills/.system/guicedee-openapi/SKILL.md"
+    description: "OpenAPI/Swagger integration"
+    tags: ["guicedee", "openapi", "swagger"]
+
+  - id: "guicedee-persistence"
+    name: "GuicedEE Persistence"
+    category: ["GuicedEE", "Persistence"]
+    skill_path: "skills/.system/guicedee-persistence/SKILL.md"
+    description: "JPA/Hibernate persistence wiring"
+    tags: ["guicedee", "jpa", "hibernate"]
+
+  - id: "guicedee-rabbitmq"
+    name: "GuicedEE RabbitMQ"
+    category: ["GuicedEE", "Messaging"]
+    skill_path: "skills/.system/guicedee-rabbitmq/SKILL.md"
+    description: "RabbitMQ messaging integration"
+    tags: ["guicedee", "rabbitmq", "messaging"]
+
+  - id: "guicedee-rest"
+    name: "GuicedEE REST"
+    category: ["GuicedEE", "REST"]
+    skill_path: "skills/.system/guicedee-rest/SKILL.md"
+    description: "JAX-RS REST endpoints"
+    tags: ["guicedee", "rest", "jax-rs"]
+
+  - id: "guicedee-rest-client"
+    name: "GuicedEE REST Client"
+    category: ["GuicedEE", "Client"]
+    skill_path: "skills/.system/guicedee-rest-client/SKILL.md"
+    description: "MicroProfile REST Client"
+    tags: ["guicedee", "rest-client", "microprofile"]
+
+  - id: "guicedee-service-registry"
+    name: "GuicedEE Service Registry"
+    category: ["GuicedEE", "Architecture"]
+    skill_path: "skills/.system/guicedee-service-registry/SKILL.md"
+    description: "Named service registry with health-aware URL resolution"
+    tags: ["guicedee", "service-registry", "discovery"]
+
+  - id: "guicedee-swagger-ui"
+    name: "GuicedEE Swagger UI"
+    category: ["GuicedEE", "Documentation"]
+    skill_path: "skills/.system/guicedee-swagger-ui/SKILL.md"
+    description: "Swagger UI serving"
+    tags: ["guicedee", "swagger", "ui"]
+
+  - id: "guicedee-telemetry"
+    name: "GuicedEE Telemetry"
+    category: ["GuicedEE", "Monitoring"]
+    skill_path: "skills/.system/guicedee-telemetry/SKILL.md"
+    description: "OpenTelemetry integration"
+    tags: ["guicedee", "otel", "monitoring"]
+
+  - id: "guicedee-vertx"
+    name: "GuicedEE Vert.x"
+    category: ["GuicedEE", "Reactive"]
+    skill_path: "skills/.system/guicedee-vertx/SKILL.md"
+    description: "Vert.x 5 event-bus and reactive wiring"
+    tags: ["guicedee", "vertx", "reactive"]
+
+  - id: "guicedee-web"
+    name: "GuicedEE Web"
+    category: ["GuicedEE", "Web"]
+    skill_path: "skills/.system/guicedee-web/SKILL.md"
+    description: "Web module configuration"
+    tags: ["guicedee", "web"]
+
+  - id: "guicedee-webservices"
+    name: "GuicedEE Web Services"
+    category: ["GuicedEE", "WebServices"]
+    skill_path: "skills/.system/guicedee-webservices/SKILL.md"
+    description: "SOAP/XML web services"
+    tags: ["guicedee", "soap", "webservices"]
+
+  - id: "guicedee-websockets"
+    name: "GuicedEE WebSockets"
+    category: ["GuicedEE", "WebSockets"]
+    skill_path: "skills/.system/guicedee-websockets/SKILL.md"
+    description: "WebSocket integration"
+    tags: ["guicedee", "websockets"]
+
+  # ============================================================================
+  # SYSTEM SKILLS - JWebMP (Core)
+  # ============================================================================
+
+  - id: "jwebmp-core"
+    name: "JWebMP Core"
+    category: ["JWebMP", "Frontend", "Core"]
+    skill_path: "skills/.system/jwebmp-core/SKILL.md"
+    description: "JWebMP core framework (HTML, CSS, events)"
+    tags: ["jwebmp", "core", "frontend"]
+
+  - id: "jwebmp-client"
+    name: "JWebMP Client"
+    category: ["JWebMP", "Client"]
+    skill_path: "skills/.system/jwebmp-client/SKILL.md"
+    description: "JWebMP client module"
+    tags: ["jwebmp", "client"]
+
+  - id: "jwebmp-vertx"
+    name: "JWebMP Vert.x"
+    category: ["JWebMP", "Reactive"]
+    skill_path: "skills/.system/jwebmp-vertx/SKILL.md"
+    description: "JWebMP Vert.x event bus runtime"
+    tags: ["jwebmp", "vertx", "reactive"]
+
+  - id: "jwebmp-tsclient"
+    name: "JWebMP TypeScript Client"
+    category: ["JWebMP", "Client"]
+    skill_path: "skills/.system/jwebmp-tsclient/SKILL.md"
+    description: "TypeScript client code generation"
+    tags: ["jwebmp", "typescript", "client"]
+
+  # ============================================================================
+  # SYSTEM SKILLS - JWebMP (Data & Analytics)
+  # ============================================================================
+
+  - id: "jwebmp-aggrid"
+    name: "JWebMP AG Grid"
+    category: ["JWebMP", "Data Grid"]
+    skill_path: "skills/.system/jwebmp-aggrid/SKILL.md"
+    description: "AG Grid community data tables"
+    tags: ["jwebmp", "aggrid", "data-grid"]
+
+  - id: "jwebmp-aggrid-enterprise"
+    name: "JWebMP AG Grid Enterprise"
+    category: ["JWebMP", "Data Grid", "Enterprise"]
+    skill_path: "skills/.system/jwebmp-aggrid-enterprise/SKILL.md"
+    description: "AG Grid enterprise data grids"
+    tags: ["jwebmp", "aggrid", "enterprise"]
+
+  - id: "jwebmp-agcharts"
+    name: "JWebMP AG Charts"
+    category: ["JWebMP", "Charts"]
+    skill_path: "skills/.system/jwebmp-agcharts/SKILL.md"
+    description: "AG Charts community visualization"
+    tags: ["jwebmp", "agcharts", "charts"]
+
+  - id: "jwebmp-agcharts-enterprise"
+    name: "JWebMP AG Charts Enterprise"
+    category: ["JWebMP", "Charts", "Enterprise"]
+    skill_path: "skills/.system/jwebmp-agcharts-enterprise/SKILL.md"
+    description: "AG Charts enterprise visualization"
+    tags: ["jwebmp", "agcharts", "enterprise"]
+
+  - id: "jwebmp-chartjs"
+    name: "JWebMP Chart.js"
+    category: ["JWebMP", "Charts"]
+    skill_path: "skills/.system/jwebmp-chartjs/SKILL.md"
+    description: "Chart.js charting library"
+    tags: ["jwebmp", "chartjs", "charts"]
+
+  - id: "jwebmp-c3"
+    name: "JWebMP C3"
+    category: ["JWebMP", "Charts"]
+    skill_path: "skills/.system/jwebmp-c3/SKILL.md"
+    description: "C3 D3-based charting"
+    tags: ["jwebmp", "c3", "charts"]
+
+  - id: "jwebmp-d3"
+    name: "JWebMP D3"
+    category: ["JWebMP", "Visualization"]
+    skill_path: "skills/.system/jwebmp-d3/SKILL.md"
+    description: "D3.js data visualization"
+    tags: ["jwebmp", "d3", "visualization"]
+
+  - id: "jwebmp-datatables"
+    name: "JWebMP DataTables"
+    category: ["JWebMP", "Tables"]
+    skill_path: "skills/.system/jwebmp-datatables/SKILL.md"
+    description: "DataTables advanced HTML tables"
+    tags: ["jwebmp", "datatables", "tables"]
+
+  - id: "jwebmp-jqplot"
+    name: "JWebMP jqPlot"
+    category: ["JWebMP", "Charts"]
+    skill_path: "skills/.system/jwebmp-jqplot/SKILL.md"
+    description: "jqPlot jQuery charting"
+    tags: ["jwebmp", "jqplot", "charts"]
+
+  - id: "jwebmp-easy-pie-chart"
+    name: "JWebMP Easy Pie Chart"
+    category: ["JWebMP", "Charts"]
+    skill_path: "skills/.system/jwebmp-easy-pie-chart/SKILL.md"
+    description: "Animated pie charts"
+    tags: ["jwebmp", "pie-chart", "charts"]
+
+  # ============================================================================
+  # SYSTEM SKILLS - JWebMP (UI Frameworks)
+  # ============================================================================
+
+  - id: "jwebmp-angular"
+    name: "JWebMP Angular"
+    category: ["JWebMP", "UI Framework"]
+    skill_path: "skills/.system/jwebmp-angular/SKILL.md"
+    description: "Angular framework integration"
+    tags: ["jwebmp", "angular", "framework"]
+
+  - id: "jwebmp-angular-forms"
+    name: "JWebMP Angular Forms"
+    category: ["JWebMP", "Forms"]
+    skill_path: "skills/.system/jwebmp-angular-forms/SKILL.md"
+    description: "Angular reactive forms"
+    tags: ["jwebmp", "angular", "forms"]
+
+  - id: "jwebmp-angular-graphql"
+    name: "JWebMP Angular GraphQL"
+    category: ["JWebMP", "GraphQL"]
+    skill_path: "skills/.system/jwebmp-angular-graphql/SKILL.md"
+    description: "Apollo GraphQL client generation"
+    tags: ["jwebmp", "graphql", "apollo"]
+
+  - id: "jwebmp-angular-material"
+    name: "JWebMP Angular Material"
+    category: ["JWebMP", "Components"]
+    skill_path: "skills/.system/jwebmp-angular-material/SKILL.md"
+    description: "Angular Material design components"
+    tags: ["jwebmp", "material", "components"]
+
+  - id: "jwebmp-bootstrap"
+    name: "JWebMP Bootstrap"
+    category: ["JWebMP", "CSS Framework"]
+    skill_path: "skills/.system/jwebmp-bootstrap/SKILL.md"
+    description: "Bootstrap CSS framework"
+    tags: ["jwebmp", "bootstrap", "css"]
+
+  - id: "jwebmp-webawesome"
+    name: "JWebMP Web Awesome"
+    category: ["JWebMP", "Components"]
+    skill_path: "skills/.system/jwebmp-webawesome/SKILL.md"
+    description: "Web Awesome community components"
+    tags: ["jwebmp", "webawesome", "components"]
+
+  - id: "jwebmp-webawesome-pro"
+    name: "JWebMP Web Awesome Pro"
+    category: ["JWebMP", "Components", "Enterprise"]
+    skill_path: "skills/.system/jwebmp-webawesome-pro/SKILL.md"
+    description: "Web Awesome pro web components"
+    tags: ["jwebmp", "webawesome", "enterprise"]
+
+  # ============================================================================
+  # SYSTEM SKILLS - JWebMP (Calendars & Scheduling)
+  # ============================================================================
+
+  - id: "jwebmp-fullcalendar"
+    name: "JWebMP FullCalendar"
+    category: ["JWebMP", "Calendar"]
+    skill_path: "skills/.system/jwebmp-fullcalendar/SKILL.md"
+    description: "FullCalendar community"
+    tags: ["jwebmp", "fullcalendar", "calendar"]
+
+  - id: "jwebmp-fullcalendar-pro"
+    name: "JWebMP FullCalendar Pro"
+    category: ["JWebMP", "Calendar", "Enterprise"]
+    skill_path: "skills/.system/jwebmp-fullcalendar-pro/SKILL.md"
+    description: "FullCalendar pro with advanced features"
+    tags: ["jwebmp", "fullcalendar", "enterprise"]
+
+  # ============================================================================
+  # SYSTEM SKILLS - JWebMP (Icons & Typography)
+  # ============================================================================
+
+  - id: "jwebmp-fontawesome"
+    name: "JWebMP Font Awesome"
+    category: ["JWebMP", "Icons"]
+    skill_path: "skills/.system/jwebmp-fontawesome/SKILL.md"
+    description: "Font Awesome free icons"
+    tags: ["jwebmp", "fontawesome", "icons"]
+
+  - id: "jwebmp-fontawesome-pro"
+    name: "JWebMP Font Awesome Pro"
+    category: ["JWebMP", "Icons", "Enterprise"]
+    skill_path: "skills/.system/jwebmp-fontawesome-pro/SKILL.md"
+    description: "Font Awesome pro icons"
+    tags: ["jwebmp", "fontawesome", "enterprise"]
+
+  - id: "jwebmp-material-design-icons"
+    name: "JWebMP Material Design Icons"
+    category: ["JWebMP", "Icons"]
+    skill_path: "skills/.system/jwebmp-material-design-icons/SKILL.md"
+    description: "Google Material Design icons"
+    tags: ["jwebmp", "material", "icons"]
+
+  - id: "jwebmp-material-icons"
+    name: "JWebMP Material Icons"
+    category: ["JWebMP", "Icons"]
+    skill_path: "skills/.system/jwebmp-material-icons/SKILL.md"
+    description: "Google Material icons"
+    tags: ["jwebmp", "material", "icons"]
+
+  - id: "jwebmp-glyph-icons"
+    name: "JWebMP Glyph Icons"
+    category: ["JWebMP", "Icons"]
+    skill_path: "skills/.system/jwebmp-glyph-icons/SKILL.md"
+    description: "Glyph icons"
+    tags: ["jwebmp", "glyph", "icons"]
+
+  - id: "jwebmp-themify-icons"
+    name: "JWebMP Themify Icons"
+    category: ["JWebMP", "Icons"]
+    skill_path: "skills/.system/jwebmp-themify-icons/SKILL.md"
+    description: "Themify icon fonts"
+    tags: ["jwebmp", "themify", "icons"]
+
+  - id: "jwebmp-weather-icons"
+    name: "JWebMP Weather Icons"
+    category: ["JWebMP", "Icons"]
+    skill_path: "skills/.system/jwebmp-weather-icons/SKILL.md"
+    description: "Weather icon fonts"
+    tags: ["jwebmp", "weather", "icons"]
+
+  - id: "jwebmp-skycons"
+    name: "JWebMP Skycons"
+    category: ["JWebMP", "Icons"]
+    skill_path: "skills/.system/jwebmp-skycons/SKILL.md"
+    description: "Animated weather icons"
+    tags: ["jwebmp", "skycons", "icons"]
+
+  # ============================================================================
+  # SYSTEM SKILLS - JWebMP (Libraries & Effects)
+  # ============================================================================
+
+  - id: "jwebmp-jquery"
+    name: "JWebMP jQuery"
+    category: ["JWebMP", "Library"]
+    skill_path: "skills/.system/jwebmp-jquery/SKILL.md"
+    description: "jQuery DOM manipulation library"
+    tags: ["jwebmp", "jquery", "library"]
+
+  - id: "jwebmp-jquery-ui"
+    name: "JWebMP jQuery UI"
+    category: ["JWebMP", "UI"]
+    skill_path: "skills/.system/jwebmp-jquery-ui/SKILL.md"
+    description: "jQuery UI widgets and interactions"
+    tags: ["jwebmp", "jquery-ui", "ui"]
+
+  - id: "jwebmp-easing"
+    name: "JWebMP Easing"
+    category: ["JWebMP", "Effects"]
+    skill_path: "skills/.system/jwebmp-easing/SKILL.md"
+    description: "jQuery easing animations"
+    tags: ["jwebmp", "easing", "effects"]
+
+  - id: "jwebmp-local-storage"
+    name: "JWebMP Local Storage"
+    category: ["JWebMP", "Storage"]
+    skill_path: "skills/.system/jwebmp-local-storage/SKILL.md"
+    description: "Browser local storage persistence"
+    tags: ["jwebmp", "storage", "browser"]
+
+  - id: "jwebmp-session-storage"
+    name: "JWebMP Session Storage"
+    category: ["JWebMP", "Storage"]
+    skill_path: "skills/.system/jwebmp-session-storage/SKILL.md"
+    description: "Browser session storage"
+    tags: ["jwebmp", "storage", "browser"]
+
+  - id: "jwebmp-waves-effect"
+    name: "JWebMP Waves Effect"
+    category: ["JWebMP", "Effects"]
+    skill_path: "skills/.system/jwebmp-waves-effect/SKILL.md"
+    description: "Material Design ripple effects"
+    tags: ["jwebmp", "effects", "material"]
+
+  # ============================================================================
+  # SYSTEM SKILLS - JWebMP (Utilities)
+  # ============================================================================
+
+  - id: "jwebmp-markdown"
+    name: "JWebMP Markdown"
+    category: ["JWebMP", "Utilities"]
+    skill_path: "skills/.system/jwebmp-markdown/SKILL.md"
+    description: "Markdown parsing and rendering"
+    tags: ["jwebmp", "markdown", "utilities"]
+
+  - id: "jwebmp-toastr"
+    name: "JWebMP Toastr"
+    category: ["JWebMP", "Notifications"]
+    skill_path: "skills/.system/jwebmp-toastr/SKILL.md"
+    description: "Toast notification alerts"
+    tags: ["jwebmp", "toastr", "notifications"]
+
+  - id: "jwebmp-prism"
+    name: "JWebMP Prism"
+    category: ["JWebMP", "Utilities"]
+    skill_path: "skills/.system/jwebmp-prism/SKILL.md"
+    description: "Prism syntax highlighting"
+    tags: ["jwebmp", "prism", "highlighting"]
+
+  - id: "jwebmp-prettify"
+    name: "JWebMP Prettify"
+    category: ["JWebMP", "Utilities"]
+    skill_path: "skills/.system/jwebmp-prettify/SKILL.md"
+    description: "Google Prettify code highlighting"
+    tags: ["jwebmp", "prettify", "highlighting"]
+
+  - id: "jwebmp-globalize"
+    name: "JWebMP Globalize"
+    category: ["JWebMP", "I18n"]
+    skill_path: "skills/.system/jwebmp-globalize/SKILL.md"
+    description: "Internationalization (i18n)"
+    tags: ["jwebmp", "i18n", "globalize"]
+
+  - id: "jwebmp-waypoints"
+    name: "JWebMP Waypoints"
+    category: ["JWebMP", "Utilities"]
+    skill_path: "skills/.system/jwebmp-waypoints/SKILL.md"
+    description: "Scroll-triggered callbacks"
+    tags: ["jwebmp", "waypoints", "scroll"]
+
+  - id: "jwebmp-plus-as-tab"
+    name: "JWebMP Plus as Tab"
+    category: ["JWebMP", "Navigation"]
+    skill_path: "skills/.system/jwebmp-plus-as-tab/SKILL.md"
+    description: "Plus button tab navigation"
+    tags: ["jwebmp", "navigation", "tabs"]
+
+# Activation & Discovery
+discovery:
+  mode: "hybrid"
+  routes:
+    - type: "id_based"
+      description: "Use '{id}' to reference a skill in prompts"
+      example: "Use 'senior-architect' for system design"
+    - type: "path_based"
+      description: "Direct path to SKILL.md files"
+      example: "skills/.curated/senior-architect/SKILL.md"
+    - type: "category_based"
+      description: "Browse by category tags"
+      example: "Show all 'Architecture' skills"
+    - type: "tag_based"
+      description: "Search by topic tags"
+      example: "Find skills tagged 'kubernetes'"
+
+# Load Order & Fallback Rules
+activation:
+  rules:
+    - "Identify task scope"
+    - "Select relevant skills from catalog by category or tag"
+    - "Load skill's SKILL.md — frontmatter triggers activation"
+    - "Load references/ files only when skill instructions call for them"
+  fallback: "If runtime discovery doesn't return results, open SKILL.md files directly"
+
+# Tags Index (for quick lookup)
+tags:
+  cloud: ["arm-to-terraform-migration", "guicedee-cloud-app"]
+  kubernetes: ["senior-devops"]
+  docker: ["senior-devops"]
+  terraform: ["terraform-code-generator", "terraform-doc-generator", "terraform-module-scaffold", "terraform-plan-analyzer", "terraform-project-generator", "terraform-resource-fetch", "terraform-security-scanner", "terraform-state-manager", "terraform-validator"]
+  security: ["security-best-practices", "security-compliance", "security-ownership-map", "guicedee-auth", "guicedee-jwt"]
+  testing: ["playwright", "screenshot", "test-driven-development", "senior-qa", "code-reviewer"]
+  git: ["git-commit-helper", "git-commit-signing", "finishing-a-development-branch", "changelog-generator", "using-git-worktrees"]
+  architecture: ["senior-architect", "senior-backend", "senior-devops", "information-architect"]
+  jwebmp: ["jwebmp-core", "jwebmp-client", "jwebmp-angular", "jwebmp-aggrid", "jwebmp-agcharts", "jwebmp-bootstrap"]
+  guicedee: ["guicedee-auth", "guicedee-cdi", "guicedee-rest", "guicedee-vertx", "guicedee-persistence"]
+  activitymaster: ["activitymaster", "entityassist"]
+
+# Metadata
+metadata:
+  version: "1.0.0"
+  last_updated: "2026-06-08"
+  maintainer: "Enterprise Skills Repository"
+  repository: "https://github.com/GuicedEE/ai-rules"
+  changelog_url: "https://github.com/GuicedEE/ai-rules/blob/main/CHANGELOG.md"
+
