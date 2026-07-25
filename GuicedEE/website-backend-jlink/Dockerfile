@@ -1,4 +1,6 @@
-FROM debian:bookworm-slim
+# trixie (Debian 13, glibc 2.41) — must be >= the glibc the jlink runtime was
+# built against (JDK 25 on the build host needs GLIBC_2.38+); bookworm's 2.36 is too old.
+FROM debian:trixie-slim
 
 # Install minimal runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \

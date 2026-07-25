@@ -33,6 +33,9 @@
                         <addModule>jdk.management</addModule>
                         <addModule>java.management.rmi</addModule>
                         <addModule>java.instrument</addModule>
+                        <!-- Jackson 2.x databind for log4j2 JsonLayout (GuicedEE LogUtils
+                             at boot); not pulled into the module graph automatically. -->
+                        <addModule>com.fasterxml.jackson.databind</addModule>
                     </addModules>
                 </configuration>
                 <dependencies>
