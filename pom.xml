@@ -133,6 +133,13 @@
                 <module>GuicedEE/services/Libraries/ibm-mq</module>
                 <module>GuicedEE/services/Libraries/kafka-client</module>
                 <module>GuicedEE/services/Libraries/reactive-streams</module>
+                <!-- MongoDB driver chain: all automatic modules upstream, shaded so jlink works.
+                     Order matters only for readability - Maven resolves the reactor order. -->
+                <module>GuicedEE/services/Libraries/reactor-core</module>
+                <module>GuicedEE/services/Libraries/bson</module>
+                <module>GuicedEE/services/Libraries/bson-record-codec</module>
+                <module>GuicedEE/services/Libraries/mongodb-driver-core</module>
+                <module>GuicedEE/services/Libraries/mongodb-driver-reactivestreams</module>
                 <module>GuicedEE/services/Libraries/java-dataloader</module>
                 <module>GuicedEE/services/Libraries/graphql-java</module>
                 <module>GuicedEE/services/Libraries/mapstruct</module>

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 mvn source:jar install \
+  "-Dmaven.consumer.pom=false" \
   "-DskipTests" \
   "-Dmaven.javadoc.skip=true" \
   "-Pguicedee-boms,jwebmp-boms,guicedee,services,entityassist,jwebmp,activity-master" \
