@@ -47,7 +47,7 @@
                 <module>GuicedEE/website-backend</module>
                 <module>GuicedEE/website-backend-jlink</module>
                 <module>JWebMP/website</module>
-                <!--<module>EntityAssist/Website</module>-->
+                <module>EntityAssistWebsite</module>
                 <module>ActivityMaster/website</module>
             </modules>
         </profile>
@@ -142,6 +142,7 @@
                 <module>GuicedEE/services/Libraries/mongodb-driver-reactivestreams</module>
                 <module>GuicedEE/services/Libraries/java-dataloader</module>
                 <module>GuicedEE/services/Libraries/graphql-java</module>
+                <module>GuicedEE/services/Libraries/oauth2-oidc-sdk</module>
                 <module>GuicedEE/services/Libraries/mapstruct</module>
                 <module>GuicedEE/services/Libraries/openpdf</module>
                 <module>GuicedEE/services/Libraries/rabbitmq-client</module>
