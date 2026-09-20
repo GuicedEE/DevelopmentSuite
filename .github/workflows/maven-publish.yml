@@ -154,6 +154,9 @@ jobs:
       - name: 'BOM: SmallRye'
         run: mvn -B deploy --file GuicedEE/bom/SmallRyeBOM/pom.xml -U ${{ env.CENTRAL_PROFILE }}
 
+      - name: 'BOM: Vert.x'
+        run: mvn -B deploy --file GuicedEE/bom/VertxBOM/pom.xml -U ${{ env.CENTRAL_PROFILE }}
+
       # ══════════════════════════════════════════════
       # Layer 2 – GuicedEE BOM (depends on all sub-BOMs)
       # ══════════════════════════════════════════════

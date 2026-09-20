@@ -34,6 +34,7 @@ $guicedeeBoms = @(
   "GuicedEE/bom/ApacheBOM/pom.xml",
   "GuicedEE/bom/ApacheCXFBOM/pom.xml",
   "GuicedEE/bom/SmallRyeBOM/pom.xml",
+  "GuicedEE/bom/VertxBOM/pom.xml",
   "GuicedEE/bom/pom.xml",
   "GuicedEE/parent/pom.xml"
 )

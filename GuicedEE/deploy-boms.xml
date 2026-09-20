@@ -28,6 +28,7 @@
         <module>bom/ApacheBOM</module>
         <module>bom/ApacheCXFBOM</module>
         <module>bom/SmallRyeBOM</module>
+        <module>bom/VertxBOM</module>
         <module>bom</module>
         <module>parent</module>
     </modules>

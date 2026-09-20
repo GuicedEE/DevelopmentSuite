@@ -149,6 +149,17 @@ jobs:
       publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
 
+  Vertx-BOM:
+    uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
+    needs: [ Standalone-BOM ]
+    if: ${{ !failure() }}
+    with:
+      repository: 'GuicedEE/BOM'
+      baseDir: 'VertxBOM/'
+      name: 'Vert.x BOM'
+      publishToCentral: ${{ inputs.centralRelease }}
+    secrets: inherit
+
   # JWebMP BOM only depends on Versioner (separate repo)
   JWebMP-BOM:
     uses: GuicedEE/Workflows/.github/workflows/bom.yml@master
@@ -191,6 +202,7 @@ jobs:
       - Apache-BOM
       - ApacheCXF-BOM
       - SmallRye-BOM
+      - Vertx-BOM
     if: ${{ !failure() }}
     with:
       repository: 'GuicedEE/BOM'

@@ -30,6 +30,7 @@
                 <module>GuicedEE/bom/ApacheBOM</module>
                 <module>GuicedEE/bom/ApacheCXFBOM</module>
                 <module>GuicedEE/bom/SmallRyeBOM</module>
+                <module>GuicedEE/bom/VertxBOM</module>
                 <module>GuicedEE/parent</module>
             </modules>
         </profile>
