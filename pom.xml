@@ -144,6 +144,7 @@
                 <module>GuicedEE/services/Libraries/java-dataloader</module>
                 <module>GuicedEE/services/Libraries/graphql-java</module>
                 <module>GuicedEE/services/Libraries/oauth2-oidc-sdk</module>
+                <module>GuicedEE/services/Libraries/keycloak</module>
                 <module>GuicedEE/services/Libraries/mapstruct</module>
                 <module>GuicedEE/services/Libraries/openpdf</module>
                 <module>GuicedEE/services/Libraries/rabbitmq-client</module>
@@ -177,11 +178,12 @@
                 <module>ActivityMaster/parent</module>
                 <module>ActivityMaster/core</module>
                 <module>ActivityMaster/cerial</module>
+                <module>ActivityMaster/translations</module>
                 <module>ActivityMaster/cerial-client</module>
                 <module>ActivityMaster/client</module>
                 <module>ActivityMaster/profiles</module>
                 <module>ActivityMaster/geography</module>
-                <!--<module>ActivityMaster/conversations</module>
+                <!--
                 <module>ActivityMaster/documents</module>
                 <module>ActivityMaster/files</module>
                 <module>ActivityMaster/forums</module>
@@ -189,11 +191,14 @@
                 <module>ActivityMaster/images</module>
                 <!--<module>ActivityMaster/mail</module>
                 <module>ActivityMaster/notifications</module>
-                <module>ActivityMaster/payments</module>
+
                 <module>ActivityMaster/realtor</module>
                 <module>ActivityMaster/todo</module>-->
                 <module>ActivityMaster/user-sessions</module>
-                <!--<module>ActivityMaster/wallet</module>-->
+                <module>ActivityMaster/wallet</module>
+                <module>ActivityMaster/payments</module>
+                <module>ActivityMaster/conversations</module>
+                <module>ActivityMaster/marketplace-master</module>
             </modules>
         </profile>
         <profile>

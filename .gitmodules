@@ -454,3 +454,12 @@
 	path = GuicedEE/consul
 	url = https://github.com/GuicedEE/Consul.git
 	branch = master
+[submodule "ActivityMaster/translations"]
+	path = ActivityMaster/translations
+	url = https://github.com/Activity-Master/translations-master.git
+[submodule "ActivityMaster/marketplace-master"]
+	path = ActivityMaster/marketplace-master
+	url = https://github.com/Activity-Master/marketplace-master.git
+[submodule "ActivityMaster/seo"]
+	path = ActivityMaster/seo
+	url = https://github.com/Activity-Master/seo-master.git
