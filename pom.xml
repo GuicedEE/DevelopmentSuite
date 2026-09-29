@@ -190,8 +190,6 @@
                 -->
                 <module>ActivityMaster/images</module>
                 <!--<module>ActivityMaster/mail</module>
-                <module>ActivityMaster/notifications</module>
-
                 <module>ActivityMaster/realtor</module>
                 <module>ActivityMaster/todo</module>-->
                 <module>ActivityMaster/user-sessions</module>
@@ -199,6 +197,8 @@
                 <module>ActivityMaster/payments</module>
                 <module>ActivityMaster/conversations</module>
                 <module>ActivityMaster/marketplace-master</module>
+                <module>ActivityMaster/seo</module>
+                <module>ActivityMaster/notifications</module>
             </modules>
         </profile>
         <profile>

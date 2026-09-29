@@ -110,3 +110,6 @@ nbproject/
 persistence.xml
 *.rar
 .env.local
+
+.local/
+.agents/
