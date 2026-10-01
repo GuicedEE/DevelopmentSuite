@@ -463,3 +463,6 @@
 [submodule "ActivityMaster/seo"]
 	path = ActivityMaster/seo
 	url = https://github.com/Activity-Master/seo-master.git
+[submodule "ActivityMaster/geography-country-flags"]
+	path = ActivityMaster/geography-country-flags
+	url = https://github.com/Activity-Master/geo-country-flags.git
