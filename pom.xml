@@ -215,6 +215,8 @@
                 <!--<module>JWebMP/plugins/angular-maven-plugin</module>-->
 
                 <module>JWebMP/plugins/angular</module>
+                <module>JWebMP/plugins/java-generator-client</module>
+                <module>JWebMP/plugins/java-generator</module>
                 <module>JWebMP/plugins/angular-forms</module>
                 <module>JWebMP/plugins/angular-graphql</module>
                 <module>JWebMP/plugins/agcharts</module>

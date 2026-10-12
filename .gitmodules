@@ -466,3 +466,9 @@
 [submodule "ActivityMaster/geography-country-flags"]
 	path = ActivityMaster/geography-country-flags
 	url = https://github.com/Activity-Master/geo-country-flags.git
+[submodule "JWebMP/plugins/java-generator"]
+	path = JWebMP/plugins/java-generator
+	url = https://github.com/JWebMP/JavaGenerator.git
+[submodule "JWebMP/plugins/java-generator-client"]
+	path = JWebMP/plugins/java-generator-client
+	url = https://github.com/JWebMP/JavaGeneratorClient.git
