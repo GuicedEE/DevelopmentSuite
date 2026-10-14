@@ -5,13 +5,13 @@
     <groupId>com.guicedee</groupId>
     <artifactId>website-backend-jlink</artifactId>
     <packaging>jlink</packaging>
-    <version>2.0.0</version>
+    <version>2.4.0</version>
 
     <dependencies>
         <dependency>
             <groupId>com.guicedee</groupId>
             <artifactId>website-backend</artifactId>
-            <version>2.0.2</version>
+            <version>2.4.0</version>
         </dependency>
     </dependencies>
 

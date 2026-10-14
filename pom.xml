@@ -127,6 +127,7 @@
                 <module>GuicedEE/services/JCache/hazelcast</module>
                 <module>GuicedEE/services/JCache/hazelcast-hibernate</module>
                 <module>GuicedEE/services/JNI/jna-platform</module>
+                <module>GuicedEE/services/JNI/jna-platform-bridge</module>
                 <module>GuicedEE/services/JNI/nrjavaserial</module>
                 <module>GuicedEE/services/Libraries/jandex</module>
                 <module>GuicedEE/services/Libraries/cloudevents</module>

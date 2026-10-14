@@ -14,6 +14,7 @@ GuicedEE wires together [Google Guice](https://github.com/google/guice), [Vert.x
 
 > **Website:** [https://guicedee.com](https://guicedee.com)
 > **Organization:** [https://github.com/GuicedEE](https://github.com/GuicedEE)
+> **2.4.0 release preparation:** [Verification and publication commands](RELEASE-2.4.0.md)
 
 ---
 
@@ -38,7 +39,7 @@ GuicedEE wires together [Google Guice](https://github.com/google/guice), [Vert.x
         <dependency>
             <groupId>com.guicedee</groupId>
             <artifactId>guicedee-bom</artifactId>
-            <version>2.3.0</version>
+            <version>2.4.0</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>

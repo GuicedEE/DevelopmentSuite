@@ -1,8 +1,8 @@
-"""Publish the verified GuicedEE 2.3.0 artifacts in four resumable Central bundles.
+"""Publish the verified GuicedEE 2.4.0 artifacts in four resumable Central bundles.
 
 Uses existing Maven install outputs; never builds, cleans, commits or tags.
 Credentials stay in memory. GPG receives its passphrase through stdin.
-Commands: prepare, run, upload <batch>, status <batch>, verify <batch>.
+Commands: audit, prepare, run, upload <batch>, status <batch>, verify <batch>.
 """
 from pathlib import Path
 import argparse
@@ -23,7 +23,7 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-VERSION = '2.3.0'
+VERSION = '2.4.0'
 OUT = ROOT / ('target/release-' + VERSION) / 'production'
 BATCHES = ('versioner', 'boms', 'services', 'modules')
 NS = {'m': 'http://maven.apache.org/POM/4.0.0'}
@@ -69,10 +69,11 @@ def release_inventory():
         profile.findtext('m:id', namespaces=NS): profile
         for profile in root_pom.findall('m:profiles/m:profile', NS)
     }
-    modules = ['GuicedEE/bom/Versioner']
+    modules = []
     for profile_name in ('guicedee-boms', 'services', 'guicedee'):
         modules.extend(node.text for node in profiles[profile_name].findall('m:modules/m:module', NS))
-    assert len(modules) == len(set(modules)) == 116
+    modules = list(dict.fromkeys(modules))
+    assert len(modules) == len(set(modules)) == 117
 
     rows, audit = [], []
     for module_name in modules:
@@ -99,8 +100,21 @@ def release_inventory():
         audit.append({'module': module_name, 'artifactId': artifact_id, 'version': version,
                       'exists': jar.is_file(), 'sources': sources.is_file(),
                       'javadoc': javadoc.is_file(), 'moduleVersionMatches': module_version_matches})
-    assert len(rows) == 116 and len(audit) == 101
+    assert len(rows) == 117 and len(audit) == 102
     return rows, audit
+
+
+def audit():
+    """Audit local release artifacts without signing or contacting Central."""
+    rows, artifacts = release_inventory()
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    save(OUT.parent / 'release-train.json', rows)
+    save(OUT.parent / 'release-artifacts.json', artifacts)
+    incomplete = [r['module'] for r in artifacts
+                  if not all(r[k] for k in ('exists', 'sources', 'javadoc', 'moduleVersionMatches'))]
+    if incomplete:
+        raise RuntimeError('Incomplete release artifacts: ' + ', '.join(incomplete))
+    print(f'GuicedEE {VERSION}: {len(rows)} components and {len(artifacts)} JPMS JARs audited locally.')
 
 
 def prepare():
@@ -112,7 +126,7 @@ def prepare():
     release_output = OUT.parent
     save(release_output / 'release-train.json', rows)
     save(release_output / 'release-artifacts.json', audit)
-    assert len(rows) == 116 and len(audit) == 101
+    assert len(rows) == 117 and len(audit) == 102
     assert all(all(r[k] for k in ('exists', 'sources', 'javadoc', 'moduleVersionMatches')) for r in audit)
     local = Path(settings().findtext('localRepository') or str(Path.home() / '.m2/repository'))
     manifest = {batch: {'components': [], 'files': []} for batch in BATCHES}
@@ -299,15 +313,15 @@ def run():
         jobs = [pool.submit(publish_batch, batch) for batch in ('boms', 'services', 'modules')]
         for job in concurrent.futures.as_completed(jobs):
             job.result()
-    print('All 116 GuicedEE release components are published and verified from Central.', flush=True)
+    print('All 117 GuicedEE release components are published and verified from Central.', flush=True)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=('prepare', 'run', 'upload', 'status', 'verify'))
+    parser.add_argument('command', choices=('audit', 'prepare', 'run', 'upload', 'status', 'verify'))
     parser.add_argument('batch', choices=BATCHES, nargs='?')
     args = parser.parse_args()
-    if args.command in ('prepare', 'run'):
+    if args.command in ('audit', 'prepare', 'run'):
         globals()[args.command]()
     elif not args.batch:
         parser.error('batch is required')

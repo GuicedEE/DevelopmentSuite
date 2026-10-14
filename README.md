@@ -19,6 +19,9 @@ Built on [Vert.x](https://vertx.io/) · [Google Guice](https://github.com/google
 
 ## 📦 Installation
 
+For the coordinated GuicedEE **2.4.0** release, follow the
+[release verification and publication guide](GuicedEE/RELEASE-2.4.0.md).
+
 DevSuite is a multi-module Maven reactor project. Clone and build the entire suite or work with individual profiles:
 
 ```bash

@@ -28,8 +28,8 @@
 #
 # NOTE ON VERSIONS
 # ----------------
-# website-backend is 2.0.2 and still resolves GuicedEE 2.1.1-SNAPSHOT, not the released
-# 2.2.0. Bump website-backend before shipping this as a 2.2.0 distribution.
+# website-backend and website-backend-jlink use 2.4.0 with GuicedEE 2.4.0.
+# Install the release reactor and backend before packaging the runtime image.
 
 set -euo pipefail
 M2=/mnt/c/Users/GedMarc/.m2/repository

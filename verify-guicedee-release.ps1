@@ -1,33 +1,43 @@
 param(
-    [ValidateSet('Validate', 'Package', 'Test', 'Website')]
+    [ValidateSet('Validate', 'Package', 'Test', 'Consumers', 'Website')]
     [string] $Stage = 'Validate',
     [switch] $IncludeLiveInfrastructure
 )
 
 $ErrorActionPreference = 'Stop'
 $releaseRoot = $PSScriptRoot
-$releaseOutput = Join-Path $releaseRoot 'target/release-2.3.0'
+$releaseOutput = Join-Path $releaseRoot 'target/release-2.4.0'
 New-Item -ItemType Directory -Force -Path $releaseOutput | Out-Null
 
 # Include the versioner in the same reactor as its BOM imports so unpublished
 # release coordinates resolve locally. No deployment or clean lifecycle is used.
 [xml] $builder = Get-Content -LiteralPath (Join-Path $releaseRoot 'pom.xml') -Raw
-$releaseModules = @('GuicedEE/bom/Versioner')
+$releaseModules = @()
 foreach ($profileName in @('guicedee-boms', 'services', 'guicedee')) {
     $profile = $builder.project.profiles.profile | Where-Object { $_.id -eq $profileName }
     $releaseModules += @($profile.modules.module)
+}
+$releaseModules = @($releaseModules | Select-Object -Unique)
+if ($Stage -eq 'Consumers') {
+    $releaseModules = @()
+    foreach ($profileName in @('jwebmp-boms', 'jwebmp', 'entityassist', 'activity-master')) {
+        $profile = $builder.project.profiles.profile | Where-Object { $_.id -eq $profileName }
+        $releaseModules += @($profile.modules.module)
+    }
+    $releaseModules = @($releaseModules | Select-Object -Unique)
 }
 $moduleXml = ($releaseModules | ForEach-Object {
     $absoluteModule = (Join-Path $releaseRoot $_).Replace('\', '/')
     '<module>' + [System.Security.SecurityElement]::Escape($absoluteModule) + '</module>'
 }) -join "`n"
-$reactor = Join-Path $releaseOutput 'reactor.xml'
+$reactorName = if ($Stage -eq 'Consumers') { 'consumers.xml' } else { 'reactor.xml' }
+$reactor = Join-Path $releaseOutput $reactorName
 $reactorXml = @"
 <project xmlns="http://maven.apache.org/POM/4.0.0">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.guicedee.build</groupId>
   <artifactId>release-verification</artifactId>
-  <version>2.3.0</version>
+  <version>2.4.0</version>
   <packaging>pom</packaging>
   <modules>$moduleXml</modules>
 </project>
@@ -42,17 +52,48 @@ if (-not $IncludeLiveInfrastructure) {
 }
 switch ($Stage) {
     'Validate' { $releaseArgs += 'validate' }
-    'Package' { $releaseArgs += @('install', '-DskipTests') }
+    'Package' { $releaseArgs += @('install', '-DskipTests', '-Dmaven.jar.forceCreation=true') }
+    'Consumers' { $releaseArgs += @('install', '-DskipTests', '-Dmaven.javadoc.skip=true', '-Djwebmp.angular.docker=false') }
     # Shaded services acquire their JPMS descriptors in package, so a full
     # reactor must reach verify before downstream modules can run their tests.
     'Test' { $releaseArgs += @('verify', '-fae') }
     'Website' {
         $releaseArgs = @('-B', '-ntp', '-f', (Join-Path $releaseRoot 'GuicedEE/website/pom.xml'),
-            'install', '-Dcentral.publishing.skip=true', '-Dmaven.deploy.skip=true')
+            'install', '-Dcentral.publishing.skip=true', '-Dmaven.deploy.skip=true',
+            '-Djwebmp.angular.docker=false')
     }
 }
 $testStarted = Get-Date
 if ($Stage -eq 'Package') {
+    # Shade uses the project JAR as its first input. Reusing an earlier shaded JAR
+    # at the same release version can retain old dependency classes and sources.
+    # Preserve generated inputs in a separate archive before rebuilding them.
+    $archiveRoot = Join-Path $releaseOutput ('previous-artifacts/' + [DateTime]::UtcNow.ToString('yyyyMMddTHHmmssfff'))
+    $workspacePrefix = [System.IO.Path]::GetFullPath($releaseRoot).TrimEnd([System.IO.Path]::DirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
+    foreach ($module in $releaseModules) {
+        [xml] $modulePom = Get-Content -LiteralPath (Join-Path $releaseRoot "$module/pom.xml") -Raw
+        if ($modulePom.project.packaging -eq 'pom') { continue }
+        $moduleVersion = [string] $modulePom.project.version
+        if (-not $moduleVersion) { $moduleVersion = [string] $modulePom.project.parent.version }
+        $artifactId = [string] $modulePom.project.artifactId
+        $moduleTarget = [System.IO.Path]::GetFullPath((Join-Path $releaseRoot "$module/target"))
+        $archiveTarget = [System.IO.Path]::GetFullPath((Join-Path $archiveRoot $module))
+        if (-not $moduleTarget.StartsWith($workspacePrefix, [StringComparison]::OrdinalIgnoreCase) -or
+            -not $archiveTarget.StartsWith($workspacePrefix, [StringComparison]::OrdinalIgnoreCase)) {
+            throw "Generated artifact archive escapes the workspace: $module"
+        }
+        foreach ($generatedName in @("$artifactId-$moduleVersion.jar", "$artifactId-$moduleVersion-sources.jar",
+                "$artifactId-$moduleVersion-javadoc.jar", 'source-output')) {
+            $generatedPath = [System.IO.Path]::GetFullPath((Join-Path $moduleTarget $generatedName))
+            if (-not $generatedPath.StartsWith($moduleTarget + [System.IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) {
+                throw "Generated artifact path escapes module target: $generatedPath"
+            }
+            if (Test-Path -LiteralPath $generatedPath) {
+                New-Item -ItemType Directory -Force -Path $archiveTarget | Out-Null
+                Move-Item -LiteralPath $generatedPath -Destination (Join-Path $archiveTarget $generatedName)
+            }
+        }
+    }
     # javac's incremental cache does not always notice a project version change.
     # Refresh descriptor timestamps to regenerate module versions without deleting outputs.
     foreach ($module in $releaseModules) {
