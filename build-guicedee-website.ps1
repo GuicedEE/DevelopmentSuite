@@ -13,7 +13,7 @@
 # Usage:
 #   .\build-guicedee-website.ps1              # maven install -> angular build -> docker image
 #   .\build-guicedee-website.ps1 -Push        # also push to Docker Hub
-#   .\build-guicedee-website.ps1 -Tag 2.4.0   # override the image tag
+#   .\build-guicedee-website.ps1 -Tag 2.4.1   # override the image tag
 #   .\build-guicedee-website.ps1 -AngularOnly # skip maven, just npm install + ng build
 
 param(

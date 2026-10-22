@@ -1,12 +1,14 @@
 param(
     [ValidateSet('Validate', 'Package', 'Test', 'Consumers', 'Website')]
     [string] $Stage = 'Validate',
-    [switch] $IncludeLiveInfrastructure
+    [switch] $IncludeLiveInfrastructure,
+    [string] $Tests,
+    [string] $IntegrationTests
 )
 
 $ErrorActionPreference = 'Stop'
 $releaseRoot = $PSScriptRoot
-$releaseOutput = Join-Path $releaseRoot 'target/release-2.4.0'
+$releaseOutput = Join-Path $releaseRoot 'target/release-2.4.1'
 New-Item -ItemType Directory -Force -Path $releaseOutput | Out-Null
 
 # Include the versioner in the same reactor as its BOM imports so unpublished
@@ -37,7 +39,7 @@ $reactorXml = @"
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.guicedee.build</groupId>
   <artifactId>release-verification</artifactId>
-  <version>2.4.0</version>
+  <version>2.4.1</version>
   <packaging>pom</packaging>
   <modules>$moduleXml</modules>
 </project>
@@ -56,12 +58,19 @@ switch ($Stage) {
     'Consumers' { $releaseArgs += @('install', '-DskipTests', '-Dmaven.javadoc.skip=true', '-Djwebmp.angular.docker=false') }
     # Shaded services acquire their JPMS descriptors in package, so a full
     # reactor must reach verify before downstream modules can run their tests.
-    'Test' { $releaseArgs += @('verify', '-fae') }
+    # Install the exact post-verify JARs; shade can change ZIP bytes during verify.
+    'Test' { $releaseArgs += @('install', '-fae', '-Dmaven.javadoc.skip=true', '-Dmaven.jar.forceCreation=true') }
     'Website' {
         $releaseArgs = @('-B', '-ntp', '-f', (Join-Path $releaseRoot 'GuicedEE/website/pom.xml'),
             'install', '-Dcentral.publishing.skip=true', '-Dmaven.deploy.skip=true',
             '-Djwebmp.angular.docker=false')
     }
+}
+if ($Stage -eq 'Test' -and $Tests) {
+    $releaseArgs += @("-Dtest=$Tests", '-Dsurefire.failIfNoSpecifiedTests=false')
+}
+if ($Stage -eq 'Test' -and $IntegrationTests) {
+    $releaseArgs += @("-Dit.test=$IntegrationTests", '-Dfailsafe.failIfNoSpecifiedTests=false')
 }
 $testStarted = Get-Date
 if ($Stage -eq 'Package') {

@@ -1,4 +1,4 @@
-"""Publish the verified GuicedEE 2.4.0 artifacts in four resumable Central bundles.
+"""Publish the verified GuicedEE 2.4.1 artifacts in four resumable Central bundles.
 
 Uses existing Maven install outputs; never builds, cleans, commits or tags.
 Credentials stay in memory. GPG receives its passphrase through stdin.
@@ -23,7 +23,7 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-VERSION = '2.4.0'
+VERSION = '2.4.1'
 OUT = ROOT / ('target/release-' + VERSION) / 'production'
 BATCHES = ('versioner', 'boms', 'services', 'modules')
 NS = {'m': 'http://maven.apache.org/POM/4.0.0'}
