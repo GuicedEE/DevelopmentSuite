@@ -472,3 +472,7 @@
 [submodule "JWebMP/plugins/java-generator-client"]
 	path = JWebMP/plugins/java-generator-client
 	url = https://github.com/JWebMP/JavaGeneratorClient.git
+[submodule "GuicedEE/microprofile-tck"]
+	path = GuicedEE/microprofile-tck
+	url = https://github.com/GuicedEE/MicroProfile-TCK.git
+	branch = master
