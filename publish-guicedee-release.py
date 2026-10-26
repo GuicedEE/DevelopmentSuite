@@ -1,4 +1,4 @@
-"""Publish the verified GuicedEE 2.4.1 artifacts in four resumable Central bundles.
+"""Publish the verified GuicedEE 2.4.2 artifacts in four resumable Central bundles.
 
 Uses existing Maven install outputs; never builds, cleans, commits or tags.
 Credentials stay in memory. GPG receives its passphrase through stdin.
@@ -23,12 +23,21 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-VERSION = '2.4.1'
+VERSION = '2.4.2'
 OUT = ROOT / ('target/release-' + VERSION) / 'production'
 BATCHES = ('versioner', 'boms', 'services', 'modules')
-NS = {'m': 'http://maven.apache.org/POM/4.0.0'}
+NS = {'m': 'http://maven.apache.org/POM/4.1.0'}
 API = 'https://central.sonatype.com/api/v1/publisher/'
 CENTRAL = 'https://repo.maven.apache.org/maven2/'
+
+
+def read_pom(path):
+    """Normalize namespaces for queries only; published POM bytes stay unchanged."""
+    root = ET.parse(path).getroot()
+    for node in root.iter():
+        if node.tag.startswith('{http://maven.apache.org/POM/4.0.0}'):
+            node.tag = node.tag.replace('POM/4.0.0}', 'POM/4.1.0}', 1)
+    return root
 
 
 def digest(path, algorithm='sha256'):
@@ -64,21 +73,23 @@ def save(path, value):
 
 def release_inventory():
     """Read the same GuicedEE profiles as build.ps1 and audit their installed outputs."""
-    root_pom = ET.parse(ROOT / 'pom.xml').getroot()
+    root_pom = read_pom(ROOT / 'pom.xml')
     profiles = {
         profile.findtext('m:id', namespaces=NS): profile
         for profile in root_pom.findall('m:profiles/m:profile', NS)
     }
     modules = []
     for profile_name in ('guicedee-boms', 'services', 'guicedee'):
-        modules.extend(node.text for node in profiles[profile_name].findall('m:modules/m:module', NS))
+        profile = profiles[profile_name]
+        modules.extend(node.text for query in ('m:modules/m:module', 'm:subprojects/m:subproject')
+                       for node in profile.findall(query, NS))
     modules = list(dict.fromkeys(modules))
     assert len(modules) == len(set(modules)) == 117
 
     rows, audit = [], []
     for module_name in modules:
         module = ROOT / module_name
-        pom = ET.parse(module / 'pom.xml').getroot()
+        pom = read_pom(module / 'pom.xml')
         parent = pom.find('m:parent', NS)
         group_id = pom.findtext('m:groupId', namespaces=NS) or parent.findtext('m:groupId', namespaces=NS)
         version = pom.findtext('m:version', namespaces=NS) or parent.findtext('m:version', namespaces=NS)
@@ -135,7 +146,7 @@ def prepare():
         raise RuntimeError('MAVEN_GPG_PASSPHRASE is not available')
     for row in rows:
         module = ROOT / row['module']
-        pom = ET.parse(module / 'pom.xml').getroot()
+        pom = read_pom(module / 'pom.xml')
         aid, version = row['artifactId'], row['version']
         assert version == VERSION
         packaging = pom.findtext('m:packaging', default='jar', namespaces=NS)
@@ -146,7 +157,7 @@ def prepare():
         # Maven's installed POM is the consumer/flattened POM for shaded artifacts.
         # POM-packaged BOMs retain their build and dependency-management metadata.
         source_pom = module / 'pom.xml' if packaging == 'pom' else local / relative / (stem + '.pom')
-        published_pom = ET.parse(source_pom).getroot()
+        published_pom = read_pom(source_pom)
         assert published_pom.findtext('m:artifactId', namespaces=NS) == aid
         assert published_pom.findtext('m:version', namespaces=NS) == version
         inputs = [(source_pom, stem + '.pom')]
@@ -222,7 +233,7 @@ def upload(batch):
             if item['path'].endswith('.pom'):
                 pom_path = OUT / batch / item['path']
                 assert digest(pom_path) == item['sha256']
-                pom = ET.parse(pom_path).getroot()
+                pom = read_pom(pom_path)
                 assert pom.find('m:parent', NS) is None
                 assert not pom.findall('m:dependencyManagement/m:dependencies/m:dependency[m:scope="import"]', NS)
                 assert all(pom.find('m:' + key, NS) is not None for key in ('name', 'description', 'url', 'licenses', 'developers', 'scm'))

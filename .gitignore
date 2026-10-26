@@ -113,3 +113,4 @@ persistence.xml
 
 .local/
 .agents/
+.worktrees/
