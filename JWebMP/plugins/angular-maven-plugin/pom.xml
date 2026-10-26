@@ -1,6 +1,6 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.1.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.1.0 http://maven.apache.org/xsd/maven-4.1.0.xsd">
+    <modelVersion>4.1.0</modelVersion>
 
     <groupId>com.jwebmp.plugins</groupId>
     <artifactId>angular-maven-plugin</artifactId>
@@ -40,9 +40,10 @@
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.release>25</maven.compiler.release>
         <maven.plugin.api.version>3.9.6</maven.plugin.api.version>
+        <plexus.utils.version>3.6.1</plexus.utils.version>
         <maven.plugin.annotations.version>3.11.0</maven.plugin.annotations.version>
         <maven.plugin.plugin.version>3.15.2</maven.plugin.plugin.version>
-        <flatten.plugin.version>1.5.0</flatten.plugin.version>
+        <flatten.plugin.version>2.0</flatten.plugin.version>
 
         <jwebmp.version>2.0.3-SNAPSHOT</jwebmp.version>
         <guicedee.version>2.4.1</guicedee.version>
@@ -89,6 +90,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- CVE-2025-67030: keep the Maven 3 API graph on the patched 3.x line.
+                 Maven API dependencies remain provided by the Maven runtime. -->
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-utils</artifactId>
+                <version>${plexus.utils.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.guicedee</groupId>
                 <artifactId>guicedee-bom</artifactId>
@@ -149,7 +157,7 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
+                <groupId>com.guicedee.maven</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
                 <version>${flatten.plugin.version}</version>
             </plugin>

@@ -1,6 +1,6 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.1.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.1.0 http://maven.apache.org/xsd/maven-4.1.0.xsd">
+    <modelVersion>4.1.0</modelVersion>
 
     <groupId>com.guicedee</groupId>
     <artifactId>builder</artifactId>
@@ -17,257 +17,257 @@
     <profiles>
         <profile>
             <id>guicedee-boms</id>
-            <modules>
-                <module>GuicedEE/bom/Versioner</module>
-                <module>GuicedEE/bom</module>
-                <module>GuicedEE/bom/StandaloneBOM</module>
-                <module>GuicedEE/bom/TestLayoutBOM</module>
-                <module>GuicedEE/bom/SwaggerBOM</module>
-                <module>GuicedEE/bom/JBossBOM</module>
-                <module>GuicedEE/bom/JakartaBOM</module>
-                <module>GuicedEE/bom/HibernateBOM</module>
-                <module>GuicedEE/bom/GoogleBOM</module>
-                <module>GuicedEE/bom/FasterXMLBOM</module>
-                <module>GuicedEE/bom/ApacheBOM</module>
-                <module>GuicedEE/bom/ApacheCXFBOM</module>
-                <module>GuicedEE/bom/SmallRyeBOM</module>
-                <module>GuicedEE/bom/VertxBOM</module>
-                <module>GuicedEE/parent</module>
-            </modules>
+            <subprojects>
+                <subproject>GuicedEE/bom/Versioner</subproject>
+                <subproject>GuicedEE/bom</subproject>
+                <subproject>GuicedEE/bom/StandaloneBOM</subproject>
+                <subproject>GuicedEE/bom/TestLayoutBOM</subproject>
+                <subproject>GuicedEE/bom/SwaggerBOM</subproject>
+                <subproject>GuicedEE/bom/JBossBOM</subproject>
+                <subproject>GuicedEE/bom/JakartaBOM</subproject>
+                <subproject>GuicedEE/bom/HibernateBOM</subproject>
+                <subproject>GuicedEE/bom/GoogleBOM</subproject>
+                <subproject>GuicedEE/bom/FasterXMLBOM</subproject>
+                <subproject>GuicedEE/bom/ApacheBOM</subproject>
+                <subproject>GuicedEE/bom/ApacheCXFBOM</subproject>
+                <subproject>GuicedEE/bom/SmallRyeBOM</subproject>
+                <subproject>GuicedEE/bom/VertxBOM</subproject>
+                <subproject>GuicedEE/parent</subproject>
+            </subprojects>
         </profile>
         <profile>
             <id>jwebmp-boms</id>
-            <modules>
-                <module>JWebMP/bom</module>
-                <module>JWebMP/parent</module>
-            </modules>
+            <subprojects>
+                <subproject>JWebMP/bom</subproject>
+                <subproject>JWebMP/parent</subproject>
+            </subprojects>
         </profile>
         <profile>
             <id>websites</id>
-            <modules>
-                <module>GuicedEE/website</module>
-                <module>GuicedEE/website-backend</module>
-                <module>GuicedEE/website-backend-jlink</module>
-                <module>JWebMP/website</module>
-                <module>EntityAssistWebsite</module>
-                <module>ActivityMaster/website</module>
-            </modules>
+            <subprojects>
+                <subproject>GuicedEE/website</subproject>
+                <subproject>GuicedEE/website-backend</subproject>
+                <subproject>GuicedEE/website-backend-jlink</subproject>
+                <subproject>JWebMP/website</subproject>
+                <subproject>EntityAssistWebsite</subproject>
+                <subproject>ActivityMaster/website</subproject>
+            </subprojects>
         </profile>
         <profile>
             <id>guicedee</id>
-            <modules>
-                <module>GuicedEE/client</module>
-                <module>GuicedEE/inject</module>
-                <module>GuicedEE/representations/json</module>
-                <module>GuicedEE/representations/excel</module>
-                <module>GuicedEE/representations/xml</module>
-                <module>GuicedEE/rest</module>
-                <module>GuicedEE/rest-client</module>
-                <module>GuicedEE/websockets</module>
-                <module>GuicedEE/persistence</module>
-                <module>GuicedEE/vertx</module>
-                <module>GuicedEE/cerial</module>
-                <module>GuicedEE/config</module>
-                <module>GuicedEE/consul</module>
-                <module>GuicedEE/consul-service-resolver</module>
-                <module>GuicedEE/metrics</module>
-                <module>GuicedEE/health</module>
-                <module>GuicedEE/hazelcast</module>
-                <module>GuicedEE/fault-tolerance</module>
-                <module>GuicedEE/cdi</module>
-                <module>GuicedEE/ibmmq</module>
-                <module>GuicedEE/rabbitmq</module>
-                <module>GuicedEE/kafka</module>
-                <module>GuicedEE/jwt</module>
-                <module>GuicedEE/mailclient</module>
-                <module>GuicedEE/openapi</module>
-                <module>GuicedEE/swagger-ui</module>
-                <module>GuicedEE/telemetry</module>
-                <module>GuicedEE/web</module>
-                <module>GuicedEE/webservices</module>
-                <module>GuicedEE/graphql</module>
-                <module>GuicedEE/service-discovery</module>
-                <module>GuicedEE/runtime-autoconfigure</module>
-                <module>GuicedEE/service-registry</module>
-            </modules>
+            <subprojects>
+                <subproject>GuicedEE/client</subproject>
+                <subproject>GuicedEE/inject</subproject>
+                <subproject>GuicedEE/representations/json</subproject>
+                <subproject>GuicedEE/representations/excel</subproject>
+                <subproject>GuicedEE/representations/xml</subproject>
+                <subproject>GuicedEE/rest</subproject>
+                <subproject>GuicedEE/rest-client</subproject>
+                <subproject>GuicedEE/websockets</subproject>
+                <subproject>GuicedEE/persistence</subproject>
+                <subproject>GuicedEE/vertx</subproject>
+                <subproject>GuicedEE/cerial</subproject>
+                <subproject>GuicedEE/config</subproject>
+                <subproject>GuicedEE/consul</subproject>
+                <subproject>GuicedEE/consul-service-resolver</subproject>
+                <subproject>GuicedEE/metrics</subproject>
+                <subproject>GuicedEE/health</subproject>
+                <subproject>GuicedEE/hazelcast</subproject>
+                <subproject>GuicedEE/fault-tolerance</subproject>
+                <subproject>GuicedEE/cdi</subproject>
+                <subproject>GuicedEE/ibmmq</subproject>
+                <subproject>GuicedEE/rabbitmq</subproject>
+                <subproject>GuicedEE/kafka</subproject>
+                <subproject>GuicedEE/jwt</subproject>
+                <subproject>GuicedEE/mailclient</subproject>
+                <subproject>GuicedEE/openapi</subproject>
+                <subproject>GuicedEE/swagger-ui</subproject>
+                <subproject>GuicedEE/telemetry</subproject>
+                <subproject>GuicedEE/web</subproject>
+                <subproject>GuicedEE/webservices</subproject>
+                <subproject>GuicedEE/graphql</subproject>
+                <subproject>GuicedEE/service-discovery</subproject>
+                <subproject>GuicedEE/runtime-autoconfigure</subproject>
+                <subproject>GuicedEE/service-registry</subproject>
+            </subprojects>
         </profile>
         <profile>
             <id>services</id>
-            <modules>
-                <module>GuicedEE/services/Apache/Commons/commons-beanutils</module>
-                <module>GuicedEE/services/Apache/Commons/commons-collections</module>
-                <module>GuicedEE/services/Apache/Commons/commons-csv</module>
-                <module>GuicedEE/services/Apache/Commons/commons-fileupload</module>
-                <module>GuicedEE/services/Apache/Commons/commons-math</module>
-                <module>GuicedEE/services/Apache/CXF/apache-cxf</module>
-                <module>GuicedEE/services/Apache/CXF/apache-cxf-rest</module>
-                <module>GuicedEE/services/Apache/CXF/apache-cxf-rest-openapi</module>
-                <module>GuicedEE/services/Apache/CXF/apache-cxf-rt-security</module>
-                <module>GuicedEE/services/Apache/CXF/apache-cxf-rt-transports-http</module>
-                <module>GuicedEE/services/Apache/POI/apache-poi</module>
-                <module>GuicedEE/services/Apache/POI/apache-poi-ooxml</module>
-                <module>GuicedEE/services/Database/msal4j</module>
-                <module>GuicedEE/services/Database/mssql-jdbc</module>
-                <module>GuicedEE/services/Database/postgresql</module>
-                <module>GuicedEE/services/Google/aop</module>
-                <module>GuicedEE/services/Google/guice-assistedinject</module>
-                <module>GuicedEE/services/Google/guice-core</module>
-                <module>GuicedEE/services/Google/guice-grapher</module>
-                <module>GuicedEE/services/Google/guice-jmx</module>
-                <module>GuicedEE/services/Google/guice-jndi</module>
-                <module>GuicedEE/services/Hibernate/hibernate-core</module>
-                <module>GuicedEE/services/Hibernate/hibernate-jcache</module>
-                <module>GuicedEE/services/Hibernate/hibernate-validator</module>
-                <module>GuicedEE/services/Hibernate/hibernate-reactive</module>
-                <module>GuicedEE/services/Jakarta/jakarta-security-jacc</module>
-                <module>GuicedEE/services/JCache/cache-annotations-ri-common</module>
-                <module>GuicedEE/services/JCache/cache-annotations-ri-guice</module>
-                <module>GuicedEE/services/JCache/cache-api</module>
-                <module>GuicedEE/services/JCache/ehcache</module>
-                <module>GuicedEE/services/JCache/hazelcast</module>
-                <module>GuicedEE/services/JCache/hazelcast-hibernate</module>
-                <module>GuicedEE/services/JNI/jna-platform</module>
-                <module>GuicedEE/services/JNI/jna-platform-bridge</module>
-                <module>GuicedEE/services/JNI/nrjavaserial</module>
-                <module>GuicedEE/services/Libraries/jandex</module>
-                <module>GuicedEE/services/Libraries/cloudevents</module>
-                <module>GuicedEE/services/Libraries/javassist</module>
-                <module>GuicedEE/services/Libraries/json</module>
-                <module>GuicedEE/services/Libraries/ibm-mq</module>
-                <module>GuicedEE/services/Libraries/kafka-client</module>
-                <module>GuicedEE/services/Libraries/reactive-streams</module>
+            <subprojects>
+                <subproject>GuicedEE/services/Apache/Commons/commons-beanutils</subproject>
+                <subproject>GuicedEE/services/Apache/Commons/commons-collections</subproject>
+                <subproject>GuicedEE/services/Apache/Commons/commons-csv</subproject>
+                <subproject>GuicedEE/services/Apache/Commons/commons-fileupload</subproject>
+                <subproject>GuicedEE/services/Apache/Commons/commons-math</subproject>
+                <subproject>GuicedEE/services/Apache/CXF/apache-cxf</subproject>
+                <subproject>GuicedEE/services/Apache/CXF/apache-cxf-rest</subproject>
+                <subproject>GuicedEE/services/Apache/CXF/apache-cxf-rest-openapi</subproject>
+                <subproject>GuicedEE/services/Apache/CXF/apache-cxf-rt-security</subproject>
+                <subproject>GuicedEE/services/Apache/CXF/apache-cxf-rt-transports-http</subproject>
+                <subproject>GuicedEE/services/Apache/POI/apache-poi</subproject>
+                <subproject>GuicedEE/services/Apache/POI/apache-poi-ooxml</subproject>
+                <subproject>GuicedEE/services/Database/msal4j</subproject>
+                <subproject>GuicedEE/services/Database/mssql-jdbc</subproject>
+                <subproject>GuicedEE/services/Database/postgresql</subproject>
+                <subproject>GuicedEE/services/Google/aop</subproject>
+                <subproject>GuicedEE/services/Google/guice-assistedinject</subproject>
+                <subproject>GuicedEE/services/Google/guice-core</subproject>
+                <subproject>GuicedEE/services/Google/guice-grapher</subproject>
+                <subproject>GuicedEE/services/Google/guice-jmx</subproject>
+                <subproject>GuicedEE/services/Google/guice-jndi</subproject>
+                <subproject>GuicedEE/services/Hibernate/hibernate-core</subproject>
+                <subproject>GuicedEE/services/Hibernate/hibernate-jcache</subproject>
+                <subproject>GuicedEE/services/Hibernate/hibernate-validator</subproject>
+                <subproject>GuicedEE/services/Hibernate/hibernate-reactive</subproject>
+                <subproject>GuicedEE/services/Jakarta/jakarta-security-jacc</subproject>
+                <subproject>GuicedEE/services/JCache/cache-annotations-ri-common</subproject>
+                <subproject>GuicedEE/services/JCache/cache-annotations-ri-guice</subproject>
+                <subproject>GuicedEE/services/JCache/cache-api</subproject>
+                <subproject>GuicedEE/services/JCache/ehcache</subproject>
+                <subproject>GuicedEE/services/JCache/hazelcast</subproject>
+                <subproject>GuicedEE/services/JCache/hazelcast-hibernate</subproject>
+                <subproject>GuicedEE/services/JNI/jna-platform</subproject>
+                <subproject>GuicedEE/services/JNI/jna-platform-bridge</subproject>
+                <subproject>GuicedEE/services/JNI/nrjavaserial</subproject>
+                <subproject>GuicedEE/services/Libraries/jandex</subproject>
+                <subproject>GuicedEE/services/Libraries/cloudevents</subproject>
+                <subproject>GuicedEE/services/Libraries/javassist</subproject>
+                <subproject>GuicedEE/services/Libraries/json</subproject>
+                <subproject>GuicedEE/services/Libraries/ibm-mq</subproject>
+                <subproject>GuicedEE/services/Libraries/kafka-client</subproject>
+                <subproject>GuicedEE/services/Libraries/reactive-streams</subproject>
                 <!-- MongoDB driver chain: all automatic modules upstream, shaded so jlink works.
                      Order matters only for readability - Maven resolves the reactor order. -->
-                <module>GuicedEE/services/Libraries/reactor-core</module>
-                <module>GuicedEE/services/Libraries/bson</module>
-                <module>GuicedEE/services/Libraries/bson-record-codec</module>
-                <module>GuicedEE/services/Libraries/mongodb-driver-core</module>
-                <module>GuicedEE/services/Libraries/mongodb-driver-reactivestreams</module>
-                <module>GuicedEE/services/Libraries/java-dataloader</module>
-                <module>GuicedEE/services/Libraries/graphql-java</module>
-                <module>GuicedEE/services/Libraries/oauth2-oidc-sdk</module>
-                <module>GuicedEE/services/Libraries/keycloak</module>
-                <module>GuicedEE/services/Libraries/mapstruct</module>
-                <module>GuicedEE/services/Libraries/openpdf</module>
-                <module>GuicedEE/services/Libraries/rabbitmq-client</module>
-                <module>GuicedEE/services/Libraries/swagger</module>
-                <module>GuicedEE/services/Libraries/uadetector-core</module>
-                <module>GuicedEE/services/Libraries/uadetector-resources</module>
-                <module>GuicedEE/services/Libraries/testcontainers</module>
-                <module>GuicedEE/services/MicroProfile/config-core</module>
-                <module>GuicedEE/services/MicroProfile/jwt-auth-api</module>
-                <module>GuicedEE/services/MicroProfile/metrics-core</module>
-                <module>GuicedEE/services/MicroProfile/fault-tolerance-core</module>
-                <module>GuicedEE/services/MicroProfile/health-core</module>
-                <module>GuicedEE/services/MicroProfile/telemetry-core</module>
-                <module>GuicedEE/services/Vert.x/vertx-rabbitmq</module>
-                <module>GuicedEE/services/Vert.x/vertx-mutiny</module>
-                <module>GuicedEE/services/Vert.x/vertx-kafka</module>
-                <module>GuicedEE/services/Vert.x/vertx-cassandra</module>
-                <module>GuicedEE/services/Vert.x/vertx-hazelcast</module>
-            </modules>
+                <subproject>GuicedEE/services/Libraries/reactor-core</subproject>
+                <subproject>GuicedEE/services/Libraries/bson</subproject>
+                <subproject>GuicedEE/services/Libraries/bson-record-codec</subproject>
+                <subproject>GuicedEE/services/Libraries/mongodb-driver-core</subproject>
+                <subproject>GuicedEE/services/Libraries/mongodb-driver-reactivestreams</subproject>
+                <subproject>GuicedEE/services/Libraries/java-dataloader</subproject>
+                <subproject>GuicedEE/services/Libraries/graphql-java</subproject>
+                <subproject>GuicedEE/services/Libraries/oauth2-oidc-sdk</subproject>
+                <subproject>GuicedEE/services/Libraries/keycloak</subproject>
+                <subproject>GuicedEE/services/Libraries/mapstruct</subproject>
+                <subproject>GuicedEE/services/Libraries/openpdf</subproject>
+                <subproject>GuicedEE/services/Libraries/rabbitmq-client</subproject>
+                <subproject>GuicedEE/services/Libraries/swagger</subproject>
+                <subproject>GuicedEE/services/Libraries/uadetector-core</subproject>
+                <subproject>GuicedEE/services/Libraries/uadetector-resources</subproject>
+                <subproject>GuicedEE/services/Libraries/testcontainers</subproject>
+                <subproject>GuicedEE/services/MicroProfile/config-core</subproject>
+                <subproject>GuicedEE/services/MicroProfile/jwt-auth-api</subproject>
+                <subproject>GuicedEE/services/MicroProfile/metrics-core</subproject>
+                <subproject>GuicedEE/services/MicroProfile/fault-tolerance-core</subproject>
+                <subproject>GuicedEE/services/MicroProfile/health-core</subproject>
+                <subproject>GuicedEE/services/MicroProfile/telemetry-core</subproject>
+                <subproject>GuicedEE/services/Vert.x/vertx-rabbitmq</subproject>
+                <subproject>GuicedEE/services/Vert.x/vertx-mutiny</subproject>
+                <subproject>GuicedEE/services/Vert.x/vertx-kafka</subproject>
+                <subproject>GuicedEE/services/Vert.x/vertx-cassandra</subproject>
+                <subproject>GuicedEE/services/Vert.x/vertx-hazelcast</subproject>
+            </subprojects>
         </profile>
         <profile>
             <id>entityassist</id>
-            <modules>
-                <module>EntityAssist</module>
-            </modules>
+            <subprojects>
+                <subproject>EntityAssist</subproject>
+            </subprojects>
         </profile>
         <profile>
             <id>activity-master</id>
-            <modules>
-                <module>ActivityMaster/bom</module>
-                <module>ActivityMaster/parent</module>
-                <module>ActivityMaster/core</module>
-                <module>ActivityMaster/cerial</module>
-                <module>ActivityMaster/translations</module>
-                <module>ActivityMaster/cerial-client</module>
-                <module>ActivityMaster/client</module>
-                <module>ActivityMaster/profiles</module>
-                <module>ActivityMaster/geography</module>
+            <subprojects>
+                <subproject>ActivityMaster/bom</subproject>
+                <subproject>ActivityMaster/parent</subproject>
+                <subproject>ActivityMaster/core</subproject>
+                <subproject>ActivityMaster/cerial</subproject>
+                <subproject>ActivityMaster/translations</subproject>
+                <subproject>ActivityMaster/cerial-client</subproject>
+                <subproject>ActivityMaster/client</subproject>
+                <subproject>ActivityMaster/profiles</subproject>
+                <subproject>ActivityMaster/geography</subproject>
                 <!--
-                <module>ActivityMaster/files</module>
+                <subproject>ActivityMaster/files</subproject>
                 -->
-                <module>ActivityMaster/images</module>
-                <module>ActivityMaster/geography-country-flags</module>
-                <!--<module>ActivityMaster/mail</module>
-                <module>ActivityMaster/realtor</module>
-                <module>ActivityMaster/todo</module>-->
-                <module>ActivityMaster/user-sessions</module>
-                <module>ActivityMaster/wallet</module>
-                <module>ActivityMaster/payments</module>
-                <module>ActivityMaster/conversations</module>
-                <module>ActivityMaster/marketplace-master</module>
-                <module>ActivityMaster/seo</module>
-                <module>ActivityMaster/notifications</module>
-                <module>ActivityMaster/forums</module>
-                <module>ActivityMaster/documents</module>
-            </modules>
+                <subproject>ActivityMaster/images</subproject>
+                <subproject>ActivityMaster/geography-country-flags</subproject>
+                <!--<subproject>ActivityMaster/mail</subproject>
+                <subproject>ActivityMaster/realtor</subproject>
+                <subproject>ActivityMaster/todo</subproject>-->
+                <subproject>ActivityMaster/user-sessions</subproject>
+                <subproject>ActivityMaster/wallet</subproject>
+                <subproject>ActivityMaster/payments</subproject>
+                <subproject>ActivityMaster/conversations</subproject>
+                <subproject>ActivityMaster/marketplace-master</subproject>
+                <subproject>ActivityMaster/seo</subproject>
+                <subproject>ActivityMaster/notifications</subproject>
+                <subproject>ActivityMaster/forums</subproject>
+                <subproject>ActivityMaster/documents</subproject>
+            </subprojects>
         </profile>
         <profile>
             <id>jwebmp</id>
-            <modules>
-                <module>JWebMP/client</module>
-                <module>JWebMP/testlib</module>
-                <module>JWebMP/core</module>
-                <module>JWebMP/vertx</module>
-                <module>JWebMP/rabbitcomms</module>
+            <subprojects>
+                <subproject>JWebMP/client</subproject>
+                <subproject>JWebMP/testlib</subproject>
+                <subproject>JWebMP/core</subproject>
+                <subproject>JWebMP/vertx</subproject>
+                <subproject>JWebMP/rabbitcomms</subproject>
 
-                <!--<module>JWebMP/plugins/angular-maven-plugin</module>-->
+                <!--<subproject>JWebMP/plugins/angular-maven-plugin</subproject>-->
 
-                <module>JWebMP/plugins/angular</module>
-                <module>JWebMP/plugins/java-generator-client</module>
-                <module>JWebMP/plugins/java-generator</module>
-                <module>JWebMP/plugins/angular-forms</module>
-                <module>JWebMP/plugins/angular-graphql</module>
-                <module>JWebMP/plugins/agcharts</module>
-                <module>JWebMP/plugins/agcharts-enterprise</module>
-                <module>JWebMP/plugins/aggrid</module>
-                <module>JWebMP/plugins/aggrid-enterprise</module>
-                <module>JWebMP/plugins/chartjs</module>
-                <module>JWebMP/plugins/easing</module>
-                <module>JWebMP/plugins/fontawesome</module>
-                <module>JWebMP/plugins/fontawesome-pro</module>
-                <module>JWebMP/plugins/fullcalendar</module>
-                <module>JWebMP/plugins/fullcalendar-pro</module>
-                <module>JWebMP/plugins/tsclient</module>
-                <module>JWebMP/plugins/webawesome</module>
-                <module>JWebMP/plugins/webawesome-pro</module>
+                <subproject>JWebMP/plugins/angular</subproject>
+                <subproject>JWebMP/plugins/java-generator-client</subproject>
+                <subproject>JWebMP/plugins/java-generator</subproject>
+                <subproject>JWebMP/plugins/angular-forms</subproject>
+                <subproject>JWebMP/plugins/angular-graphql</subproject>
+                <subproject>JWebMP/plugins/agcharts</subproject>
+                <subproject>JWebMP/plugins/agcharts-enterprise</subproject>
+                <subproject>JWebMP/plugins/aggrid</subproject>
+                <subproject>JWebMP/plugins/aggrid-enterprise</subproject>
+                <subproject>JWebMP/plugins/chartjs</subproject>
+                <subproject>JWebMP/plugins/easing</subproject>
+                <subproject>JWebMP/plugins/fontawesome</subproject>
+                <subproject>JWebMP/plugins/fontawesome-pro</subproject>
+                <subproject>JWebMP/plugins/fullcalendar</subproject>
+                <subproject>JWebMP/plugins/fullcalendar-pro</subproject>
+                <subproject>JWebMP/plugins/tsclient</subproject>
+                <subproject>JWebMP/plugins/webawesome</subproject>
+                <subproject>JWebMP/plugins/webawesome-pro</subproject>
 
-                <module>JWebMP/plugins/prism</module>
-                <module>JWebMP/plugins/markdown</module>
+                <subproject>JWebMP/plugins/prism</subproject>
+                <subproject>JWebMP/plugins/markdown</subproject>
 
-                <module>JWebMP/plugins/globalize</module>
-                <module>JWebMP/plugins/jquery</module>
-                <module>JWebMP/plugins/jquery-ui</module>
-                <module>JWebMP/plugins/bootstrap</module>
-                <module>JWebMP/plugins/waves-effect</module>
-                <module>JWebMP/plugins/datatables</module>
-                <module>JWebMP/plugins/angular-material</module>
+                <subproject>JWebMP/plugins/globalize</subproject>
+                <subproject>JWebMP/plugins/jquery</subproject>
+                <subproject>JWebMP/plugins/jquery-ui</subproject>
+                <subproject>JWebMP/plugins/bootstrap</subproject>
+                <subproject>JWebMP/plugins/waves-effect</subproject>
+                <subproject>JWebMP/plugins/datatables</subproject>
+                <subproject>JWebMP/plugins/angular-material</subproject>
 
-                <module>JWebMP/plugins/themify-icons</module>
-                <module>JWebMP/plugins/material-icons</module>
-                <module>JWebMP/plugins/material-design-icons</module>
-                <module>JWebMP/plugins/weather-icons</module>
-                <module>JWebMP/plugins/glyph-icons</module>
-                <module>JWebMP/plugins/skycons</module>
+                <subproject>JWebMP/plugins/themify-icons</subproject>
+                <subproject>JWebMP/plugins/material-icons</subproject>
+                <subproject>JWebMP/plugins/material-design-icons</subproject>
+                <subproject>JWebMP/plugins/weather-icons</subproject>
+                <subproject>JWebMP/plugins/glyph-icons</subproject>
+                <subproject>JWebMP/plugins/skycons</subproject>
 
-                <module>JWebMP/plugins/c3</module>
-                <module>JWebMP/plugins/d3</module>
-                <module>JWebMP/plugins/easy-pie-chart</module>
-                <module>JWebMP/plugins/jqplot</module>
-                <module>JWebMP/plugins/toastr</module>
-                <module>JWebMP/plugins/prettify</module>
-                <module>JWebMP/plugins/waypoints</module>
-                <module>JWebMP/plugins/plus-as-tab</module>
-
-
-                <module>JWebMP/plugins/local-storage</module>
-                <module>JWebMP/plugins/session-storage</module>
+                <subproject>JWebMP/plugins/c3</subproject>
+                <subproject>JWebMP/plugins/d3</subproject>
+                <subproject>JWebMP/plugins/easy-pie-chart</subproject>
+                <subproject>JWebMP/plugins/jqplot</subproject>
+                <subproject>JWebMP/plugins/toastr</subproject>
+                <subproject>JWebMP/plugins/prettify</subproject>
+                <subproject>JWebMP/plugins/waypoints</subproject>
+                <subproject>JWebMP/plugins/plus-as-tab</subproject>
 
 
+                <subproject>JWebMP/plugins/local-storage</subproject>
+                <subproject>JWebMP/plugins/session-storage</subproject>
 
-            </modules>
+
+
+            </subprojects>
         </profile>
     </profiles>
 
