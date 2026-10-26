@@ -479,8 +479,8 @@ jobs:
       - AOP
     if: ${{ !failure() && needs.AOP.result == 'success' }}
     with:
-      repository: 'GuicedEE/Services'
-      baseDir: 'Google/guice-core/'
+      repository: 'GuicedEE/guice-core'
+      baseDir: './'
       name: 'Google Guice'
       publishToCentral: ${{ inputs.centralRelease }}
     secrets: inherit
