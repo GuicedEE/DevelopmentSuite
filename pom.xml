@@ -170,7 +170,7 @@
         <profile>
             <id>entityassist</id>
             <subprojects>
-                <subproject>EntityAssist</subproject>
+                <subproject>EntityAssist/EntityAssist</subproject>
             </subprojects>
         </profile>
         <profile>

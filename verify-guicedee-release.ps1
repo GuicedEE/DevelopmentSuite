@@ -8,7 +8,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $releaseRoot = $PSScriptRoot
-$releaseOutput = Join-Path $releaseRoot 'target/release-2.4.1'
+$releaseOutput = Join-Path $releaseRoot 'target/release-2.5.0'
 New-Item -ItemType Directory -Force -Path $releaseOutput | Out-Null
 
 # Include the versioner in the same reactor as its BOM imports so unpublished
@@ -17,31 +17,31 @@ New-Item -ItemType Directory -Force -Path $releaseOutput | Out-Null
 $releaseModules = @()
 foreach ($profileName in @('guicedee-boms', 'services', 'guicedee')) {
     $profile = $builder.project.profiles.profile | Where-Object { $_.id -eq $profileName }
-    $releaseModules += @($profile.modules.module)
+    $releaseModules += @($profile.subprojects.subproject)
 }
 $releaseModules = @($releaseModules | Select-Object -Unique)
 if ($Stage -eq 'Consumers') {
     $releaseModules = @()
     foreach ($profileName in @('jwebmp-boms', 'jwebmp', 'entityassist', 'activity-master')) {
         $profile = $builder.project.profiles.profile | Where-Object { $_.id -eq $profileName }
-        $releaseModules += @($profile.modules.module)
+        $releaseModules += @($profile.subprojects.subproject)
     }
     $releaseModules = @($releaseModules | Select-Object -Unique)
 }
 $moduleXml = ($releaseModules | ForEach-Object {
     $absoluteModule = (Join-Path $releaseRoot $_).Replace('\', '/')
-    '<module>' + [System.Security.SecurityElement]::Escape($absoluteModule) + '</module>'
+    '<subproject>' + [System.Security.SecurityElement]::Escape($absoluteModule) + '</subproject>'
 }) -join "`n"
 $reactorName = if ($Stage -eq 'Consumers') { 'consumers.xml' } else { 'reactor.xml' }
 $reactor = Join-Path $releaseOutput $reactorName
 $reactorXml = @"
-<project xmlns="http://maven.apache.org/POM/4.0.0">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.1.0">
+  <modelVersion>4.1.0</modelVersion>
   <groupId>com.guicedee.build</groupId>
   <artifactId>release-verification</artifactId>
-  <version>2.4.1</version>
+  <version>2.5.0</version>
   <packaging>pom</packaging>
-  <modules>$moduleXml</modules>
+  <subprojects>$moduleXml</subprojects>
 </project>
 "@
 [System.IO.File]::WriteAllText($reactor, $reactorXml)
@@ -116,7 +116,7 @@ if ($Stage -eq 'Package') {
 # Maven's exit code and test reports determine failure.
 try {
     $ErrorActionPreference = 'Continue'
-    & mvn @releaseArgs 2>&1 | Tee-Object -FilePath (Join-Path $releaseOutput "$($Stage.ToLowerInvariant()).log")
+    & (Join-Path $releaseRoot 'mvnw.cmd') @releaseArgs 2>&1 | Tee-Object -FilePath (Join-Path $releaseOutput "$($Stage.ToLowerInvariant()).log")
     $releaseExitCode = $LASTEXITCODE
 } finally {
     $ErrorActionPreference = 'Stop'
