@@ -8,7 +8,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $releaseRoot = $PSScriptRoot
-$releaseOutput = Join-Path $releaseRoot 'target/release-2.5.0'
+$releaseOutput = Join-Path $releaseRoot 'target/release-2.5.1'
 New-Item -ItemType Directory -Force -Path $releaseOutput | Out-Null
 
 # Include the versioner in the same reactor as its BOM imports so unpublished
@@ -39,7 +39,7 @@ $reactorXml = @"
   <modelVersion>4.1.0</modelVersion>
   <groupId>com.guicedee.build</groupId>
   <artifactId>release-verification</artifactId>
-  <version>2.5.0</version>
+  <version>2.5.1</version>
   <packaging>pom</packaging>
   <subprojects>$moduleXml</subprojects>
 </project>
