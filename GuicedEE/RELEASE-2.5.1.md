@@ -6,7 +6,7 @@ Release validation passed. Packaging and publication evidence is retained in tar
 
 Pre-release dependency validation: 135 client tests passed; persistence ran 35 tests with zero failures/errors and one DB2 skip. Hibernate bytecode enhancement was independently verified. Release packaging skips tests; these earlier checks are separate evidence.
 
-Website deployment and downstream consumer publication are separate operations.
+Website deployment is included in this release. Downstream consumer publication is separate.
 
 ## Publication result
 
@@ -21,4 +21,10 @@ Receipts, signed bundles, manifest and remote verification records: `target/rele
 
 Central reported monthly file-count, release-size and release-count limits, with publishing allowed through 13 November 2026 under a grace period. These warnings did not block this release.
 
-Source version changes and this release record remain uncommitted. No Git tags, GitHub release, website deployment or downstream consumer publication were performed.
+Source version changes and this release record remain uncommitted. No Git tags, GitHub release or downstream consumer publication were performed.
+
+## Website rollout
+
+Website content and current examples updated to 2.5.1; historical release notes retained. Maven generation and explicit Angular production build passed. Production bundle content verified. Docker image pushed as `gedmarc/guicedee-website:2.5.1-20261108`, digest `sha256:fd69a28d78f1f5701f5a6a332608618f743d8fc06f5e8fed2fbe48ce61d3e6ea`.
+
+Azure deployment and public asset verification are pending reauthentication: tenant conditional access expired the cached Azure CLI token (AADSTS70043). Backend deployment is not required for this static-site update.
