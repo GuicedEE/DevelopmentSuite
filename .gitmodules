@@ -476,3 +476,7 @@
 	path = GuicedEE/microprofile-tck
 	url = https://github.com/GuicedEE/MicroProfile-TCK.git
 	branch = master
+[submodule "benchmarks"]
+	path = benchmarks
+	url = https://github.com/GuicedEE/benchmarks.git
+	branch = master
