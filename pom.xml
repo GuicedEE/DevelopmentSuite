@@ -16,6 +16,12 @@
 
     <profiles>
         <profile>
+            <id>guicedee-native</id>
+            <subprojects>
+                <subproject>GuicedEE/native-image</subproject>
+            </subprojects>
+        </profile>
+        <profile>
             <id>guicedee-boms</id>
             <subprojects>
                 <subproject>GuicedEE/bom/Versioner</subproject>
@@ -133,6 +139,10 @@
                 <subproject>GuicedEE/services/Libraries/cloudevents</subproject>
                 <subproject>GuicedEE/services/Libraries/javassist</subproject>
                 <subproject>GuicedEE/services/Libraries/json</subproject>
+                <subproject>GuicedEE/services/Libraries/firebase-admin</subproject>
+                <subproject>GuicedEE/services/Libraries/okio</subproject>
+                <subproject>GuicedEE/services/Libraries/commercetools</subproject>
+                <subproject>GuicedEE/services/Libraries/zstd-jni</subproject>
                 <subproject>GuicedEE/services/Libraries/ibm-mq</subproject>
                 <subproject>GuicedEE/services/Libraries/kafka-client</subproject>
                 <subproject>GuicedEE/services/Libraries/reactive-streams</subproject>

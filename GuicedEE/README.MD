@@ -14,7 +14,9 @@ GuicedEE wires together [Google Guice](https://github.com/google/guice), [Vert.x
 
 > **Website:** [https://guicedee.com](https://guicedee.com)
 > **Organization:** [https://github.com/GuicedEE](https://github.com/GuicedEE)
-> **2.4.0 release preparation:** [Verification and publication commands](RELEASE-2.4.0.md)
+> **Upcoming 2.6.0:** [Modular SDKs, shared dependencies and application-linked benchmarks](RELEASE-2.6.0.md)
+
+2.6.0 prepares grouped Firebase Admin and Commercetools GraphQL client modules, modular Zstd/Okio wrappers, corrected SDK Javadocs, and full application jlink benchmarks. Commercetools shares external modular dependencies and uses Jackson 3 core/databind only. See the release notes for validation and publication status.
 
 ---
 
