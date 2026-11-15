@@ -72,6 +72,7 @@
                 <subproject>GuicedEE/websockets</subproject>
                 <subproject>GuicedEE/persistence</subproject>
                 <subproject>GuicedEE/vertx</subproject>
+                <subproject>GuicedEE/kotlin</subproject>
                 <subproject>GuicedEE/cerial</subproject>
                 <subproject>GuicedEE/config</subproject>
                 <subproject>GuicedEE/consul</subproject>

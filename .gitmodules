@@ -480,3 +480,7 @@
 	path = benchmarks
 	url = https://github.com/GuicedEE/benchmarks.git
 	branch = master
+[submodule "GuicedEE/kotlin"]
+	path = GuicedEE/kotlin
+	url = https://github.com/GuicedEE/Kotlin.git
+	branch = master
