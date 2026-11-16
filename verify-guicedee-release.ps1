@@ -137,6 +137,10 @@ if ($Stage -eq 'Package') {
         $artifactId = [string]$modulePom.project.artifactId
         $moduleJar = Join-Path $releaseRoot "$module/target/$artifactId-$moduleVersion.jar"
         if (-not (Test-Path -LiteralPath $moduleJar)) { throw "Missing release JAR: $moduleJar" }
+        foreach ($classifier in @('sources', 'javadoc')) {
+            $attachment = Join-Path $releaseRoot "$module/target/$artifactId-$moduleVersion-$classifier.jar"
+            if (-not (Test-Path -LiteralPath $attachment)) { throw "Missing release attachment: $attachment" }
+        }
         $description = & jar --describe-module --file $moduleJar
         if ($LASTEXITCODE -ne 0 -or -not ($description -match "@$([regex]::Escape($moduleVersion)) ")) {
             throw "Missing or stale JPMS descriptor: $moduleJar"
