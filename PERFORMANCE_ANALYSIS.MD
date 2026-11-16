@@ -13,12 +13,12 @@ separately with durable commits. Startup ends after the first committed 15-entit
 
 | Application | Startup median (s) | CRUD cycle p50 (ms) | Peak container memory (MiB) |
 |---|---:|---:|---:|
-| GuicedEE reactive stateless | 14.730 | 81.47 | 229.38 |
-| Quarkus ORM / Narayana | 11.809 | 77.50 | 221.35 |
-| Micronaut ORM / local transactions | 15.827 | 95.91 | 241.60 |
+| GuicedEE reactive stateless | 15.025 | 80.31 | 228.58 |
+| Quarkus ORM / Narayana | 12.180 | 80.07 | 222.59 |
+| Micronaut ORM / local transactions | 16.794 | 95.77 | 242.57 |
 
-GuicedEE's startup gap to Quarkus is **2.92 s** in this cohort. CRUD-cycle p50 is
-**5.1% higher**; the sample does not establish a CRUD improvement. The report retains
+GuicedEE's startup gap to Quarkus is **2.85 s** in this cohort. CRUD-cycle p50 is
+**0.3% higher**, effectively near parity in this small sample. The report retains
 all starts, ranges, percentages, exact images and methodology. The separate
 [instrumented profile](benchmarks/docs/PERSISTENCE_PROFILE.md) identifies Hibernate
 model registration and mapping/query-engine initialization as the main remaining costs;
