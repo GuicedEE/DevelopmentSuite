@@ -1,6 +1,7 @@
 param(
     [ValidateSet('Validate', 'Package', 'Test', 'Consumers', 'Website')]
     [string] $Stage = 'Validate',
+    [ValidateRange(1,16)][int] $Threads = 4,
     [switch] $IncludeLiveInfrastructure,
     [string] $Tests,
     [string] $IntegrationTests
@@ -15,11 +16,14 @@ New-Item -ItemType Directory -Force -Path $releaseOutput | Out-Null
 # release coordinates resolve locally. No deployment or clean lifecycle is used.
 [xml] $builder = Get-Content -LiteralPath (Join-Path $releaseRoot 'pom.xml') -Raw
 $releaseModules = @()
-foreach ($profileName in @('guicedee-boms', 'services', 'guicedee')) {
+foreach ($profileName in @('guicedee-boms', 'services', 'guicedee', 'guicedee-native')) {
     $profile = $builder.project.profiles.profile | Where-Object { $_.id -eq $profileName }
     $releaseModules += @($profile.subprojects.subproject)
 }
 $releaseModules = @($releaseModules | Select-Object -Unique)
+$releaseBuildModules = $releaseModules
+$releaseModules = @((& python (Join-Path $releaseRoot 'publish-guicedee-release.py') inventory) | ConvertFrom-Json)
+if ($LASTEXITCODE -ne 0) { throw 'Could not enumerate the release inventory' }
 if ($Stage -eq 'Consumers') {
     $releaseModules = @()
     foreach ($profileName in @('jwebmp-boms', 'jwebmp', 'entityassist', 'activity-master')) {
@@ -27,8 +31,9 @@ if ($Stage -eq 'Consumers') {
         $releaseModules += @($profile.subprojects.subproject)
     }
     $releaseModules = @($releaseModules | Select-Object -Unique)
+    $releaseBuildModules = $releaseModules
 }
-$moduleXml = ($releaseModules | ForEach-Object {
+$moduleXml = ($releaseBuildModules | ForEach-Object {
     $absoluteModule = (Join-Path $releaseRoot $_).Replace('\', '/')
     '<subproject>' + [System.Security.SecurityElement]::Escape($absoluteModule) + '</subproject>'
 }) -join "`n"
@@ -54,7 +59,7 @@ if (-not $IncludeLiveInfrastructure) {
 }
 switch ($Stage) {
     'Validate' { $releaseArgs += 'validate' }
-    'Package' { $releaseArgs += @('install', '-DskipTests', '-Dmaven.jar.forceCreation=true') }
+    'Package' { $releaseArgs += @('install', '-T', "$Threads", '-DskipTests', '-Dmaven.jar.forceCreation=true') }
     'Consumers' { $releaseArgs += @('install', '-DskipTests', '-Dmaven.javadoc.skip=true', '-Djwebmp.angular.docker=false') }
     # Shaded services acquire their JPMS descriptors in package, so a full
     # reactor must reach verify before downstream modules can run their tests.

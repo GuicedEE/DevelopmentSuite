@@ -26,6 +26,7 @@ ROOT = Path(__file__).resolve().parent
 VERSION = '2.6.0'
 OUT = ROOT / ('target/release-' + VERSION) / 'production'
 BATCHES = ('versioner', 'boms', 'services', 'modules')
+RELEASE_PROFILES = ('guicedee-boms', 'services', 'guicedee', 'guicedee-native')
 NS = {'m': 'http://maven.apache.org/POM/4.1.0'}
 API = 'https://central.sonatype.com/api/v1/publisher/'
 CENTRAL = 'https://repo.maven.apache.org/maven2/'
@@ -71,20 +72,35 @@ def save(path, value):
     os.replace(temporary, path)
 
 
-def release_inventory():
-    """Read the same GuicedEE profiles as build.ps1 and audit their installed outputs."""
+def release_modules():
+    """Expand the release reactor, including Kotlin libraries but not example applications."""
     root_pom = read_pom(ROOT / 'pom.xml')
     profiles = {
         profile.findtext('m:id', namespaces=NS): profile
         for profile in root_pom.findall('m:profiles/m:profile', NS)
     }
     modules = []
-    for profile_name in ('guicedee-boms', 'services', 'guicedee'):
+    def add(path):
+        relative = path.resolve().relative_to(ROOT).as_posix()
+        if '/examples/' in relative or relative in modules:
+            return
+        modules.append(relative)
+        pom = read_pom(path / 'pom.xml')
+        for query in ('m:modules/m:module', 'm:subprojects/m:subproject'):
+            for child in pom.findall(query, NS):
+                add(path / child.text)
+    for profile_name in RELEASE_PROFILES:
         profile = profiles[profile_name]
-        modules.extend(node.text for query in ('m:modules/m:module', 'm:subprojects/m:subproject')
-                       for node in profile.findall(query, NS))
-    modules = list(dict.fromkeys(modules))
-    assert len(modules) == len(set(modules)) == 117
+        for query in ('m:modules/m:module', 'm:subprojects/m:subproject'):
+            for node in profile.findall(query, NS):
+                add(ROOT / node.text)
+    assert modules and len(modules) == len(set(modules))
+    return modules
+
+
+def release_inventory():
+    """Audit every publishable component in the current release profiles."""
+    modules = release_modules()
 
     rows, audit = [], []
     for module_name in modules:
@@ -111,7 +127,7 @@ def release_inventory():
         audit.append({'module': module_name, 'artifactId': artifact_id, 'version': version,
                       'exists': jar.is_file(), 'sources': sources.is_file(),
                       'javadoc': javadoc.is_file(), 'moduleVersionMatches': module_version_matches})
-    assert len(rows) == 117 and len(audit) == 102
+    assert len({(row['groupId'], row['artifactId']) for row in rows}) == len(rows)
     return rows, audit
 
 
@@ -137,7 +153,6 @@ def prepare():
     release_output = OUT.parent
     save(release_output / 'release-train.json', rows)
     save(release_output / 'release-artifacts.json', audit)
-    assert len(rows) == 117 and len(audit) == 102
     assert all(all(r[k] for k in ('exists', 'sources', 'javadoc', 'moduleVersionMatches')) for r in audit)
     local = Path(settings().findtext('localRepository') or str(Path.home() / '.m2/repository'))
     manifest = {batch: {'components': [], 'files': []} for batch in BATCHES}
@@ -151,7 +166,7 @@ def prepare():
         assert version == VERSION
         packaging = pom.findtext('m:packaging', default='jar', namespaces=NS)
         batch = ('versioner' if aid == 'versioner' else 'boms' if packaging == 'pom'
-                 else 'services' if '/services/' in module.as_posix() else 'modules')
+                 else 'services' if row['groupId'].startswith('com.guicedee.modules.services') or '/services/' in module.as_posix() else 'modules')
         relative = Path(row['groupId'].replace('.', '/')) / aid / version
         stem = aid + '-' + version
         # Maven's installed POM is the consumer/flattened POM for shaded artifacts.
@@ -160,6 +175,8 @@ def prepare():
         published_pom = read_pom(source_pom)
         assert published_pom.findtext('m:artifactId', namespaces=NS) == aid
         assert published_pom.findtext('m:version', namespaces=NS) == version
+        for key in ('name', 'description', 'url', 'licenses', 'developers', 'scm'):
+            assert published_pom.find('m:' + key, NS) is not None, (source_pom, 'missing publication metadata', key)
         inputs = [(source_pom, stem + '.pom')]
         if packaging != 'pom':
             for suffix in ('.jar', '-sources.jar', '-javadoc.jar'):
@@ -324,15 +341,18 @@ def run():
         jobs = [pool.submit(publish_batch, batch) for batch in ('boms', 'services', 'modules')]
         for job in concurrent.futures.as_completed(jobs):
             job.result()
-    print('All 117 GuicedEE release components are published and verified from Central.', flush=True)
+    total = sum(len(info['components']) for info in json.loads((OUT / 'manifest.json').read_text()).values())
+    print(f'All {total} GuicedEE release components are published and verified from Central.', flush=True)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=('audit', 'prepare', 'run', 'upload', 'status', 'verify'))
+    parser.add_argument('command', choices=('inventory', 'audit', 'prepare', 'run', 'upload', 'status', 'verify'))
     parser.add_argument('batch', choices=BATCHES, nargs='?')
     args = parser.parse_args()
-    if args.command in ('audit', 'prepare', 'run'):
+    if args.command == 'inventory':
+        print(json.dumps(release_modules()))
+    elif args.command in ('audit', 'prepare', 'run'):
         globals()[args.command]()
     elif not args.batch:
         parser.error('batch is required')
