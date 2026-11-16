@@ -224,7 +224,7 @@
                 <subproject>JWebMP/vertx</subproject>
                 <subproject>JWebMP/rabbitcomms</subproject>
 
-                <!--<subproject>JWebMP/plugins/angular-maven-plugin</subproject>-->
+                <subproject>JWebMP/plugins/angular-maven-plugin</subproject>
 
                 <subproject>JWebMP/plugins/angular</subproject>
                 <subproject>JWebMP/plugins/java-generator-client</subproject>
