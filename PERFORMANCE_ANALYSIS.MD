@@ -13,16 +13,19 @@ separately with durable commits. Startup ends after the first committed 15-entit
 
 | Application | Startup median (s) | CRUD cycle p50 (ms) | Peak container memory (MiB) |
 |---|---:|---:|---:|
-| GuicedEE reactive stateless | 15.025 | 80.31 | 228.58 |
-| Quarkus ORM / Narayana | 12.180 | 80.07 | 222.59 |
-| Micronaut ORM / local transactions | 16.794 | 95.77 | 242.57 |
+| GuicedEE reactive stateless | 14.842 | 81.33 | 238.55 |
+| Quarkus ORM / Narayana | 12.246 | 81.12 | 223.77 |
+| Micronaut ORM / local transactions | 16.819 | 96.77 | 241.82 |
 
-GuicedEE's startup gap to Quarkus is **2.85 s** in this cohort. CRUD-cycle p50 is
+GuicedEE's startup gap to Quarkus is **2.60 s** in this cohort. CRUD-cycle p50 is
 **0.3% higher**, effectively near parity in this small sample. The report retains
 all starts, ranges, percentages, exact images and methodology. The separate
 [instrumented profile](benchmarks/docs/PERSISTENCE_PROFILE.md) identifies Hibernate
-model registration and mapping/query-engine initialization as the main remaining costs;
-its phase timings are excluded from the performance rankings.
+model registration and mapping/query-engine initialization as the main remaining costs.
+Metadata inspection avoids initializing unrelated classes while preserving custom loaders
+and normal initialization at actual use. The instrumented metadata-bootstrap and
+session-factory phases take **2.813 s** and **2.994 s** respectively; these overlapping
+phase timings are excluded from the performance rankings.
 
 The report below is historical evidence from **13 November 2026**. Its measurements,
 conclusions and references describe the original evaluation, not the current suite.
