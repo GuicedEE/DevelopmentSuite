@@ -1,28 +1,31 @@
-Current follow-up (2026-11-14): the original Q_v_H application/template is unavailable. The report below is preserved as historical evidence; its verdict and measurements have not been rerun against that application. A new, independent reference service now lives in [benchmarks/](benchmarks/README.md), with shared vendor SDK/GraphQL/Firestore work and framework-specific adapters. It records capability failures and refuses to rank unequal implementations. The historical Firestore/Secret Manager variant was explicitly not built or tested (section 11), so its Firebase coverage remains unverified. See [current reference-service results](benchmarks/RESULTS.md) for the new workload and its evidence boundaries.
+# Current performance reference
 
-The latest [native comparison with normal Quarkus dependencies](benchmarks/STANDARD_QUARKUS_COMPARISON.md)
-measures **0.668 s versus 0.706 s** median full-business startup for GuicedEE and Quarkus
-native: **5.4% less time** for GuicedEE. Warm request medians are **5.18 ms versus 6.02 ms**.
-Across two batches with reversed initial order, all **420 capability checks and 840 measured
-requests** pass. The trade-off is **24.25 MiB more peak container memory** and a **48.52 MiB
-larger executable** for GuicedEE. Quarkus uses upstream SDK dependencies and published
-extensions in its own standalone project; required SDK compatibility settings are documented.
+The standalone [benchmark repository](https://github.com/GuicedEE/benchmarks) contains
+reproducible workloads, the latest raw measurements and generated comparison grids.
+Use [current results and graphs](benchmarks/RESULTS.md) for the SDK JVM, jlink, native,
+clean-build and PostgreSQL persistence comparisons. The original service template
+was unavailable; these are independent reference workloads, not a rerun of that service.
 
-The earlier [native startup and footprint audit](benchmarks/NATIVE_OPTIMIZATION.md), using
-GuicedEE's repackaged SDKs on both frameworks, measures
-**0.659 s** median first-business completion for GuicedEE native and **0.655 s** for Quarkus native
-at 250m CPU / 500 MiB: a **4 ms / 0.7% gap**, within observed variation. In the same alternating
-before/after batch, GuicedEE improves from **0.808 s**, its executable shrinks **14.2%** to
-**191.83 MiB**, and median peak container memory falls **7.2%** to **79.98 MiB**. All **420 capability
-checks** and **840 measured requests** pass, including actual vendor SDK/Firestore completion and
-Swagger assets. Quarkus receives the same SDK metadata fix and retains a size/memory advantage.
-This is a new reference-workload measurement, not a rerun of the original application.
+The PostgreSQL cohort measured on **16 November 2026** uses three fresh starts per
+application, 150 measured joined reads and CRUD cycles per start, and 20 warmups.
+All **126 capability checks** passed. Apps use 0.25 CPU / 500 MiB; PostgreSQL runs
+separately with durable commits. Startup ends after the first committed 15-entity graph.
 
-The earlier reference matrix includes a separate Quarkus native Maven project alongside GuicedEE SPI/scanner on the full JDK and in application-linked images, plus Quarkus fast-JAR. Both repeated Linux batches passed all 15 capabilities on all 36 starts, with 1,080 successful measured requests at 250m CPU / 500 MiB. Native median first business completion was 0.737 s in the default batch; GuicedEE SPI jlink was 15.261 s (8.781 s with C1), and Quarkus JVM was 30.026 s (17.812 s with C1). See [earlier six-variant measurements](benchmarks/RESULTS.md#current-linux-native-comparison). These are results for the new reference workload. The original report below remains unchanged.
+| Application | Startup median (s) | CRUD cycle p50 (ms) | Peak container memory (MiB) |
+|---|---:|---:|---:|
+| GuicedEE reactive stateless | 14.448 | 87.94 | 233.34 |
+| Quarkus ORM / Narayana | 11.852 | 83.80 | 225.53 |
+| Micronaut ORM / local transactions | 15.454 | 97.18 | 245.27 |
 
-The later [SDK phase measurements](benchmarks/PHASE_ANALYSIS.md#first-use-sdk-phases) identify an important GuicedEE advantage in this workload: **commercetools client initialization takes a median 14.300 s on Quarkus JVM versus 1.108 s on GuicedEE SPI jlink (92.3% less time)**, before the REST/OAuth request starts. These are three instrumented fresh starts per variant at the same CPU/memory limits, not a general SDK throughput result or a Quarkus native measurement. The initialization cause still needs profiling; the measured REST/OAuth and GraphQL durations are much closer.
+GuicedEE's startup gap to Quarkus is **2.60 s** in this cohort. CRUD-cycle p50 is
+**4.9% higher**; the sample does not establish a CRUD improvement. The report retains
+all starts, ranges, percentages, exact images and methodology. The separate
+[instrumented profile](benchmarks/docs/PERSISTENCE_PROFILE.md) identifies Hibernate
+model registration and mapping/query-engine initialization as the main remaining costs;
+its phase timings are excluded from the performance rankings.
 
-The [OpenAPI optimization follow-up](benchmarks/OPENAPI_OPTIMIZATION.md) reduces its provider phase by 28–40%. A separate alternating-image comparison measures readiness at 8.062 → 7.661 s for SPI jlink and 8.504 → 8.037 s for scanner jlink, with all 180 capability checks passing. This is a new GuicedEE before/after measurement, not a rerun of the historical application or the full Quarkus/native matrix.
+The report below is historical evidence from **13 November 2026**. Its measurements,
+conclusions and references describe the original evaluation, not the current suite.
 
 ---
 
