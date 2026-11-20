@@ -484,3 +484,9 @@
 	path = GuicedEE/kotlin
 	url = https://github.com/GuicedEE/Kotlin.git
 	branch = master
+[submodule "EntityAssist_NativeImage"]
+	path = EntityAssist/native-image
+	url = https://github.com/Entity-Assist/EntityAssistNative.git
+[submodule "ActivityMaster_NativeImage"]
+	path = ActivityMaster/native-image
+	url = https://github.com/Activity-Master/ActivityMasterNative.git
