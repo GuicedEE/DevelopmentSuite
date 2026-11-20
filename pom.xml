@@ -55,7 +55,7 @@
                 <subproject>GuicedEE/website-backend</subproject>
                 <subproject>GuicedEE/website-backend-jlink</subproject>
                 <subproject>JWebMP/website</subproject>
-                <subproject>EntityAssistWebsite</subproject>
+                <subproject>EntityAssist/Website</subproject>
                 <subproject>ActivityMaster/website</subproject>
             </subprojects>
         </profile>
@@ -201,8 +201,8 @@
                 -->
                 <subproject>ActivityMaster/images</subproject>
                 <subproject>ActivityMaster/geography-country-flags</subproject>
-                <!--<subproject>ActivityMaster/mail</subproject>
-                <subproject>ActivityMaster/realtor</subproject>
+                <subproject>ActivityMaster/mail</subproject>
+                <!--<subproject>ActivityMaster/realtor</subproject>
                 <subproject>ActivityMaster/todo</subproject>-->
                 <subproject>ActivityMaster/user-sessions</subproject>
                 <subproject>ActivityMaster/wallet</subproject>

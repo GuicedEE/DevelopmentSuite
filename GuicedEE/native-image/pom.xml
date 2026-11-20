@@ -4,6 +4,13 @@
     <groupId>com.guicedee</groupId><artifactId>native-image</artifactId><version>2.6.0</version>
     <name>GuicedEE Native Image Support</name>
     <description>Optional build-time Guice interception and reflection registration for native images.</description>
+
+    <scm>
+        <url>https://github.com/GuicedEE/DevelopmentSuite</url>
+        <connection>scm:git:https://github.com/GuicedEE/DevelopmentSuite.git</connection>
+        <developerConnection>scm:git:https://github.com/GuicedEE/DevelopmentSuite.git</developerConnection>
+    </scm>
+
     <properties><maven.compiler.release>25</maven.compiler.release><ignore.moditect>true</ignore.moditect></properties>
     <dependencyManagement><dependencies>
         <dependency><groupId>com.guicedee</groupId><artifactId>guicedee-bom</artifactId><version>2.6.0</version><type>pom</type><scope>import</scope></dependency>
